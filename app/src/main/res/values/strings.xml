@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Solicita</string>
+
+    <string name="lista_tipo_vinculo_prompt">Selecione o tipo de vínculo</string>
+    <string-array name="lista_tipo_vinculo">
+        <item>Matriculado</item>
+        <item>Egresso</item>
+        <item>Especial</item>
+        <item>REMT - Regime Especial de Movimentação Temporária</item>
+        <item>Desistente</item>
+        <item>Matrícula Trancada</item>
+        <item>Intercâmbio</item>
+    </string-array>
+
+    <string name="lista_unidade_academica_prompt">Selecione a unidade acadêmica</string>
+    <string-array name="lista_unidade_academica">
+        <item>UAG - Unidade Acadêmica de Garanhuns</item>
+    </string-array>
+
+    <string name="lista_curso_prompt">Selecione o tipo de vínculo</string>
+    <string-array name="lista_curso">
+        <item>Agronomia</item>
+        <item>Ciência da Computação</item>
+        <item>Engenharia de Alimentos</item>
+        <item>Letras</item>
+        <item>Medicina Veterinária</item>
+        <item>Pedagogia</item>
+        <item>Zootecnia</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "563551316773",
+    "firebase_url": "https://solicita-ef2e6.firebaseio.com",
+    "project_id": "solicita-ef2e6",
+    "storage_bucket": "solicita-ef2e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563551316773:android:c5fcaa5ca75537330888cc",
+        "android_client_info": {
+          "package_name": "com.solicita"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563551316773-l55k9vnj8jr6mi7u5p56vfedl8o6lar3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.solicita",
+            "certificate_hash": "0e3b58568c5f41260d62487523266bc8655929c0"
+          }
+        },
+        {
+          "client_id": "563551316773-bmq43dfibumq9ebpa1c8bbqv3j4hs6a2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtGzdIuaA-4jSZGP9H_m11ySayhqKx814"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563551316773-bmq43dfibumq9ebpa1c8bbqv3j4hs6a2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
