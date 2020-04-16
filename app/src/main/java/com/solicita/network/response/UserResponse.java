@@ -2,7 +2,7 @@ package com.solicita.network.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.solicita.model.Aluno;
+import com.solicita.model.User;
 
 public class UserResponse extends BaseResponse {
 
@@ -15,8 +15,8 @@ public class UserResponse extends BaseResponse {
     @Expose
     @SerializedName("expires_in") int expires_in;
     @Expose
-    @SerializedName("aluno")
-    Aluno aluno;
+    @SerializedName("user")
+    User user;
 
 
     public String getStatus() {
@@ -43,11 +43,11 @@ public class UserResponse extends BaseResponse {
         this.expires_in = expires_in;
     }
 
-    public Aluno getAluno() {
-        return aluno;
+    public User getUser() {
+        return user;
     }
 
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -1,6 +1,6 @@
 package com.solicita.network;
 
-import com.solicita.model.Aluno;
+import com.solicita.model.User;
 import com.solicita.network.response.UserResponse;
 
 import retrofit2.Call;
@@ -18,7 +18,7 @@ public interface ApiInterface {
                                  @Field("password") String password);
 
     @GET("api/auth/me")
-    Call<Aluno> getUser(@Header("Authorization") String token);
+    Call<User> getUser(@Header("Authorization") String token);
 
     @POST("api/auth/refresh")
     Call<UserResponse> refreshToken(@Header("Authorization") String token);

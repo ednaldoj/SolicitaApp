@@ -11,13 +11,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.solicita.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.solicita.config.UsuarioFirebase;
-import com.solicita.model.Aluno;
+import com.solicita.model.User;
 
 public class TelaHomeAluno extends AppCompatActivity {
 
     private FirebaseAuth discente = FirebaseAuth.getInstance();
     TextView textNomeUsuario;
-    private Aluno usuarioLogado;
+    private User usuarioLogado;
 
 
 

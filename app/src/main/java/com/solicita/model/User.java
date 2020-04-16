@@ -2,12 +2,12 @@ package com.solicita.model;
 
 import com.google.firebase.database.Exclude;
 
-public class Aluno {
+public class User {
 
     private int id;
     private String nome, login, token, CPF, tipoVinculo, unidadeAcademica, tipoCurso, email, senha, confirmarSenha;
 
-    public Aluno() {
+    public User() {
     }
 
     public String getLogin() {

@@ -12,13 +12,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseUser;
 import com.solicita.R;
 import com.solicita.config.UsuarioFirebase;
-import com.solicita.model.Aluno;
+import com.solicita.model.User;
 
 public class TelaEditarPerfil extends AppCompatActivity {
 
     private TextInputEditText editNomePerfil, editEmailPerfil;
     private Button buttonSalvarAlteracoes;
-    private Aluno usuarioLogado;
+    private User usuarioLogado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

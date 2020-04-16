@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.solicita.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.solicita.helper.SharedPrefManager;
-import com.solicita.model.Aluno;
+import com.solicita.model.User;
 import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
 import com.solicita.network.response.UserResponse;
@@ -38,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().hide();
 
         ButterKnife.bind(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
@@ -48,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
 
-        if (sharedPrefManager.getSPSudahLogin()){
+        if (sharedPrefManager.getSPLogin()){
             startActivity(new Intent(LoginActivity.this, MainActivity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
@@ -65,12 +64,11 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.dismiss();
 
                 if (response.code() == 200) {
-                    Aluno aluno = response.body().getAluno();
-                    sharedPrefManager.saveSPString(SharedPrefManager.SP_NAMA, aluno.getNome());
+                    User user = response.body().getUser();
+                    sharedPrefManager.saveSPString(SharedPrefManager.SP_NAMA, user.getNome());
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_TOKEN, "Bearer " +response.body().getToken());
-                    System.out.println(response.body().getToken());
                     sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, true);
-                    startActivity(new Intent(context, TelaHomeAluno.class)
+                    startActivity(new Intent(context, MainActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                     finish();
                 } else {

@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.solicita.R;
 import com.solicita.config.ConfiguracaoFirebase;
 import com.solicita.config.UsuarioFirebase;
-import com.solicita.model.Aluno;
+import com.solicita.model.User;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class TelaConfirmacaoRequisicao extends AppCompatActivity {
     private TextView textProtNome, textProtCurso, textProtVinculo, textProtData, textProtDocumentos;
     private DatabaseReference discentRef;
     private String idUsuarioLogado;
-    private Aluno usuarioLogado;
+    private User usuarioLogado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class TelaConfirmacaoRequisicao extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
-                    Aluno discente = dataSnapshot.getValue(Aluno.class);
+                    User discente = dataSnapshot.getValue(User.class);
                     textProtNome.setText(discente.getNome());
                     textProtCurso.setText(discente.getTipoCurso());
                     textProtVinculo.setText(discente.getTipoVinculo());

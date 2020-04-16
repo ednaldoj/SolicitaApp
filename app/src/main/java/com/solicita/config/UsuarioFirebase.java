@@ -10,7 +10,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.solicita.model.Aluno;
+import com.solicita.model.User;
 
 /**
  * Created by jamiltondamasceno
@@ -55,11 +55,11 @@ public class UsuarioFirebase {
         }
 
     }
-    public static Aluno getDadosUsuarioLogado(){
+    public static User getDadosUsuarioLogado(){
 
         FirebaseUser firebaseUser = getUsuarioAtual();
 
-        Aluno discente = new Aluno();
+        User discente = new User();
         discente.setEmail(firebaseUser.getEmail());
         discente.setCPF(discente.getCPF());
         discente.setNome(firebaseUser.getDisplayName());

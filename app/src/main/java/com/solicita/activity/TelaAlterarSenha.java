@@ -19,13 +19,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.solicita.R;
 import com.solicita.config.ConfiguracaoFirebase;
 import com.solicita.config.UsuarioFirebase;
-import com.solicita.model.Aluno;
+import com.solicita.model.User;
 
 public class TelaAlterarSenha extends AppCompatActivity {
 
     private TextInputEditText campoConfNovaSenha, campoSenhaAtual, campoNovaSenha;
     private Button buttonAlterarSenha;
-    private Aluno usuarioLogado;
+    private User usuarioLogado;
     private FirebaseAuth autenticacao;
     private FirebaseUser usuario;
 

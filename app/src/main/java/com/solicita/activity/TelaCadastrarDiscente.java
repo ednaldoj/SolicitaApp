@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.solicita.helper.MaskCustom;
 import com.solicita.helper.ValidacaoCPF;
-import com.solicita.model.Aluno;
+import com.solicita.model.User;
 import com.solicita.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -66,7 +66,7 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
                                         if (!textoConfirmarSenha.isEmpty()) {//verifica confirmacao de senha
                                             if (textoSenha.equals(textoConfirmarSenha)) {
 
-                                                Aluno discente = new Aluno();
+                                                User discente = new User();
 
                                                 discente.setNome(textoNome);
                                                 discente.setCPF(textoCPF);
@@ -110,7 +110,7 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
             Toast.makeText(TelaCadastrarDiscente.this, "Preencha o campo nome", Toast.LENGTH_SHORT).show();
         }
     }/*
-    public void cadastrarUsuario(final Aluno discente){
+    public void cadastrarUsuario(final User discente){
 
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
         autenticacao.createUserWithEmailAndPassword(
@@ -124,7 +124,7 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
                     try {
 
                         //Salvar dados no firebase
-                        String idUsuario = task.getResult().getAluno().getUid();
+                        String idUsuario = task.getResult().getUser().getUid();
                         discente.setId( idUsuario );
                         discente.salvar();
 

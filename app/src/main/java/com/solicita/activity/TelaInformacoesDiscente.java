@@ -21,14 +21,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.solicita.config.ConfiguracaoFirebase;
 import com.solicita.config.UsuarioFirebase;
-import com.solicita.model.Aluno;
+import com.solicita.model.User;
 
 public class TelaInformacoesDiscente extends AppCompatActivity {
 
     private DatabaseReference referencia = FirebaseDatabase.getInstance().getReference();
 
     public TextView textInfoNome, textInfoCPF, textInfoVinculo, textInfoUnidadeAcademica, textInfoCurso, textInfoEmail;
-    public Aluno usuarioLogado;
+    public User usuarioLogado;
     private DatabaseReference discentRef;
     private String idUsuarioLogado;
 
@@ -73,7 +73,7 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
-                    Aluno discente = dataSnapshot.getValue(Aluno.class);
+                    User discente = dataSnapshot.getValue(User.class);
                     textInfoCPF.setText(discente.getCPF());
                     textInfoVinculo.setText(discente.getTipoVinculo());
                     textInfoUnidadeAcademica.setText(discente.getUnidadeAcademica());

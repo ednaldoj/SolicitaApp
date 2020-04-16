@@ -11,7 +11,7 @@ public class SharedPrefManager {
     public static final String SP_EMAIL = "spEmail";
     public static final String SP_TOKEN = "spToken";
 
-    public static final String SP_SUDAH_LOGIN = "spSudahLogin";
+    public static final String SP_SUDAH_LOGIN = "spSPLogin";
 
     SharedPreferences sp;
     SharedPreferences.Editor spEditor;
@@ -49,7 +49,7 @@ public class SharedPrefManager {
         return sp.getString(SP_TOKEN, "");
     }
 
-    public Boolean getSPSudahLogin(){
+    public Boolean getSPLogin(){
         return sp.getBoolean(SP_SUDAH_LOGIN, false);
     }
 
