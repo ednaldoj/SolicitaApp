@@ -12,10 +12,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.solicita.model.User;
 
-/**
- * Created by jamiltondamasceno
- */
-
 public class UsuarioFirebase {
 
     public static FirebaseUser getUsuarioAtual(){

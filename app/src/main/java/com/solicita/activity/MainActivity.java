@@ -2,6 +2,8 @@ package com.solicita.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,39 +15,53 @@ import com.solicita.model.User;
 import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     SharedPrefManager sharedPrefManager;
     ApiInterface apiInterface;
     TextView textNome;
+    Button btnLogout, btnCheckout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
         sharedPrefManager = new SharedPrefManager(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        textNome.setText(sharedPrefManager.getSPNama());
+        textNome = findViewById(R.id.textNome);
+
+        textNome.setText(sharedPrefManager.getSPNome());
+        btnLogout = findViewById(R.id.btnLogout);
+        btnCheckout = findViewById(R.id.btnCheckout);
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logoutApp();
+
+            }
+        });
+
+        btnCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkout();
+            }
+        });
 
     }
-
-    @OnClick(R.id.btnLogout) void logout() {
-        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, false);
+    public void logoutApp() {
+        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_LOGIN, false);
         startActivity(new Intent(MainActivity.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
-
-    @OnClick(R.id.btnCekAuth) void cekAuth() {
-//        Toast.makeText(this, sharedPrefManager.getSPToken(), Toast.LENGTH_SHORT).show();
+    public void checkout() {
         Call<User> getUser = apiInterface.getUser(sharedPrefManager.getSPToken());
         getUser.enqueue(new Callback<User>() {
             @Override
@@ -54,6 +70,7 @@ public class MainActivity extends AppCompatActivity{
                     Toast.makeText(MainActivity.this, response.body().getEmail(), Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<User> call, Throwable t) {
 
@@ -61,18 +78,3 @@ public class MainActivity extends AppCompatActivity{
         });
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

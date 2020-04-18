@@ -18,15 +18,13 @@ import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
 import com.solicita.network.response.UserResponse;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextInputEditText editLoginEmail, editLoginSenha;
+    public TextInputEditText editLoginEmail, editLoginSenha;
     public Button buttonLogin;
 
     Context context;
@@ -38,12 +36,34 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        context = this;
 
-        ButterKnife.bind(this);
+        editLoginEmail = findViewById(R.id.editLoginEmail);
+        editLoginSenha = findViewById(R.id.editLoginSenha);
+        buttonLogin = findViewById(R.id.buttonLogin);
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean validado = true;
+                if (editLoginEmail.getText().length()==0){
+                    Toast.makeText(getApplicationContext(), "Preecha o campo e-mail.", Toast.LENGTH_LONG).show();
+                    validado=false;
+                }
+                if (editLoginSenha.getText().length()==0){
+                    Toast.makeText(getApplicationContext(), "Preencha o campo senha.", Toast.LENGTH_LONG).show();
+                    validado=false;
+                }
+                if (validado){
+                    validarLogin();
+                }
+            }
+        });
+
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         sharedPrefManager = new SharedPrefManager(this);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading");
+        progressDialog.setMessage("Carregando...");
         progressDialog.setCancelable(false);
 
 
@@ -54,7 +74,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.buttonLogin) void login() {
+    public void validarLogin(){
+
         progressDialog.show();
         Call<UserResponse> postLogin = apiInterface.postLogin(editLoginEmail.getText().toString(),
                 editLoginSenha.getText().toString());
@@ -65,34 +86,20 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (response.code() == 200) {
                     User user = response.body().getUser();
-                    sharedPrefManager.saveSPString(SharedPrefManager.SP_NAMA, user.getNome());
+                    sharedPrefManager.saveSPString(SharedPrefManager.SP_NOME, user.getNome());
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_TOKEN, "Bearer " +response.body().getToken());
-                    sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, true);
+                    sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_LOGIN, true);
                     startActivity(new Intent(context, MainActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                     finish();
                 } else {
-                    Toast.makeText(context, "E-mail ou senha incorretos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Email ou senha incorretos.", Toast.LENGTH_SHORT).show();
                 }
-
             }
-
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 progressDialog.dismiss();
             }
         });
     }
-
-    public void abrirTelaCadastro(View view){
-        Intent intent = new Intent(LoginActivity.this, TelaCadastrarDiscente.class);
-        startActivity(intent);
-
-    }
-
-    public void recuperarSenha(View view){
-        Intent intent =new Intent(LoginActivity.this, TelaRedefinirSenha.class);
-        startActivity(intent);
-    }
-
 }
