@@ -20,15 +20,10 @@ public class User {
     @Expose
     @SerializedName("cursos") String cursos;
     @Expose
-    @SerializedName("password") String password;
-    @Expose
-    @SerializedName("confirm_password") String confirm_password;
-    @Expose
-    @SerializedName("login") String login;
-    @Expose
     @SerializedName("token") String token;
 
     //private String login, token, CPF, tipoVinculo, unidadeAcademica, tipoCurso, senha, confirmarSenha;
+    private String password, confirm_password, login;
 
     public User() {
     }

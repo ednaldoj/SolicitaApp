@@ -12,7 +12,6 @@ public class MyApp extends Application {
 
     public static Context getContext(){
         return context;
-        // or return instance.getApplicationContext();
     }
 
     @Override
