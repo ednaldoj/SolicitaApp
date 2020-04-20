@@ -25,7 +25,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     public TextInputEditText editLoginEmail, editLoginSenha;
-    public Button buttonLogin;
+    public Button buttonLogin, buttonCadastrar;
 
     Context context;
     ApiInterface apiInterface;
@@ -41,6 +41,16 @@ public class LoginActivity extends AppCompatActivity {
         editLoginEmail = findViewById(R.id.editLoginEmail);
         editLoginSenha = findViewById(R.id.editLoginSenha);
         buttonLogin = findViewById(R.id.buttonLogin);
+        buttonCadastrar = findViewById(R.id.buttonCadastrar);
+
+        buttonCadastrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TelaCadastrarDiscente.class);
+                startActivity(intent);
+            }
+        });
+
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     validado=false;
                 }
                 if (validado){
-                    validarLogin();
+                    cadastrar();
                 }
             }
         });
@@ -67,14 +77,14 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
 
-        if (sharedPrefManager.getSPLogin()){
+        if (sharedPrefManager.getSPSudahLogin()){
             startActivity(new Intent(LoginActivity.this, MainActivity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
         }
     }
 
-    public void validarLogin(){
+    public void cadastrar(){
 
         progressDialog.show();
         Call<UserResponse> postLogin = apiInterface.postLogin(editLoginEmail.getText().toString(),
@@ -86,9 +96,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (response.code() == 200) {
                     User user = response.body().getUser();
-                    sharedPrefManager.saveSPString(SharedPrefManager.SP_NOME, user.getNome());
+                    sharedPrefManager.saveSPString(SharedPrefManager.SP_NAMA, user.getName());
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_TOKEN, "Bearer " +response.body().getToken());
-                    sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_LOGIN, true);
+                    sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, true);
                     startActivity(new Intent(context, MainActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                     finish();
@@ -101,5 +111,9 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
         });
-    }
+    }/*
+    public void abrirCadastro(View view){
+        Intent intent = new Intent(getApplicationContext(), TelaCadastrarDiscente.class);
+        startActivity(intent);
+    }*/
 }

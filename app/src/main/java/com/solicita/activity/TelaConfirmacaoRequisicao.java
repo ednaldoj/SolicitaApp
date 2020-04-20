@@ -73,9 +73,9 @@ public class TelaConfirmacaoRequisicao extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
                     User discente = dataSnapshot.getValue(User.class);
-                    textProtNome.setText(discente.getNome());
-                    textProtCurso.setText(discente.getTipoCurso());
-                    textProtVinculo.setText(discente.getTipoVinculo());
+                    textProtNome.setText(discente.getName());
+                    textProtCurso.setText(discente.getCursos());
+                    textProtVinculo.setText(discente.getVinculo());
                 }
             }
             @Override

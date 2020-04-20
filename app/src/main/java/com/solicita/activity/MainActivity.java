@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPrefManager sharedPrefManager;
     ApiInterface apiInterface;
-    TextView textNome;
-    Button btnLogout, btnCheckout;
+    TextView tvNama;
+    Button btnLogout, btnCekAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +33,11 @@ public class MainActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        textNome = findViewById(R.id.textNome);
+        tvNama = findViewById(R.id.tvNama);
 
-        textNome.setText(sharedPrefManager.getSPNome());
+        tvNama.setText(sharedPrefManager.getSPNama());
         btnLogout = findViewById(R.id.btnLogout);
-        btnCheckout = findViewById(R.id.btnCheckout);
+        btnCekAuth = findViewById(R.id.btnCekAuth);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,21 +47,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnCheckout.setOnClickListener(new View.OnClickListener() {
+        btnCekAuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkout();
+                cekAuthApp();
             }
         });
 
     }
     public void logoutApp() {
-        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_LOGIN, false);
+        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, false);
         startActivity(new Intent(MainActivity.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
-    public void checkout() {
+    public void cekAuthApp() {
         Call<User> getUser = apiInterface.getUser(sharedPrefManager.getSPToken());
         getUser.enqueue(new Callback<User>() {
             @Override

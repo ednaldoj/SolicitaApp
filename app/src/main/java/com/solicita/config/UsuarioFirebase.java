@@ -57,8 +57,8 @@ public class UsuarioFirebase {
 
         User discente = new User();
         discente.setEmail(firebaseUser.getEmail());
-        discente.setCPF(discente.getCPF());
-        discente.setNome(firebaseUser.getDisplayName());
+        discente.setCpf(discente.getCpf());
+        discente.setName(firebaseUser.getDisplayName());
       //  discente.setId(firebaseUser.getUid());
 
         return discente;

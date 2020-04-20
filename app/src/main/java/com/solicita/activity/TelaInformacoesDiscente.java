@@ -74,10 +74,10 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
                     User discente = dataSnapshot.getValue(User.class);
-                    textInfoCPF.setText(discente.getCPF());
-                    textInfoVinculo.setText(discente.getTipoVinculo());
-                    textInfoUnidadeAcademica.setText(discente.getUnidadeAcademica());
-                    textInfoCurso.setText(discente.getTipoCurso());
+                    textInfoCPF.setText(discente.getCpf());
+                    textInfoVinculo.setText(discente.getVinculo());
+                    textInfoUnidadeAcademica.setText(discente.getUnidade());
+                    textInfoCurso.setText(discente.getCursos());
                 }
             }
             @Override

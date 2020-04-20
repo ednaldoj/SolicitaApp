@@ -47,7 +47,7 @@ public class TelaEditarPerfil extends AppCompatActivity {
                 UsuarioFirebase.atualizarNomeUsuario(nomeAtualizado);
 
                 //Atualizar nome no banco de dados
-                usuarioLogado.setNome(nomeAtualizado);
+                usuarioLogado.setName(nomeAtualizado);
              //   usuarioLogado.atualizar();
 
                 Toast.makeText(TelaEditarPerfil.this, "Dados alterados com sucesso!", Toast.LENGTH_LONG).show();
