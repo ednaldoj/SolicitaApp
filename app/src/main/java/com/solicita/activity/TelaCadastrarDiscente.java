@@ -24,12 +24,17 @@ import com.solicita.network.response.UserResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static android.R.layout.simple_spinner_item;
 
@@ -39,7 +44,7 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
     Spinner spinnerVinculo, spinnerUnidade, spinnerCurso;
     Button buttonCadastro;
     ApiInterface apiInterface;
-    Call<UserResponse> call;
+   // Call<UserResponse> call;
     Context mContext;
     ArrayList<Curso> cursoArrayList;
     ArrayList<String> cursos = new ArrayList<>();
@@ -50,31 +55,33 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
         setContentView(R.layout.activity_tela_cadastrar_discente);
 
         mContext=this;
-      //  apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
         inicializarComponentes();
         buscarJSON();
 
-       // buttonCadastro.setOnClickListener(v -> cadastrar());
+    //    buttonCadastro.setOnClickListener(v -> cadastrar());
     }
     private void buscarJSON(){
 
-        Call<String> stringCall = apiInterface.getJSONString();
+        Call<String> call = apiInterface.getJSONString();
 
-        stringCall.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> stringCall, Response<String> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()){
                     if(response.body()!=null){
                         String jsonResponse = response.body();
                         spinnerJSON(jsonResponse);
 
+                    }else{
+                        Log.i("onEmptyResponse", "Empty");
                     }
                 }
             }
             @Override
-            public void onFailure(Call<String> stringCall, Throwable t) {
-            }
+            public void onFailure(Call<String> call, Throwable t) {
+                System.out.println("Erro");            }
         });
     }
     public void spinnerJSON(String response){
@@ -92,12 +99,21 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
                 curso.setNome(jsonObject.getString("nome"));
 
                 cursoArrayList.add(curso);
+
+     //           Log.d("this is my array", "arr: " + Arrays.toString(new ArrayList[]{cursoArrayList}));
+       //         System.out.println("arr: "+ Arrays.toString(new ArrayList[]{cursoArrayList}));
+
+
             }
             for(int i=0; i<cursoArrayList.size(); i++){
                 cursos.add(cursoArrayList.get(i).getNome());
+
+                Log.d("this is my array", "arr: " + Arrays.toString(new ArrayList[]{cursos}));
+          //      System.out.println("arr: "+ Arrays.toString(new ArrayList[]{cursos}));
+
             }
             ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(TelaCadastrarDiscente.this, simple_spinner_item, cursos);
-            stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+            stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerCurso.setAdapter(stringArrayAdapter);
 
         }catch (JSONException e){
@@ -265,7 +281,7 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
     }
     public void inicializarComponentes(){
 
-        apiInterface = ApiClient.getClient().create(ApiInterface.class);
+    //    apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
         campoNome = findViewById(R.id.textProtNome);
         campoCPF = findViewById(R.id.textInfoCPF);

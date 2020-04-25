@@ -12,6 +12,8 @@ import retrofit2.http.POST;
 
 public interface ApiInterface {
 
+   // String url = "https://api.npoint.io/";
+
     @FormUrlEncoded
     @POST("api/auth/login")
     Call<UserResponse> postLogin(@Field("email") String email,

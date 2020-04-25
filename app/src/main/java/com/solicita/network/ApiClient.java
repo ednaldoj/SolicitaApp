@@ -6,9 +6,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ApiClient {
 
+    //private static final String url = "https://api.npoint.io/";
     private static final String url = "https://api.npoint.io/";
 
     private static Retrofit retrofit;
@@ -25,6 +27,7 @@ public class ApiClient {
             retrofit = new Retrofit.Builder()
                     .baseUrl(url)
                     .client(client)
+                    .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
