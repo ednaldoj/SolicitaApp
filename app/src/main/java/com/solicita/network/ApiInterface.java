@@ -19,7 +19,6 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/users")
     Call<UserResponse> postCadastro(@Field("name") String name, @Field("cpf") String cpf, @Field("vinculo") String vinculo, @Field("unidade") String unidade, @Field("cursos") String cursos, @Field("email") String email, @Field("password") String password);
-   // Call<UserResponse> postCadastro(@Field("name") String name, @Field("cpf") String cpf, @Field("email") String email, @Field("password") String password);
 
     @GET("api/auth/me")
     Call<User> getUser(@Header("Authorization") String token);
@@ -27,4 +26,6 @@ public interface ApiInterface {
     @POST("api/auth/refresh")
     Call<UserResponse> refreshToken(@Header("Authorization") String token);
 
+    @GET("api/cursos")
+    Call<String> getJSONString();
 }

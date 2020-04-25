@@ -37,31 +37,30 @@ public class MainActivity extends AppCompatActivity {
 
         tvNama.setText(sharedPrefManager.getSPNama());
         btnLogout = findViewById(R.id.btnLogout);
-        btnCekAuth = findViewById(R.id.btnCekAuth);
+       // btnCekAuth = findViewById(R.id.btnCekAuth);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 logoutApp();
-
             }
         });
 
-        btnCekAuth.setOnClickListener(new View.OnClickListener() {
+/*        btnCekAuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cekAuthApp();
             }
-        });
+        });*/
 
     }
     public void logoutApp() {
-        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, false);
+        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
         startActivity(new Intent(MainActivity.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
-    public void cekAuthApp() {
+ /*   public void cekAuthApp() {
         Call<User> getUser = apiInterface.getUser(sharedPrefManager.getSPToken());
         getUser.enqueue(new Callback<User>() {
             @Override
@@ -76,5 +75,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 }

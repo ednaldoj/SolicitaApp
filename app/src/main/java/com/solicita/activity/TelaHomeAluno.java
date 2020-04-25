@@ -1,42 +1,42 @@
 package com.solicita.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseUser;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.solicita.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.solicita.config.UsuarioFirebase;
-import com.solicita.model.User;
+import com.solicita.helper.SharedPrefManager;
 
 public class TelaHomeAluno extends AppCompatActivity {
 
-    private FirebaseAuth discente = FirebaseAuth.getInstance();
+    SharedPrefManager sharedPrefManager;
     TextView textNomeUsuario;
-    private User usuarioLogado;
-
-
+    Button buttonLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_home_aluno);
 
-        textNomeUsuario=findViewById(R.id.textNomeUsuario);
+        sharedPrefManager = new SharedPrefManager(this);
+        inicializarComponentes();
 
-        //Configuracoes iniciais
-        usuarioLogado = new UsuarioFirebase().getDadosUsuarioLogado();
+        textNomeUsuario.setText(sharedPrefManager.getSPNama());
 
-
-        //Recuperar dados do usuário
-        FirebaseUser usuarioPerfil = UsuarioFirebase.getUsuarioAtual();
-        textNomeUsuario.setText( usuarioPerfil.getDisplayName() );
-
+        buttonLogout.setOnClickListener(v -> logoutApp());
     }
+    public void logoutApp() {
+        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+        startActivity(new Intent(TelaHomeAluno.this, LoginActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
+    }
+
+
     public void irTelaInformacoesDiscente(View view){
         Intent irTelaInformacoesDiscente = new Intent(getApplicationContext(), TelaInformacoesDiscente.class);
         startActivity(irTelaInformacoesDiscente);
@@ -49,11 +49,8 @@ public class TelaHomeAluno extends AppCompatActivity {
         Intent irTelaSolicitarDocumentos = new Intent(getApplicationContext(), TelaSolicitarDocumentos.class);
         startActivity(irTelaSolicitarDocumentos);
     }
-    public void logoutDiscente(View view){
-        discente.signOut();
-        Intent intent = new Intent(TelaHomeAluno.this, LoginActivity.class);
-        startActivity(intent);
-
+    public void inicializarComponentes(){
+        textNomeUsuario = findViewById(R.id.textNomeUsuario);
+        buttonLogout = findViewById(R.id.buttonLogout);
     }
-
 }

@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     validado=false;
                 }
                 if (validado){
-                    cadastrar();
+                    loginApp();
                 }
             }
         });
@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void cadastrar(){
+    public void loginApp(){
 
         progressDialog.show();
         Call<UserResponse> postLogin = apiInterface.postLogin(editLoginEmail.getText().toString(),
@@ -96,10 +96,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (response.code() == 200) {
                     User user = response.body().getUser();
-                    sharedPrefManager.saveSPString(SharedPrefManager.SP_NAMA, user.getName());
+                    sharedPrefManager.saveSPString(SharedPrefManager.SP_NOME, user.getName());
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_TOKEN, "Bearer " +response.body().getToken());
-                    sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, true);
-                    startActivity(new Intent(context, MainActivity.class)
+                    sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, true);
+                    startActivity(new Intent(context, TelaHomeAluno.class)
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                     finish();
                 } else {
@@ -111,9 +111,13 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
         });
-    }/*
+    }
     public void abrirCadastro(View view){
         Intent intent = new Intent(getApplicationContext(), TelaCadastrarDiscente.class);
         startActivity(intent);
-    }*/
+    }
+    public void recuperarSenha(View view){
+        Intent intent = new Intent(getApplicationContext(), TelaRedefinirSenha.class);
+        startActivity(intent);
+    }
 }

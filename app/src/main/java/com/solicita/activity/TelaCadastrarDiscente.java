@@ -2,10 +2,12 @@ package com.solicita.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -14,6 +16,7 @@ import com.solicita.helper.MaskCustom;
 import com.solicita.helper.ValidacaoCPF;
 import com.solicita.R;
 import com.google.android.material.textfield.TextInputEditText;
+import com.solicita.model.Curso;
 import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
 import com.solicita.network.response.UserResponse;
@@ -22,34 +25,130 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import static android.R.layout.simple_spinner_item;
+
 public class TelaCadastrarDiscente extends AppCompatActivity {
 
     TextInputEditText campoNome, campoCPF, campoEmail, campoSenha, campoConfirmarSenha;
-    Spinner campoVinculo, campoUnidade, campoCurso;
+    Spinner spinnerVinculo, spinnerUnidade, spinnerCurso;
     Button buttonCadastro;
     ApiInterface apiInterface;
     Call<UserResponse> call;
+    Context mContext;
+    ArrayList<Curso> cursoArrayList;
+    ArrayList<String> cursos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_cadastrar_discente);
 
-        inicializarComponentes();
+        mContext=this;
+      //  apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        buttonCadastro.setOnClickListener(new OnClickListener() {
+        inicializarComponentes();
+        buscarJSON();
+
+       // buttonCadastro.setOnClickListener(v -> cadastrar());
+    }
+    private void buscarJSON(){
+
+        Call<String> stringCall = apiInterface.getJSONString();
+
+        stringCall.enqueue(new Callback<String>() {
             @Override
-            public void onClick(View v) {
-                cadastrar();
+            public void onResponse(Call<String> stringCall, Response<String> response) {
+                if(response.isSuccessful()){
+                    if(response.body()!=null){
+                        String jsonResponse = response.body();
+                        spinnerJSON(jsonResponse);
+
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<String> stringCall, Throwable t) {
             }
         });
     }
+    public void spinnerJSON(String response){
+        try {
+            JSONObject object = new JSONObject(response);
+            cursoArrayList = new ArrayList<>();
+            JSONArray jsonArray = object.getJSONArray("cursos");
 
+            for(int i=0; i<jsonArray.length();i++){
+
+                Curso curso = new Curso();
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                curso.setNome(jsonObject.getString("nome"));
+
+                cursoArrayList.add(curso);
+            }
+            for(int i=0; i<cursoArrayList.size(); i++){
+                cursos.add(cursoArrayList.get(i).getNome());
+            }
+            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(TelaCadastrarDiscente.this, simple_spinner_item, cursos);
+            stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+            spinnerCurso.setAdapter(stringArrayAdapter);
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+/*
+    public void preencherSpinner(){
+        String url = "http://192.168.0.104/SolicitaWeb/public/api/cursos/";
+        asyncHttpClient.post(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                if (statusCode ==200){
+                    carregarSpinner(new String(responseBody));
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+    }
+    public void carregarSpinner(String response){
+        ArrayList<Curso> lista = new ArrayList<Curso>();
+        try {
+
+            JSONArray jsonArray = new JSONArray(response);
+            for(int i=0; i<jsonArray.length(); i++){
+                Curso curso = new Curso();
+                curso.setNome(jsonArray.getJSONObject(i).getString("nome"));
+                lista.add(curso);
+            }
+            ArrayAdapter<Curso> arrayAdapter = new ArrayAdapter<Curso>(this, android.R.layout.simple_dropdown_item_1line, lista);
+            spinnerVinculo.setAdapter(arrayAdapter);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+*/
+
+/*
     public void cadastrar() {
 
         String name = campoNome.getText().toString();
         String cpf  = campoCPF.getText().toString();
-        String vinculo  = campoVinculo.getSelectedItem().toString();
+        String vinculo  = spinnerVinculo.getSelectedItem().toString();
 
             if(vinculo.equals("Matriculado")){
                 vinculo = "1";
@@ -67,13 +166,13 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
                 vinculo = "7";
             }
 
-        String unidade  = campoUnidade.getSelectedItem().toString();
+        String unidade  = spinnerUnidade.getSelectedItem().toString();
             if (unidade.equals("UAG - Unidade Acadêmica de Garanhuns")){
                 unidade = "1";
             }else{
                 unidade = "1";
             }
-        String cursos  = campoCurso.getSelectedItem().toString();
+        String cursos  = spinnerCurso.getSelectedItem().toString();
         if(cursos.equals("Agronomia")){
             cursos = "1";
         }else if (cursos.equals("Ciência da Computação")){
@@ -159,7 +258,7 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
             Toast.makeText(TelaCadastrarDiscente.this, "Preencha o campo nome", Toast.LENGTH_SHORT).show();
         }
     }
-
+*/
     public void abrirTelaLogin(View view){
         Intent abrirTelaLogin = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(abrirTelaLogin);
@@ -167,12 +266,13 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
     public void inicializarComponentes(){
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
+
         campoNome = findViewById(R.id.textProtNome);
         campoCPF = findViewById(R.id.textInfoCPF);
         campoCPF.addTextChangedListener(MaskCustom.insert(MaskCustom.CPF_MASK, campoCPF));
-        campoVinculo=(findViewById(R.id.spinnerVinculo));
-        campoUnidade = findViewById(R.id.spinnerUnidadeAcademica);
-        campoCurso = findViewById(R.id.spinnerCurso);
+        spinnerVinculo =(findViewById(R.id.spinner));
+        spinnerUnidade = findViewById(R.id.spinnerUnidadeAcademica);
+        spinnerCurso = findViewById(R.id.spinnerCurso);
         campoEmail = findViewById(R.id.editEmail);
         campoSenha = findViewById(R.id.editSenha);
         campoConfirmarSenha = findViewById(R.id.editConfirmarSenha);

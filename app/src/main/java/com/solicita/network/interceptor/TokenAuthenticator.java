@@ -43,7 +43,7 @@ public class TokenAuthenticator implements Interceptor {
             }
 
         } else if ( mainResponse.code() == 500 ){
-            sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, false);
+            sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
             Intent i = new Intent(MyApp.getContext(), LoginActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -81,23 +81,6 @@
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/spinnerVinculo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="8dp"
-
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
-            android:entries="@array/lista_tipo_vinculo"
-            android:prompt="@string/lista_tipo_vinculo_prompt"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -120,7 +103,7 @@
             android:text="Unidade Acadêmica"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerVinculo" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
         <Spinner
             android:id="@+id/spinnerUnidadeAcademica"
@@ -134,8 +117,10 @@
 
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
+
             android:entries="@array/lista_unidade_academica"
             android:prompt="@string/lista_unidade_academica_prompt"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -163,8 +148,7 @@
 
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
-            android:entries="@array/lista_curso"
-            android:prompt="@string/lista_curso_prompt"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -260,6 +244,23 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout8" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+
+            android:entries="@array/lista_tipo_vinculo"
+            android:prompt="@string/lista_tipo_vinculo_prompt"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
