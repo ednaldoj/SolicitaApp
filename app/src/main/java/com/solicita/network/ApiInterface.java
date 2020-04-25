@@ -26,6 +26,7 @@ public interface ApiInterface {
     @POST("api/auth/refresh")
     Call<UserResponse> refreshToken(@Header("Authorization") String token);
 
-    @GET("api/cursos")
+   // @GET("api/cursos")
+    @GET("d282026dc9c4448b4488")
     Call<String> getJSONString();
 }

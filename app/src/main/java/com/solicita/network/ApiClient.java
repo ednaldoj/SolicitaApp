@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private static final String url = "http://192.168.0.104/SolicitaWeb/public/";
+    private static final String url = "https://api.npoint.io/";
 
     private static Retrofit retrofit;
 
