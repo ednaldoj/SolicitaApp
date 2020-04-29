@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         tvNama = findViewById(R.id.tvNama);
 
-        tvNama.setText(sharedPrefManager.getSPNama());
+        tvNama.setText(sharedPrefManager.getSPToken());
         btnLogout = findViewById(R.id.btnLogout);
        // btnCekAuth = findViewById(R.id.btnCekAuth);
 
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
- /*   public void cekAuthApp() {
+    public void cekAuthApp() {
         Call<User> getUser = apiInterface.getUser(sharedPrefManager.getSPToken());
         getUser.enqueue(new Callback<User>() {
             @Override
@@ -75,5 +75,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }*/
+    }
 }

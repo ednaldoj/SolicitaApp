@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spinnerVinculo" />
 
     <Spinner
-        android:id="@+id/spinnerUnidadeAcademica"
+        android:id="@+id/spinnerUnidade"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -102,7 +102,7 @@
         android:text="Curso"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerUnidadeAcademica" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerUnidade" />
 
     <Spinner
         android:id="@+id/spinnerCurso"

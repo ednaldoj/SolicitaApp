@@ -1,9 +1,10 @@
 package com.solicita.model;
 
-public class Curso {
+public class Unidade {
 
     private int id;
-    private String nome, unidade_id;
+    private String nome, instituicao_id;
+
 
     public int getId() {
         return id;
@@ -21,11 +22,11 @@ public class Curso {
         this.nome = nome;
     }
 
-    public String getUnidade_id() {
-        return unidade_id;
+    public String getInstituicao_id() {
+        return instituicao_id;
     }
 
-    public void setUnidade_id(String unidade_id) {
-        this.unidade_id = unidade_id;
+    public void setInstituicao_id(String instituicao_id) {
+        this.instituicao_id = instituicao_id;
     }
 }

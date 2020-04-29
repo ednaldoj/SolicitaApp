@@ -12,14 +12,13 @@ import retrofit2.http.POST;
 
 public interface ApiInterface {
 
-   // String url = "https://api.npoint.io/";
-
     @FormUrlEncoded
     @POST("api/auth/login")
+    //@POST("api/login")
     Call<UserResponse> postLogin(@Field("email") String email,
                                  @Field("password") String password);
     @FormUrlEncoded
-    @POST("api/users")
+    @POST("api/cadastrar")
     Call<UserResponse> postCadastro(@Field("name") String name, @Field("cpf") String cpf, @Field("vinculo") String vinculo, @Field("unidade") String unidade, @Field("cursos") String cursos, @Field("email") String email, @Field("password") String password);
 
     @GET("api/auth/me")
@@ -28,7 +27,19 @@ public interface ApiInterface {
     @POST("api/auth/refresh")
     Call<UserResponse> refreshToken(@Header("Authorization") String token);
 
-   // @GET("api/cursos")
-    @GET("d282026dc9c4448b4488")
-    Call<String> getJSONString();
+    @GET("api/cursos")
+    Call<String> getCursoJSONString();
+
+    @GET("api/unidade")
+    Call<String> getUnidadeJSONString();
+
+    @GET("api/perfil/")
+    Call<String> getPerfilJSONString();
+
+    @GET("api/documentos/")
+    Call<String> getDocumentoJSONString();
+
+    @GET("api/requisicaos/rec")
+    Call<String> getRequisitadosJSONString();
+
 }

@@ -38,10 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         context = this;
 
-        editLoginEmail = findViewById(R.id.editLoginEmail);
-        editLoginSenha = findViewById(R.id.editLoginSenha);
-        buttonLogin = findViewById(R.id.buttonLogin);
-        buttonCadastrar = findViewById(R.id.buttonCadastro);
+        inicializarComponentes();
 
         buttonCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if (sharedPrefManager.getSPSudahLogin()){
-            startActivity(new Intent(LoginActivity.this, MainActivity.class)
+            startActivity(new Intent(LoginActivity.this, TelaHomeAluno.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
         }
@@ -98,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                     User user = response.body().getUser();
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_NOME, user.getName());
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_TOKEN, "Bearer " +response.body().getToken());
+                    System.out.println(response.body().getToken());
                     sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, true);
                     startActivity(new Intent(context, TelaHomeAluno.class)
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -119,5 +117,12 @@ public class LoginActivity extends AppCompatActivity {
     public void recuperarSenha(View view){
         Intent intent = new Intent(getApplicationContext(), TelaRedefinirSenha.class);
         startActivity(intent);
+    }
+
+    public void inicializarComponentes(){
+        editLoginEmail = findViewById(R.id.editLoginEmail);
+        editLoginSenha = findViewById(R.id.editLoginSenha);
+        buttonLogin = findViewById(R.id.buttonLogin);
+        buttonCadastrar = findViewById(R.id.buttonCadastro);
     }
 }
