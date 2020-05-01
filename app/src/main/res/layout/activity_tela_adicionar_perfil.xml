@@ -86,7 +86,6 @@
 
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:entries="@array/lista_unidade_academica"
         android:prompt="@string/lista_unidade_academica_prompt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -115,7 +114,6 @@
 
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:entries="@array/lista_curso"
         android:prompt="@string/lista_curso_prompt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

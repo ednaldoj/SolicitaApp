@@ -54,7 +54,6 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
         adapterDocumentos=new AdapterDocumentos(requisicoes, this);
         recyclerRequisicoes.setAdapter(adapterDocumentos);
 
-        //Recupera anuncios para o usuário
         recuperarRequisicoes();
 
     }

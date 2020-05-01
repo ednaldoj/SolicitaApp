@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         tvNama = findViewById(R.id.tvNama);
 
-        tvNama.setText(sharedPrefManager.getSPToken());
+        tvNama.setText(sharedPrefManager.getSPNama());
         btnLogout = findViewById(R.id.btnLogout);
        // btnCekAuth = findViewById(R.id.btnCekAuth);
 

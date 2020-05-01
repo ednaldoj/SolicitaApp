@@ -10,7 +10,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ApiClient {
 
-    private static final String url = "http://192.168.0.104/SolicitaWeb/public/";
+  //  private static final String url = "http://192.168.0.104/SolicitaWeb/public/";
+    private static final String url = "http://192.168.0.104/Solicita/public/";
 
     private static Retrofit retrofit;
 

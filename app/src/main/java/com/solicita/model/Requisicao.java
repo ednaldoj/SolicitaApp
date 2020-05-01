@@ -17,15 +17,8 @@ public class Requisicao {
 
     public Requisicao() {
 
-        DatabaseReference requisicaoRef = ConfiguracaoFirebase.getFirebaseDatabase().child("minhas_requisicoes");
-        setIdRequisicao(requisicaoRef.push().getKey());
+    }
 
-    }
-    public void salvar(){
-        String idUsuario = ConfiguracaoFirebase.getIdUsuario();
-        DatabaseReference requisicaoRef = ConfiguracaoFirebase.getFirebaseDatabase().child("minhas_requisicoes");
-        requisicaoRef.child(idUsuario).child(getIdRequisicao()).setValue(this);
-    }
     @Exclude
     public String getIdRequisicao() {
         return idRequisicao;

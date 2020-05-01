@@ -1,6 +1,7 @@
 package com.solicita.network;
 
 import com.solicita.model.User;
+import com.solicita.network.response.SolicitacaoResponse;
 import com.solicita.network.response.UserResponse;
 
 import retrofit2.Call;
@@ -13,8 +14,8 @@ import retrofit2.http.POST;
 public interface ApiInterface {
 
     @FormUrlEncoded
-    @POST("api/auth/login")
-    //@POST("api/login")
+    //@POST("api/auth/login")
+    @POST("api/login")
     Call<UserResponse> postLogin(@Field("email") String email,
                                  @Field("password") String password);
     @FormUrlEncoded
@@ -33,8 +34,12 @@ public interface ApiInterface {
     @GET("api/unidade")
     Call<String> getUnidadeJSONString();
 
-    @GET("api/perfil/")
-    Call<String> getPerfilJSONString();
+    @GET("api/requisicaos/preparaNovaRequisicao")
+    Call<String> getUserPerfil(@Header("Authorization") String token);
+
+    @FormUrlEncoded
+    @POST("api/requisicaos/novaRequisicao")
+    Call<SolicitacaoResponse> postSolicitacao(@Field("default") int defaultt, @Header("Authorization") String token);
 
     @GET("api/documentos/")
     Call<String> getDocumentoJSONString();

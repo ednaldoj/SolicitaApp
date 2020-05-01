@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,15 +14,19 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.solicita.R;
 import com.solicita.helper.DateCustom;
+import com.solicita.helper.SharedPrefManager;
 import com.solicita.model.Documento;
 import com.solicita.model.Perfil;
 import com.solicita.model.Requisicao;
+import com.solicita.model.User;
 import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
+import com.solicita.network.response.SolicitacaoResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,65 +57,107 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
     LinearLayout linearLayout;
     CheckBox checkBox;
 
+    SharedPrefManager sharedPrefManager;
+
+    TextView textNomeUsuario;
+
+    private int index;
+
+    private int idPerfil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_solicitar_documentos);
 
+        sharedPrefManager = new SharedPrefManager(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
         inicializarComponentes();
+
+        textNomeUsuario.setText(sharedPrefManager.getSPNama());
+
         buscarJSON();
+
+        buttonSolicitar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finalizarSolicitacao();
+            }
+        });
     }
 
-    private void buscarJSON(){
+    public void finalizarSolicitacao(){
 
-        Call<String> callPerfil = apiInterface.getPerfilJSONString();
-        Call<String> callDocumento = apiInterface.getDocumentoJSONString();
+        int defaultt=idPerfil;
 
-        callPerfil.enqueue(new Callback<String>() {
+        Call<SolicitacaoResponse> solicitacaoResponseCall = apiInterface.postSolicitacao(defaultt, sharedPrefManager.getSPToken());
+        solicitacaoResponseCall.enqueue(new Callback<SolicitacaoResponse>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-
-                if(response.isSuccessful()){
-                    String jsonResponse=response.body();
-                    spinnerPerfilJSON(jsonResponse);
+            public void onResponse(Call<SolicitacaoResponse> call, Response<SolicitacaoResponse> response) {
+                if(response.code()==200){
+                    Toast.makeText(TelaSolicitarDocumentos.this, "Solicitação realizada com sucesso!", Toast.LENGTH_LONG).show();
                 }else{
-                    Log.i("onEmptyResponse", "Empty");
-                }
 
+                }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                System.out.println("Erro");            }
-        });
+            public void onFailure(Call<SolicitacaoResponse> call, Throwable t) {
 
-        callDocumento.enqueue(new Callback<String>() {
+            }
+        });
+    }
+    private void buscarJSON() {
+
+        Call<String> getUserPerfil = apiInterface.getUserPerfil(sharedPrefManager.getSPToken());
+        getUserPerfil.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if(response.isSuccessful()){
+                if (response.code() == 200) {
+
                     String jsonResponse = response.body();
-                    checkboxDocumentos(jsonResponse);
-                }else{
-                    Log.i("onEmptyResponse", "Empty");
+                    spinnerPerfilJSON(jsonResponse);
+
+                    Call<String> callDocumento = apiInterface.getDocumentoJSONString();
+                    callDocumento.enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            if (response.isSuccessful()) {
+                                String jsonResponse = response.body();
+                                checkboxDocumentos(jsonResponse);
+                            } else {
+                                Log.i("onEmptyResponse", "Empty");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+
+                        }
+                    });
+
+                } else {
+                    System.out.println("Failure code=!200");
                 }
+
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 System.out.println("Erro");
             }
-        });
 
+        });
     }
-    public void checkboxDocumentos(String response){
+
+    public void checkboxDocumentos(String response) {
         try {
             JSONObject object = new JSONObject(response);
             documentoArrayList = new ArrayList<>();
             JSONArray jsonArray = object.getJSONArray("documentos");
 
-            for(int i=0; i<jsonArray.length(); i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
 
                 Documento documento = new Documento();
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -119,10 +166,10 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                 documentoArrayList.add(documento);
 
             }
-            for(int i=0; i<documentoArrayList.size(); i++){
+            for (int i = 0; i < documentoArrayList.size(); i++) {
                 documento.add(documentoArrayList.get(i).getTipo());
             }
-            for (int i=0; i<documento.size();i++){
+            for (int i = 0; i < documento.size(); i++) {
                 checkBox = new CheckBox(this);
                 checkBox.setId(i);
                 checkBox.setText(documento.get(i));
@@ -130,16 +177,17 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                 linearLayout.addView(checkBox);
             }
 
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-    View.OnClickListener getOnClickDoSomething(final Button button){
+
+    View.OnClickListener getOnClickDoSomething(final Button button) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-              //  Log.d("ON_CLICK", "Checkbox ID: "+ button.getId() + " Text: "+button.getText().toString());
+                //  Log.d("ON_CLICK", "Checkbox ID: "+ button.getId() + " Text: "+button.getText().toString());
                 int valor = button.getId();
                 System.out.println("Valor do documento: " + ++valor);
             }
@@ -147,13 +195,14 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
     }
 
 
-    public void spinnerPerfilJSON(String response){
+    public void spinnerPerfilJSON(String response) {
+
         try {
             JSONObject object = new JSONObject(response);
             perfilArrayList = new ArrayList<>();
             JSONArray jsonArray = object.getJSONArray("perfil");
 
-            for(int i=0; i<jsonArray.length(); i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 Perfil perfil = new Perfil();
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 perfil.setCurso(jsonObject.getString("default"));
@@ -161,19 +210,34 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
 
                 perfilArrayList.add(perfil);
             }
-            for (int i=0; i<perfilArrayList.size(); i++){
+            for (int i = 0; i < perfilArrayList.size(); i++) {
                 perfil.add(perfilArrayList.get(i).getCurso() + " - " + perfilArrayList.get(i).getSituacao());
 
             }
-            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(TelaSolicitarDocumentos.this, simple_spinner_item, perfil );
+            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(TelaSolicitarDocumentos.this, simple_spinner_item, perfil);
             stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerPerfil.setAdapter(stringArrayAdapter);
 
+            spinnerPerfil.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    index = parent.getSelectedItemPosition();
+                    index++;
+                    idPerfil = index;
+                }
 
-        }catch (JSONException e){
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
     /*
         //Listener para monitorar checkbox do programa de disciplina
         public void adicionarListenerCheckProg(){
@@ -257,11 +321,12 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
             Intent abrirHome = new Intent(getApplicationContext(), TelaHomeAluno.class);
             startActivity(abrirHome);
         }*/
-    public void inicializarComponentes(){
+    public void inicializarComponentes() {
 
         spinnerPerfil = findViewById(R.id.spinnerPerfil);
         linearLayout = findViewById(R.id.linear_docs);
         buttonSolicitar = findViewById(R.id.buttonSolicitar);
+        textNomeUsuario = findViewById(R.id.textNomeUsuario);
 
     }
 }

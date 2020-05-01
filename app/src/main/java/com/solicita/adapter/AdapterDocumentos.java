@@ -59,13 +59,13 @@ public class AdapterDocumentos extends RecyclerView.Adapter<AdapterDocumentos.My
 
 //            vinculo=itemView.findViewById(R.id.textInfoVinculo);
   //          System.out.println(vinculo);
-            curso=itemView.findViewById(R.id.textAdapCurso);
+            curso=itemView.findViewById(R.id.textCursoAdap);
             System.out.println(curso);
-            dataRequisicao=itemView.findViewById(R.id.textAdapDataRequisicao);
+            dataRequisicao=itemView.findViewById(R.id.textDataAdap);
             System.out.println(dataRequisicao);
-            status=itemView.findViewById(R.id.textAdapStatus);
+            status=itemView.findViewById(R.id.textStatusAdap);
             System.out.println(status);
-            documentosSolicitados=itemView.findViewById(R.id.textAdapDocSolicitados);
+            documentosSolicitados=itemView.findViewById(R.id.textSolicitadosAdap);
             System.out.println(documentosSolicitados);
         }
     }

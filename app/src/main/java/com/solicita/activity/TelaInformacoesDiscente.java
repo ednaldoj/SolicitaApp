@@ -25,8 +25,6 @@ import com.solicita.model.User;
 
 public class TelaInformacoesDiscente extends AppCompatActivity {
 
-    private DatabaseReference referencia = FirebaseDatabase.getInstance().getReference();
-
     public TextView textInfoNome, textInfoCPF, textInfoVinculo, textInfoUnidadeAcademica, textInfoCurso, textInfoEmail;
     public User usuarioLogado;
     private DatabaseReference discentRef;
@@ -42,49 +40,12 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
         discentRef = ConfiguracaoFirebase.getFirebaseDatabase();//
         idUsuarioLogado=UsuarioFirebase.getIdUsuario();
 
-        discentRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.i("FIREBASE", dataSnapshot.getValue().toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
         //inicializar componentes
         inicializarComponentes();
 
-        //Recuperar dados do usuário
-        FirebaseUser usuarioPerfil = UsuarioFirebase.getUsuarioAtual();
-
-        recuperarDados();
-
-        textInfoNome.setText( usuarioPerfil.getDisplayName() );
-        textInfoEmail.setText(usuarioPerfil.getEmail());
-
 
     }
-    private void recuperarDados(){
-        DatabaseReference disRef = discentRef.child("discentes").child(idUsuarioLogado);
-        disRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue()!=null){
-                    User discente = dataSnapshot.getValue(User.class);
-                    textInfoCPF.setText(discente.getCpf());
-                    textInfoVinculo.setText(discente.getVinculo());
-                    textInfoUnidadeAcademica.setText(discente.getUnidade());
-                    textInfoCurso.setText(discente.getCursos());
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-    }
+
 
     public void inicializarComponentes(){
 
@@ -92,7 +53,7 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
         textInfoCPF         = findViewById(R.id.textInfoCPF);
         textInfoVinculo         = findViewById(R.id.textProtVinculo);
         textInfoUnidadeAcademica         = findViewById(R.id.textInfoUnidadeAcademica);
-        textInfoCurso         = findViewById(R.id.textAdapCurso);
+        textInfoCurso         = findViewById(R.id.textCursoAdap);
         textInfoEmail         = findViewById(R.id.textInfoEmail);
 
 
