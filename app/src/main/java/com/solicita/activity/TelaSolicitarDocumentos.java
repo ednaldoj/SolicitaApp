@@ -52,7 +52,10 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
     ArrayList<String> perfil = new ArrayList<>();
 
     ArrayList<Documento> documentoArrayList;
+    ArrayList<Documento> documentoDetalhesArrayList;
+
     ArrayList<String> documento = new ArrayList<>();
+    ArrayList<String> documentoDetalhes = new ArrayList<>();
 
     LinearLayout linearLayout;
     CheckBox checkBox;
@@ -64,6 +67,13 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
     private int index;
 
     private int idPerfil;
+
+    boolean detalhes = false;
+
+
+    String declaracaoVinculo = "", comprovanteMatricula = "", historico = "", programaDisciplina = "", outros = "";
+    String requisicaoPrograma = "", requisicaoOutros = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,12 +101,12 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
 
         int defaultt=idPerfil;
 
-        Call<SolicitacaoResponse> solicitacaoResponseCall = apiInterface.postSolicitacao(defaultt, sharedPrefManager.getSPToken());
+        Call<SolicitacaoResponse> solicitacaoResponseCall = apiInterface.postSolicitacao(defaultt, declaracaoVinculo, comprovanteMatricula, historico, programaDisciplina, outros, requisicaoPrograma, requisicaoOutros, sharedPrefManager.getSPToken());
         solicitacaoResponseCall.enqueue(new Callback<SolicitacaoResponse>() {
             @Override
             public void onResponse(Call<SolicitacaoResponse> call, Response<SolicitacaoResponse> response) {
                 if(response.code()==200){
-                    Toast.makeText(TelaSolicitarDocumentos.this, "Solicitação realizada com sucesso!", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(TelaSolicitarDocumentos.this, "Solicitação realizada com sucesso!", Toast.LENGTH_LONG).show();
                 }else{
 
                 }
@@ -108,6 +118,7 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
             }
         });
     }
+
     private void buscarJSON() {
 
         Call<String> getUserPerfil = apiInterface.getUserPerfil(sharedPrefManager.getSPToken());
@@ -155,26 +166,80 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
         try {
             JSONObject object = new JSONObject(response);
             documentoArrayList = new ArrayList<>();
+            documentoDetalhesArrayList = new ArrayList<>();
             JSONArray jsonArray = object.getJSONArray("documentos");
 
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 Documento documento = new Documento();
+                Documento documentoDetalhes = new Documento();
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                 documento.setTipo(jsonObject.getString("tipo"));
+               // documento.setDetalhes(jsonObject.getInt("detalhes"));
+                documentoDetalhes.setDetalhes(jsonObject.getInt("detalhes"));
                 documentoArrayList.add(documento);
+                documentoDetalhesArrayList.add(documentoDetalhes);
 
             }
             for (int i = 0; i < documentoArrayList.size(); i++) {
                 documento.add(documentoArrayList.get(i).getTipo());
+
+                documentoDetalhes.add(String.valueOf(documentoArrayList.get(i).getDetalhes()));
+
+ //               if (documentoDetalhesArrayList.get(i).getDetalhes() == 1){
+
+               //     System.out.println(documentoArrayList.get(i).getTipo() + ", valor detalhes: "+documentoDetalhesArrayList.get(i).getDetalhes());
+
+ //                   detalhes = true;
+ //               }
             }
             for (int i = 0; i < documento.size(); i++) {
                 checkBox = new CheckBox(this);
                 checkBox.setId(i);
                 checkBox.setText(documento.get(i));
-                checkBox.setOnClickListener(getOnClickDoSomething(checkBox));
+
+                //checkBox.setOnClickListener(getOnClickDoSomething(checkBox));
                 linearLayout.addView(checkBox);
+
+                checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    if (isChecked && documentoDetalhesArrayList.get(buttonView.getId()).getDetalhes()==1){
+
+                        System.out.println("Abrir caixa de texto");
+
+                        int valor = buttonView.getId();
+
+                        if(valor==0){
+                            declaracaoVinculo = "1";
+                            Toast.makeText(TelaSolicitarDocumentos.this, "Campo " + buttonView.getText() + " selecionado.", Toast.LENGTH_LONG).show();
+                        }else if (valor==1){
+                            comprovanteMatricula = "1";
+                            Toast.makeText(TelaSolicitarDocumentos.this, "Campo " + buttonView.getText() + " selecionado.", Toast.LENGTH_LONG).show();
+                        }
+                        else if (valor==2){
+                            historico = "1";
+                            Toast.makeText(TelaSolicitarDocumentos.this, "Campo " + buttonView.getText() + " selecionado.", Toast.LENGTH_LONG).show();
+                        }
+                        else if (valor==3){
+                            programaDisciplina = "1";
+                            Toast.makeText(TelaSolicitarDocumentos.this, "Campo " + buttonView.getText() + " selecionado.", Toast.LENGTH_LONG).show();
+                        }
+                        else if (valor==4){
+                            outros = "1";
+                            Toast.makeText(TelaSolicitarDocumentos.this, "Campo " + buttonView.getText() + " selecionado.", Toast.LENGTH_LONG).show();
+                        }
+
+                       // System.out.println("Valor do documento: " + buttonView.getId());
+
+                    }else{
+                        declaracaoVinculo = "";
+                        comprovanteMatricula = "";
+                        historico = "";
+                        programaDisciplina = "";
+                        outros = "";
+                    }
+                });
+
             }
 
         } catch (JSONException e) {
@@ -186,14 +251,29 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //  Log.d("ON_CLICK", "Checkbox ID: "+ button.getId() + " Text: "+button.getText().toString());
+
                 int valor = button.getId();
-                System.out.println("Valor do documento: " + ++valor);
+
+                if(valor==0){
+                    declaracaoVinculo = "1";
+                }else if (valor==1){
+                    comprovanteMatricula = "1";
+                }
+                else if (valor==2){
+                    historico = "1";
+                }
+                else if (valor==3){
+                    programaDisciplina = "1";
+                }
+                else if (valor==4){
+                    outros = "1";
+                }
+
+           //     System.out.println("Valor do documento: " + ++valor);
             }
         };
     }
-
 
     public void spinnerPerfilJSON(String response) {
 

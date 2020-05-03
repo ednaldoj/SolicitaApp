@@ -31,7 +31,7 @@ public interface ApiInterface {
     @GET("api/cursos")
     Call<String> getCursoJSONString();
 
-    @GET("api/unidade")
+    @GET("api/unidades")
     Call<String> getUnidadeJSONString();
 
     @GET("api/requisicaos/preparaNovaRequisicao")
@@ -39,7 +39,8 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/requisicaos/novaRequisicao")
-    Call<SolicitacaoResponse> postSolicitacao(@Field("default") int defaultt, @Header("Authorization") String token);
+    Call<SolicitacaoResponse> postSolicitacao( @Field("default") int defaultt, @Field("declaracaoVinculo") String declaracaoVinculo, @Field("comprovanteMatricula") String comprovanteMatricula, @Field("historico") String historico, @Field("programaDisciplina") String programaDisciplina, @Field("outros") String outros, @Field("requisicaoPrograma") String requisicaoPrograma, @Field("requisicaoOutros") String requisicaoOutros, @Header("Authorization") String token);
+   // Call<SolicitacaoResponse> postSolicitacao( @Field("default") int defaultt, @Field("declaracaoVinculo") String declaracaoVinculo, @Header("Authorization") String token);
 
     @GET("api/documentos/")
     Call<String> getDocumentoJSONString();
