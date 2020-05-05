@@ -1,10 +1,19 @@
 package com.solicita.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Perfil {
 
     private int id;
-    private String curso;
-    private String situacao;
+
+    @Expose
+    @SerializedName("default") String curso;
+    //private String curso;
+
+    @Expose
+    @SerializedName("situacao") String situacao;
+    //private String situacao;
     private int aluno_id;
     private int unidade_id;
     private int curso_id;

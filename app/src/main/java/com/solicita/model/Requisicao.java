@@ -1,74 +1,28 @@
 package com.solicita.model;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Exclude;
-import com.solicita.config.ConfiguracaoFirebase;
-
-import java.util.ArrayList;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Requisicao {
 
-    private String idRequisicao;
-    private String vinculo;
-    private String curso;
-    private String dataRequisicao;
-    private String status;
-    private ArrayList<String> documentosSolicitados;
+    @Expose
+    @SerializedName("data_pedido") String data_pedido;
+    @Expose
+    @SerializedName("hora_pedido") String hora_pedido;
 
-    public Requisicao() {
-
+    public String getData_pedido() {
+        return data_pedido;
     }
 
-    @Exclude
-    public String getIdRequisicao() {
-        return idRequisicao;
+    public void setData_pedido(String data_pedido) {
+        this.data_pedido = data_pedido;
     }
 
-    public void setIdRequisicao(String idRequisicao) {
-        this.idRequisicao = idRequisicao;
+    public String getHora_pedido() {
+        return hora_pedido;
     }
 
-    public String getVinculo() {
-        return vinculo;
-    }
-
-    public void setVinculo(String vinculo) {
-        this.vinculo = vinculo;
-    }
-    public String getCurso() {
-        return curso;
-    }
-
-    public void setCurso(String curso) {
-        this.curso = curso;
-    }
-
-    public String getDataRequisicao() {
-        return dataRequisicao;
-    }
-
-    public void setDataRequisicao(String dataRequisicao) {
-        this.dataRequisicao = dataRequisicao;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-//    public CharSequence getDocumentosSolicitados() {
-  //      return (CharSequence) documentosSolicitados;
-    //}
-
-
-    public ArrayList<String> getDocumentosSolicitados() {
-        return documentosSolicitados;
-    }
-
-    public void setDocumentosSolicitados(ArrayList<String> documentosSolicitados) {
-        this.documentosSolicitados = documentosSolicitados;
+    public void setHora_pedido(String hora_pedido) {
+        this.hora_pedido = hora_pedido;
     }
 }

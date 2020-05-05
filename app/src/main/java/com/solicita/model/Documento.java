@@ -2,8 +2,8 @@ package com.solicita.model;
 
 public class Documento {
 
-    private int id, detalhes;
-    private String tipo, anotacoes;
+    private int id;
+    private String tipo, anotacoes, detalhes;
     private boolean selecionado;
 
     public String getAnotacoes() {
@@ -30,11 +30,11 @@ public class Documento {
         this.tipo = tipo;
     }
 
-    public int getDetalhes() {
+    public String getDetalhes() {
         return detalhes;
     }
 
-    public void setDetalhes(int detalhes) {
+    public void setDetalhes(String detalhes) {
         this.detalhes = detalhes;
     }
 

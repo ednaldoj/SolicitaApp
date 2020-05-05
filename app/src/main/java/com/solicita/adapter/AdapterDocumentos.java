@@ -38,10 +38,10 @@ public class AdapterDocumentos extends RecyclerView.Adapter<AdapterDocumentos.My
         Requisicao requisicao = requisicoes.get(position);
 
 //        holder.vinculo.setText(requisicao.getVinculo());
-        holder.curso.setText(requisicao.getCurso());
-        holder.dataRequisicao.setText(requisicao.getDataRequisicao());
-        holder.status.setText(requisicao.getStatus());
-        holder.documentosSolicitados.setText(String.valueOf(requisicao.getDocumentosSolicitados()));
+ //       holder.curso.setText(requisicao.getCurso());
+   //     holder.dataRequisicao.setText(requisicao.getDataRequisicao());
+     //   holder.status.setText(requisicao.getStatus());
+       // holder.documentosSolicitados.setText(String.valueOf(requisicao.getDocumentosSolicitados()));
 
     }
 

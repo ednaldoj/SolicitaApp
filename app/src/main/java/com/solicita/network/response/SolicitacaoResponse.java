@@ -2,9 +2,20 @@ package com.solicita.network.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.solicita.model.DocumentosSolicitados;
+import com.solicita.model.Perfil;
+import com.solicita.model.Requisicao;
 import com.solicita.model.User;
 
 public class SolicitacaoResponse extends BaseResponse {
+
+    @Expose
+    @SerializedName("perfil")
+    Perfil perfil;
+
+    @Expose
+    @SerializedName("requisicao")
+    Requisicao requisicao;
 
     @Expose
     @SerializedName("id")
@@ -82,5 +93,21 @@ public class SolicitacaoResponse extends BaseResponse {
 
     public void setCreated_at(int created_at) {
         this.created_at = created_at;
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
+    }
+
+    public Requisicao getRequisicao() {
+        return requisicao;
+    }
+
+    public void setRequisicao(Requisicao requisicao) {
+        this.requisicao = requisicao;
     }
 }

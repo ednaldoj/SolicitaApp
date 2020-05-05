@@ -2,10 +2,14 @@ package com.solicita.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +47,6 @@ import static android.R.layout.simple_spinner_item;
 
 public class TelaSolicitarDocumentos extends AppCompatActivity {
 
-    public EditText editCampoProgDisciplina, editCampoOutros;
     private Spinner spinnerPerfil;
 
     private Button buttonSolicitar;
@@ -68,8 +72,9 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
 
     private int idPerfil;
 
-    boolean detalhes = false;
+    Context context;
 
+    String cursoP, situacaoP, dataP, horaP;
 
     String declaracaoVinculo = "", comprovanteMatricula = "", historico = "", programaDisciplina = "", outros = "";
     String requisicaoPrograma = "", requisicaoOutros = "";
@@ -82,6 +87,7 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
 
         sharedPrefManager = new SharedPrefManager(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        context = this;
 
         inicializarComponentes();
 
@@ -93,6 +99,7 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finalizarSolicitacao();
+
             }
         });
     }
@@ -106,12 +113,25 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
             @Override
             public void onResponse(Call<SolicitacaoResponse> call, Response<SolicitacaoResponse> response) {
                 if(response.code()==200){
-                    //Toast.makeText(TelaSolicitarDocumentos.this, "Solicitação realizada com sucesso!", Toast.LENGTH_LONG).show();
-                }else{
 
+                    Perfil perfil = response.body().getPerfil();
+                    Requisicao requisicao = response.body().getRequisicao();
+                    cursoP = perfil.getCurso();
+//                    System.out.println("Curso recuperado: " + cursoP);
+                    situacaoP = perfil.getSituacao();
+                    dataP = requisicao.getData_pedido();
+                    horaP = requisicao.getHora_pedido();
+
+                    Intent abrirProtocolo = new Intent(getApplicationContext(), TelaConfirmacaoRequisicao.class);
+                    abrirProtocolo.putExtra("curso", cursoP);
+                    abrirProtocolo.putExtra("situacao", situacaoP);
+                    abrirProtocolo.putExtra("data", dataP);
+                    abrirProtocolo.putExtra("hora", horaP);
+                    startActivity(abrirProtocolo);
+
+                }else{
                 }
             }
-
             @Override
             public void onFailure(Call<SolicitacaoResponse> call, Throwable t) {
 
@@ -176,38 +196,85 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                 documento.setTipo(jsonObject.getString("tipo"));
-               // documento.setDetalhes(jsonObject.getInt("detalhes"));
-                documentoDetalhes.setDetalhes(jsonObject.getInt("detalhes"));
+                // documento.setDetalhes(jsonObject.getInt("detalhes"));
+                documentoDetalhes.setDetalhes(jsonObject.getString("detalhes"));
                 documentoArrayList.add(documento);
                 documentoDetalhesArrayList.add(documentoDetalhes);
-
             }
             for (int i = 0; i < documentoArrayList.size(); i++) {
                 documento.add(documentoArrayList.get(i).getTipo());
-
-                documentoDetalhes.add(String.valueOf(documentoArrayList.get(i).getDetalhes()));
-
- //               if (documentoDetalhesArrayList.get(i).getDetalhes() == 1){
-
-               //     System.out.println(documentoArrayList.get(i).getTipo() + ", valor detalhes: "+documentoDetalhesArrayList.get(i).getDetalhes());
-
- //                   detalhes = true;
- //               }
+               // System.out.println(documento);
+            }
+            for (int i = 0; i < documentoDetalhesArrayList.size(); i++) {
+                documentoDetalhes.add(documentoDetalhesArrayList.get(i).getDetalhes());
+               // System.out.println(documentoDetalhes);
             }
             for (int i = 0; i < documento.size(); i++) {
                 checkBox = new CheckBox(this);
                 checkBox.setId(i);
                 checkBox.setText(documento.get(i));
 
+              //  System.out.println(documentoArrayList.get(i).getTipo() +" " +documentoDetalhesArrayList.get(i).getDetalhes());
                 //checkBox.setOnClickListener(getOnClickDoSomething(checkBox));
+
                 linearLayout.addView(checkBox);
 
+                EditText editTextPrograma = new EditText(context);
+                EditText editTextOutros = new EditText(context);
+
+                if(documentoDetalhesArrayList.get(i).getDetalhes().equals("1")){
+                    if(i==3){
+                        editTextPrograma.setTextSize(18);
+                        editTextPrograma.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                        editTextPrograma.setVisibility(View.GONE);
+                        linearLayout.addView(editTextPrograma);
+
+                    }else if (i==4){
+                        editTextOutros.setTextSize(18);
+                        editTextOutros.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                        editTextOutros.setVisibility(View.GONE);
+                        linearLayout.addView(editTextOutros);
+                    }
+                }
                 checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    if (isChecked && documentoDetalhesArrayList.get(buttonView.getId()).getDetalhes()==1){
 
-                        System.out.println("Abrir caixa de texto");
+                    int valor = buttonView.getId();
+                    if(valor==0){
+                        declaracaoVinculo="1";
+                    }
+                    else if(valor==1){
+                        comprovanteMatricula="1";
+                    }
+                    else if(valor==2){
+                        historico="1";
+                    }
+                    else if(valor==3){
+                        programaDisciplina="1";
+                    }
+                    else if(valor==4){
+                        outros="1";
+                    }else{
+                        declaracaoVinculo = "";
+                        comprovanteMatricula = "";
+                        historico = "";
+                        programaDisciplina = "";
+                        outros = "";
+                    }
+                    if (isChecked && documentoDetalhesArrayList.get(3).getDetalhes().equals("1")){
+                        editTextPrograma.setVisibility(View.VISIBLE);
 
-                        int valor = buttonView.getId();
+                       // requisicaoPrograma = "Ingles";
+                    }else{
+                        editTextPrograma.setVisibility(View.GONE);
+                        requisicaoPrograma="";
+                    }if (isChecked && documentoDetalhesArrayList.get(4).getDetalhes().equals("1")){
+                        editTextOutros.setVisibility(View.VISIBLE);
+                    }else {
+                        editTextOutros.setVisibility(View.GONE);
+                        requisicaoOutros="";
+                    }
+
+/*                        int valor = buttonView.getId();
 
                         if(valor==0){
                             declaracaoVinculo = "1";
@@ -232,21 +299,19 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                        // System.out.println("Valor do documento: " + buttonView.getId());
 
                     }else{
+
                         declaracaoVinculo = "";
                         comprovanteMatricula = "";
                         historico = "";
                         programaDisciplina = "";
                         outros = "";
-                    }
+                    }*/
                 });
-
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
     View.OnClickListener getOnClickDoSomething(final Button button) {
         return new View.OnClickListener() {
             @Override
