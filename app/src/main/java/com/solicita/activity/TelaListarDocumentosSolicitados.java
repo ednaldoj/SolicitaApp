@@ -44,9 +44,6 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
 
         inicializarComponentes();
 
-        //Configurações iniciais
-        documentosUsuarioRef = ConfiguracaoFirebase.getFirebaseDatabase().child("minhas_requisicoes").child(ConfiguracaoFirebase.getIdUsuario());
-        idUsuarioLogado= UsuarioFirebase.getIdUsuario();
 
         //Configurar RecyclerView
         recyclerRequisicoes.setLayoutManager(new LinearLayoutManager(this));
@@ -54,34 +51,12 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
         adapterDocumentos=new AdapterDocumentos(requisicoes, this);
         recyclerRequisicoes.setAdapter(adapterDocumentos);
 
-        recuperarRequisicoes();
-
     }
     public void irTelaHomeAluno(View view){
         Intent irTelaHomeAluno = new Intent(getApplicationContext(), TelaHomeAluno.class);
         startActivity(irTelaHomeAluno);
     }
 
-    private void recuperarRequisicoes(){
-
-        documentosUsuarioRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                requisicoes.clear();
-                for(DataSnapshot ds : dataSnapshot.getChildren()){
-                    requisicoes.add(ds.getValue(Requisicao.class));
-                }
-
-                Collections.reverse(requisicoes);
-                adapterDocumentos.notifyDataSetChanged();
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
     public void inicializarComponentes(){
         recyclerRequisicoes=findViewById(R.id.recyclerRequisicoes);
 

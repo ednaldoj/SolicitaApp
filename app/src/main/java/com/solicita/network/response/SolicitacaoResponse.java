@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import com.solicita.model.DocumentosSolicitados;
 import com.solicita.model.Perfil;
 import com.solicita.model.Requisicao;
-import com.solicita.model.User;
 
 public class SolicitacaoResponse extends BaseResponse {
 
@@ -110,4 +109,5 @@ public class SolicitacaoResponse extends BaseResponse {
     public void setRequisicao(Requisicao requisicao) {
         this.requisicao = requisicao;
     }
+
 }

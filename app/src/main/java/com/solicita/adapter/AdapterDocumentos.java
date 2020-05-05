@@ -35,8 +35,6 @@ public class AdapterDocumentos extends RecyclerView.Adapter<AdapterDocumentos.My
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        Requisicao requisicao = requisicoes.get(position);
-
 //        holder.vinculo.setText(requisicao.getVinculo());
  //       holder.curso.setText(requisicao.getCurso());
    //     holder.dataRequisicao.setText(requisicao.getDataRequisicao());

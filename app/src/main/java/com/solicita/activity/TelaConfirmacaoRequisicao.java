@@ -45,6 +45,7 @@ public class TelaConfirmacaoRequisicao extends AppCompatActivity {
 
         String data = dados.getString("data");
         String hora = dados.getString("hora");
+        String documentos = dados.getString("documentos");
        // ArrayList documentos = dados.getStringArrayList("documentos");
 
         textProtNome.setText(sharedPrefManager.getSPNama());
@@ -55,6 +56,8 @@ public class TelaConfirmacaoRequisicao extends AppCompatActivity {
 
         textProtCurso.setText(curso);
         textProtVinculo.setText(situacao);
+
+       // textProtDocumentos.setText(documentos);
 
 
     }

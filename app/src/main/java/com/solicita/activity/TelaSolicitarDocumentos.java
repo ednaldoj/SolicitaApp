@@ -26,6 +26,7 @@ import com.solicita.R;
 import com.solicita.helper.DateCustom;
 import com.solicita.helper.SharedPrefManager;
 import com.solicita.model.Documento;
+import com.solicita.model.DocumentosSolicitados;
 import com.solicita.model.Perfil;
 import com.solicita.model.Requisicao;
 import com.solicita.model.User;
@@ -38,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,6 +63,9 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
     ArrayList<String> documento = new ArrayList<>();
     ArrayList<String> documentoDetalhes = new ArrayList<>();
 
+    ArrayList<DocumentosSolicitados> solicitadosArrayList;
+    ArrayList<String> solicitados = new ArrayList<>();
+
     LinearLayout linearLayout;
     CheckBox checkBox;
 
@@ -74,7 +79,7 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
 
     Context context;
 
-    String cursoP, situacaoP, dataP, horaP;
+    String cursoP, situacaoP, dataP, horaP, documentosP;
 
     String declaracaoVinculo = "", comprovanteMatricula = "", historico = "", programaDisciplina = "", outros = "";
     String requisicaoPrograma = "", requisicaoOutros = "";
@@ -109,15 +114,33 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
         int defaultt=idPerfil;
 
         Call<SolicitacaoResponse> solicitacaoResponseCall = apiInterface.postSolicitacao(defaultt, declaracaoVinculo, comprovanteMatricula, historico, programaDisciplina, outros, requisicaoPrograma, requisicaoOutros, sharedPrefManager.getSPToken());
+
+        System.out.println("Cheguei aqui2");
+
         solicitacaoResponseCall.enqueue(new Callback<SolicitacaoResponse>() {
+
             @Override
             public void onResponse(Call<SolicitacaoResponse> call, Response<SolicitacaoResponse> response) {
+
+                System.out.println("Cheguei aqui3");
+
+
                 if(response.code()==200){
+
+                    //
+                    /*    if(response.body()!=null){
+                            SolicitacaoResponse jsonResponse = response.body();
+                            buscarDocumentos(jsonResponse);
+                            buscarDocumentos(jsonResponse);
+
+                        }else{
+                            Log.i("onEmptyResponse", "Empty");
+                        }*/
 
                     Perfil perfil = response.body().getPerfil();
                     Requisicao requisicao = response.body().getRequisicao();
+
                     cursoP = perfil.getCurso();
-//                    System.out.println("Curso recuperado: " + cursoP);
                     situacaoP = perfil.getSituacao();
                     dataP = requisicao.getData_pedido();
                     horaP = requisicao.getHora_pedido();
@@ -127,9 +150,13 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                     abrirProtocolo.putExtra("situacao", situacaoP);
                     abrirProtocolo.putExtra("data", dataP);
                     abrirProtocolo.putExtra("hora", horaP);
+
                     startActivity(abrirProtocolo);
 
                 }else{
+
+                    System.out.println("Erro else");
+
                 }
             }
             @Override
@@ -161,7 +188,6 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                                 Log.i("onEmptyResponse", "Empty");
                             }
                         }
-
                         @Override
                         public void onFailure(Call<String> call, Throwable t) {
 
@@ -169,17 +195,17 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                     });
 
                 } else {
-                    System.out.println("Failure code=!200");
+                    System.out.println("Falha autenticacao");
                 }
-
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                System.out.println("Erro");
+                System.out.println("Falha getUserPerfil");
             }
 
         });
+
     }
 
     public void checkboxDocumentos(String response) {
@@ -227,6 +253,7 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                         editTextPrograma.setTextSize(18);
                         editTextPrograma.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                         editTextPrograma.setVisibility(View.GONE);
+                        editTextPrograma.setText("");
                         linearLayout.addView(editTextPrograma);
 
                     }else if (i==4){
@@ -250,6 +277,7 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                     }
                     else if(valor==3){
                         programaDisciplina="1";
+                       // requisicaoPrograma=editTextPrograma.getText().toString();
                     }
                     else if(valor==4){
                         outros="1";
@@ -262,7 +290,9 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                     }
                     if (isChecked && documentoDetalhesArrayList.get(3).getDetalhes().equals("1")){
                         editTextPrograma.setVisibility(View.VISIBLE);
-
+                        editTextPrograma.setText("calculo");
+                        requisicaoPrograma=editTextPrograma.getText().toString();
+                        System.out.println("Programa de disciplina: "+ requisicaoPrograma);
                        // requisicaoPrograma = "Ingles";
                     }else{
                         editTextPrograma.setVisibility(View.GONE);
@@ -312,6 +342,7 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     View.OnClickListener getOnClickDoSomething(final Button button) {
         return new View.OnClickListener() {
             @Override
@@ -338,6 +369,27 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
            //     System.out.println("Valor do documento: " + ++valor);
             }
         };
+    }
+
+    public void buscarDocumentos(String response){
+        try {
+            JSONObject object = new JSONObject(response);
+            solicitadosArrayList = new ArrayList<>();
+            JSONArray jsonArray = object.getJSONArray("solicitados");
+
+            for (int i=0; i< jsonArray.length(); i++){
+                DocumentosSolicitados documentosSolicitados = new DocumentosSolicitados();
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                documentosSolicitados.setTipo(jsonObject.getString("tipo"));
+
+                solicitadosArrayList.add(documentosSolicitados);
+
+                System.out.println(solicitadosArrayList);
+            }
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 
     public void spinnerPerfilJSON(String response) {
