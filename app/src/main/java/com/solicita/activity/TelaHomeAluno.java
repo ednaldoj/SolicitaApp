@@ -25,7 +25,7 @@ public class TelaHomeAluno extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(this);
         inicializarComponentes();
 
-        textNomeUsuario.setText(sharedPrefManager.getSPNama());
+        textNomeUsuario.setText(sharedPrefManager.getSPNome());
 
         buttonLogout.setOnClickListener(v -> logoutApp());
     }

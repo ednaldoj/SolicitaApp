@@ -1,25 +1,14 @@
 package com.solicita.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.solicita.R;
-import com.solicita.config.ConfiguracaoFirebase;
-import com.solicita.config.UsuarioFirebase;
 import com.solicita.helper.SharedPrefManager;
-import com.solicita.model.User;
-
-import java.util.ArrayList;
 
 public class TelaConfirmacaoRequisicao extends AppCompatActivity {
 
@@ -48,7 +37,7 @@ public class TelaConfirmacaoRequisicao extends AppCompatActivity {
         String documentos = dados.getString("documentos");
        // ArrayList documentos = dados.getStringArrayList("documentos");
 
-        textProtNome.setText(sharedPrefManager.getSPNama());
+        textProtNome.setText(sharedPrefManager.getSPNome());
 
         //Configura valores recuperados
         textProtData.setText(data + " " + hora);

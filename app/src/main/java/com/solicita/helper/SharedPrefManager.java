@@ -8,11 +8,11 @@ public class SharedPrefManager {
 
     public static final String SP_LOGIN_APP = "spLoginApp";
 
-    public static final String SP_NOME = "spNama";
+    public static final String SP_NOME = "spNome";
     public static final String SP_EMAIL = "spEmail";
     public static final String SP_TOKEN = "spToken";
 
-    public static final String SP_STATUS_LOGIN = "spSudahLogin";
+    public static final String SP_STATUS_LOGIN = "spStatusLogin";
 
     SharedPreferences sp;
     SharedPreferences.Editor spEditor;
@@ -38,7 +38,7 @@ public class SharedPrefManager {
         spEditor.commit();
     }
 
-    public String getSPNama(){
+    public String getSPNome(){
         return sp.getString(SP_NOME, "");
     }
 
@@ -50,7 +50,7 @@ public class SharedPrefManager {
         return sp.getString(SP_TOKEN, "");
     }
 
-    public Boolean getSPSudahLogin(){
+    public Boolean getSPStatusLogin(){
         return sp.getBoolean(SP_STATUS_LOGIN, false);
     }
 }
