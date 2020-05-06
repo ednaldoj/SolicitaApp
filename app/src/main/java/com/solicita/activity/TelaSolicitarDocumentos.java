@@ -6,8 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -115,27 +119,12 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
 
         Call<SolicitacaoResponse> solicitacaoResponseCall = apiInterface.postSolicitacao(defaultt, declaracaoVinculo, comprovanteMatricula, historico, programaDisciplina, outros, requisicaoPrograma, requisicaoOutros, sharedPrefManager.getSPToken());
 
-        System.out.println("Cheguei aqui2");
-
         solicitacaoResponseCall.enqueue(new Callback<SolicitacaoResponse>() {
 
             @Override
             public void onResponse(Call<SolicitacaoResponse> call, Response<SolicitacaoResponse> response) {
 
-                System.out.println("Cheguei aqui3");
-
-
                 if(response.code()==200){
-
-                    //
-                    /*    if(response.body()!=null){
-                            SolicitacaoResponse jsonResponse = response.body();
-                            buscarDocumentos(jsonResponse);
-                            buscarDocumentos(jsonResponse);
-
-                        }else{
-                            Log.i("onEmptyResponse", "Empty");
-                        }*/
 
                     Perfil perfil = response.body().getPerfil();
                     Requisicao requisicao = response.body().getRequisicao();
@@ -241,7 +230,8 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                 checkBox.setText(documento.get(i));
 
               //  System.out.println(documentoArrayList.get(i).getTipo() +" " +documentoDetalhesArrayList.get(i).getDetalhes());
-                //checkBox.setOnClickListener(getOnClickDoSomething(checkBox));
+                //
+                // checkBox.setOnClickListener(getOnClickDoSomething(checkBox));
 
                 linearLayout.addView(checkBox);
 
@@ -277,7 +267,6 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                     }
                     else if(valor==3){
                         programaDisciplina="1";
-                       // requisicaoPrograma=editTextPrograma.getText().toString();
                     }
                     else if(valor==4){
                         outros="1";
@@ -290,52 +279,55 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                     }
                     if (isChecked && documentoDetalhesArrayList.get(3).getDetalhes().equals("1")){
                         editTextPrograma.setVisibility(View.VISIBLE);
-                        editTextPrograma.setText("calculo");
-                        requisicaoPrograma=editTextPrograma.getText().toString();
-                        System.out.println("Programa de disciplina: "+ requisicaoPrograma);
-                       // requisicaoPrograma = "Ingles";
+
+                        editTextPrograma.addTextChangedListener(new TextWatcher() {
+                           @Override
+                           public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                           }
+
+                           @Override
+                           public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                           }
+
+                           @Override
+                           public void afterTextChanged(Editable s) {
+                                requisicaoPrograma=editTextPrograma.getText().toString();
+                                System.out.println("Valor da string: "+requisicaoPrograma);
+                           }
+                       });
+
                     }else{
                         editTextPrograma.setVisibility(View.GONE);
+                        programaDisciplina="";
                         requisicaoPrograma="";
                     }if (isChecked && documentoDetalhesArrayList.get(4).getDetalhes().equals("1")){
                         editTextOutros.setVisibility(View.VISIBLE);
+
+                        editTextOutros.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                requisicaoOutros=editTextOutros.getText().toString();
+                                System.out.println("Valor campo outros: "+ requisicaoOutros);
+                            }
+                        });
+
                     }else {
                         editTextOutros.setVisibility(View.GONE);
+                        outros="";
                         requisicaoOutros="";
                     }
-
-/*                        int valor = buttonView.getId();
-
-                        if(valor==0){
-                            declaracaoVinculo = "1";
-                            Toast.makeText(TelaSolicitarDocumentos.this, "Campo " + buttonView.getText() + " selecionado.", Toast.LENGTH_LONG).show();
-                        }else if (valor==1){
-                            comprovanteMatricula = "1";
-                            Toast.makeText(TelaSolicitarDocumentos.this, "Campo " + buttonView.getText() + " selecionado.", Toast.LENGTH_LONG).show();
-                        }
-                        else if (valor==2){
-                            historico = "1";
-                            Toast.makeText(TelaSolicitarDocumentos.this, "Campo " + buttonView.getText() + " selecionado.", Toast.LENGTH_LONG).show();
-                        }
-                        else if (valor==3){
-                            programaDisciplina = "1";
-                            Toast.makeText(TelaSolicitarDocumentos.this, "Campo " + buttonView.getText() + " selecionado.", Toast.LENGTH_LONG).show();
-                        }
-                        else if (valor==4){
-                            outros = "1";
-                            Toast.makeText(TelaSolicitarDocumentos.this, "Campo " + buttonView.getText() + " selecionado.", Toast.LENGTH_LONG).show();
-                        }
-
-                       // System.out.println("Valor do documento: " + buttonView.getId());
-
-                    }else{
-
-                        declaracaoVinculo = "";
-                        comprovanteMatricula = "";
-                        historico = "";
-                        programaDisciplina = "";
-                        outros = "";
-                    }*/
                 });
             }
         } catch (JSONException e) {
@@ -527,24 +519,3 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
