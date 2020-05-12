@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.solicita.R;
 import com.solicita.helper.SharedPrefManager;
 
+import java.util.ArrayList;
+
 public class TelaConfirmacaoRequisicao extends AppCompatActivity {
 
 
@@ -34,20 +36,20 @@ public class TelaConfirmacaoRequisicao extends AppCompatActivity {
 
         String data = dados.getString("data");
         String hora = dados.getString("hora");
-        String documentos = dados.getString("documentos");
-       // ArrayList documentos = dados.getStringArrayList("documentos");
+        ArrayList solicitados = (ArrayList<String>) dados.getSerializable("solicitados");
+
+        String convert = solicitados.toString().replace("[", " ").replace("]", "").replace(",", "\n\n");
+
+        for(int i=0; i<solicitados.size(); i++){
+            System.out.println(solicitados.get(i));
+        }
+        //Configura valores recuperados
 
         textProtNome.setText(sharedPrefManager.getSPNome());
-
-        //Configura valores recuperados
         textProtData.setText(data + " " + hora);
-      //  textProtDocumentos.setText(String.valueOf(documentos));
-
+        textProtDocumentos.setText(convert);
         textProtCurso.setText(curso);
         textProtVinculo.setText(situacao);
-
-       // textProtDocumentos.setText(documentos);
-
 
     }
     public void inicializarComponentes(){
@@ -56,7 +58,7 @@ public class TelaConfirmacaoRequisicao extends AppCompatActivity {
         textProtCurso = findViewById(R.id.textProtCurso);
         textProtVinculo = findViewById(R.id.textProtVinculo);
         textProtData = findViewById(R.id.textProtData);
-       // textProtDocumentos = findViewById(R.id.textProtDocumentos);
+        textProtDocumentos = findViewById(R.id.textProtDocumentos);
 
     }public void abrirHome(View view){
         Intent abrirHome = new Intent(getApplicationContext(), TelaHomeAluno.class);

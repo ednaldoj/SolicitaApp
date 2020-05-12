@@ -9,18 +9,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.solicita.R;
-import com.solicita.model.Requisicao;
+import com.solicita.model.Solicitacoes;
 
 import java.util.List;
 
+
 public class AdapterDocumentos extends RecyclerView.Adapter<AdapterDocumentos.MyViewHolder> {
 
-    private List<Requisicao> requisicoes;
+    private List<Solicitacoes> listaSolicitacoes;
     private Context context;
 
-    public AdapterDocumentos(List<Requisicao> requisicoes, Context context){
-        this.requisicoes = requisicoes;
-        this.context=context;
+
+    public AdapterDocumentos(List<Solicitacoes> lista, Context context) {
+        this.listaSolicitacoes = lista;
+        this.context = context;
 
     }
 
@@ -35,36 +37,33 @@ public class AdapterDocumentos extends RecyclerView.Adapter<AdapterDocumentos.My
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-//        holder.vinculo.setText(requisicao.getVinculo());
- //       holder.curso.setText(requisicao.getCurso());
-   //     holder.dataRequisicao.setText(requisicao.getDataRequisicao());
-     //   holder.status.setText(requisicao.getStatus());
-       // holder.documentosSolicitados.setText(String.valueOf(requisicao.getDocumentosSolicitados()));
+        Solicitacoes solicitacoes = listaSolicitacoes.get(position);
+
+        holder.textIdAdap.setText(solicitacoes.getId());
+        holder.textCursoAdap.setText(solicitacoes.getCurso());
+        holder.textDataAdap.setText(solicitacoes.getData_pedido());
+        holder.textStatusAdap.setText(solicitacoes.getStatus());
+        holder.textSolicitadosAdap.setText(solicitacoes.getDocumentosSolicitados());
 
     }
 
     @Override
     public int getItemCount() {
-        return requisicoes.size();
+        return listaSolicitacoes.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView vinculo, curso, dataRequisicao, status, documentosSolicitados;
+        TextView textIdAdap, textCursoAdap, textDataAdap, textStatusAdap, textSolicitadosAdap;
 
         public MyViewHolder(View itemView){
             super(itemView);
 
-//            vinculo=itemView.findViewById(R.id.textInfoVinculo);
-  //          System.out.println(vinculo);
-            curso=itemView.findViewById(R.id.textCursoAdap);
-            System.out.println(curso);
-            dataRequisicao=itemView.findViewById(R.id.textDataAdap);
-            System.out.println(dataRequisicao);
-            status=itemView.findViewById(R.id.textStatusAdap);
-            System.out.println(status);
-            documentosSolicitados=itemView.findViewById(R.id.textSolicitadosAdap);
-            System.out.println(documentosSolicitados);
+            textIdAdap=itemView.findViewById(R.id.textIdAdap);
+            textCursoAdap=itemView.findViewById(R.id.textCursoAdap);
+            textDataAdap =itemView.findViewById(R.id.textDataAdap);
+            textStatusAdap=itemView.findViewById(R.id.textStatusAdap);
+            textSolicitadosAdap=itemView.findViewById(R.id.textSolicitadosAdap);
         }
     }
 }

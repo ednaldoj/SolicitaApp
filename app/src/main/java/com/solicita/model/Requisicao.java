@@ -6,9 +6,19 @@ import com.google.gson.annotations.SerializedName;
 public class Requisicao {
 
     @Expose
+    @SerializedName("id") int id;
+    @Expose
     @SerializedName("data_pedido") String data_pedido;
     @Expose
     @SerializedName("hora_pedido") String hora_pedido;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getData_pedido() {
         return data_pedido;

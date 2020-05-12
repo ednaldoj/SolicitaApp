@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.solicita.R;
 import com.solicita.helper.SharedPrefManager;
 import com.solicita.model.Documento;
-import com.solicita.model.DocumentosSolicitados;
 import com.solicita.model.Perfil;
 import com.solicita.model.Requisicao;
 import com.solicita.network.ApiClient;
@@ -33,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -57,7 +57,6 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
     ArrayList<String> documento = new ArrayList<>();
     ArrayList<String> documentoDetalhes = new ArrayList<>();
 
-    ArrayList<DocumentosSolicitados> solicitadosArrayList;
     ArrayList<String> solicitados = new ArrayList<>();
 
     LinearLayout linearLayout;
@@ -67,16 +66,12 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
 
     TextView textNomeUsuario;
 
-    private int index;
-
-    private int idPerfil;
+    private int index, idPerfil;
 
     Context context;
 
     String cursoP, situacaoP, dataP, horaP;
-
-    String declaracaoVinculo = "", comprovanteMatricula = "", historico = "", programaDisciplina = "", outros = "";
-    String requisicaoPrograma = "", requisicaoOutros = "";
+    String declaracaoVinculo = "", comprovanteMatricula = "", historico = "", programaDisciplina = "", outros = "", requisicaoPrograma = "", requisicaoOutros = "";
 
 
     @Override
@@ -131,6 +126,9 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                     abrirProtocolo.putExtra("situacao", situacaoP);
                     abrirProtocolo.putExtra("data", dataP);
                     abrirProtocolo.putExtra("hora", horaP);
+
+                    abrirProtocolo.putExtra("solicitados", (Serializable) solicitados);
+                    System.out.println(solicitados);
 
                     startActivity(abrirProtocolo);
 
@@ -224,22 +222,30 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                     editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     editText.setVisibility(View.GONE);
                     linearLayout.addView(editText);
-
                 }
                 checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
                     int valor = buttonView.getId();
+
                     if(isChecked && valor==0){
                         declaracaoVinculo="1";
-                        System.out.println(buttonView.getText().toString());
+                        solicitados.add(buttonView.getText().toString());
+                        System.out.println(solicitados);
                     }
+
                     else if(isChecked && valor==1){
                         comprovanteMatricula="1";
+                        solicitados.add(buttonView.getText().toString());
+                        System.out.println(solicitados);
                     }
                     else if(isChecked && valor==2){
                         historico="1";
+                        solicitados.add(buttonView.getText().toString());
+                        System.out.println(solicitados);
                     }
                     else if(isChecked&&valor==3){
+                        solicitados.add(buttonView.getText().toString());
+                        System.out.println(solicitados);
                         programaDisciplina="1";
                         editText.setVisibility(View.VISIBLE);
                         editText.addTextChangedListener(new TextWatcher() {
@@ -261,6 +267,8 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                         });
                     }
                     else if(isChecked && valor==4){
+                        solicitados.add(buttonView.getText().toString());
+                        System.out.println(solicitados);
                         outros="1";
                         editText.setVisibility(View.VISIBLE);
                         editText.addTextChangedListener(new TextWatcher() {
@@ -280,23 +288,35 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                                 System.out.println("Valor campo outros: "+ requisicaoOutros);
                             }
                         });
-                    }else{
+                    }
+
+                    else{
                         if (!isChecked && valor==0){
                             declaracaoVinculo = "";
+                            solicitados.remove(buttonView.getText().toString());
+                            System.out.println(solicitados);
                         }
                         if (!isChecked && valor==1){
                             comprovanteMatricula = "";
+                            solicitados.remove(buttonView.getText().toString());
+                            System.out.println(solicitados);
                         }
                         if (!isChecked && valor==2){
                             historico = "";
+                            solicitados.remove(buttonView.getText().toString());
+                            System.out.println(solicitados);
                         }
                         if (!isChecked && valor==3) {
                             editText.setVisibility(View.GONE);
                             programaDisciplina = "";
+                            solicitados.remove(buttonView.getText().toString());
+                            System.out.println(solicitados);
                         }
                         if (!isChecked && valor==4){
                             editText.setVisibility(View.GONE);
                             outros = "";
+                            solicitados.remove(buttonView.getText().toString());
+                            System.out.println(solicitados);
 
                         }
                     }
@@ -304,26 +324,6 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
             }
 
         } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    public void buscarDocumentos(String response){
-        try {
-            JSONObject object = new JSONObject(response);
-            solicitadosArrayList = new ArrayList<>();
-            JSONArray jsonArray = object.getJSONArray("solicitados");
-
-            for (int i=0; i< jsonArray.length(); i++){
-                DocumentosSolicitados documentosSolicitados = new DocumentosSolicitados();
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                documentosSolicitados.setTipo(jsonObject.getString("tipo"));
-
-                solicitadosArrayList.add(documentosSolicitados);
-
-                System.out.println(solicitadosArrayList);
-            }
-
-        }catch (JSONException e){
             e.printStackTrace();
         }
     }

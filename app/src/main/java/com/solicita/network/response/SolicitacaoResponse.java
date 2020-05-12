@@ -2,7 +2,6 @@ package com.solicita.network.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.solicita.model.DocumentosSolicitados;
 import com.solicita.model.Perfil;
 import com.solicita.model.Requisicao;
 

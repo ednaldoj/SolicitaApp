@@ -3,16 +3,7 @@ package com.solicita.model;
 public class Documento {
 
     private int id;
-    private String tipo, anotacoes, detalhes;
-    private boolean selecionado;
-
-    public String getAnotacoes() {
-        return anotacoes;
-    }
-
-    public void setAnotacoes(String anotacoes) {
-        this.anotacoes = anotacoes;
-    }
+    private String tipo, detalhes;
 
     public int getId() {
         return id;
@@ -38,11 +29,4 @@ public class Documento {
         this.detalhes = detalhes;
     }
 
-    public boolean isSelecionado() {
-        return selecionado;
-    }
-
-    public void setSelecionado(boolean selecionado) {
-        this.selecionado = selecionado;
-    }
 }
