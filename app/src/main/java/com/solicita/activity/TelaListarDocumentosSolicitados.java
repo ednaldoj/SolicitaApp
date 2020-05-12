@@ -211,10 +211,9 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
                                 if (listarSolicitadosArrayList.get(j).getDocumentoId().equals(listarDocumentosArrayList.get(k).getIdDocumento())) {
                                     if (listarRequisicoesArrayList.get(i).getPerfilId().equals(listarPerfisArrayList.get(l).getIdPerfil())) {
 
-                                        System.out.println("\n" + listarRequisicoesArrayList.get(i).getId() + " " + listarRequisicoesArrayList.get(i).getData_pedido() + " " +
-                                                listarRequisicoesArrayList.get(i).getHora_pedido() + " " + listarSolicitadosArrayList.get(j).getDocumentoId() + " " +
-                                                listarSolicitadosArrayList.get(j).getStatus() + " " + listarRequisicoesArrayList.get(i).getPerfilId() + " " +
-                                                listarDocumentosArrayList.get(k).getDocumento() + " " + listarPerfisArrayList.get(l).getCurso());
+                                        System.out.println("\n" + listarRequisicoesArrayList.get(i).getId() + " " + listarPerfisArrayList.get(l).getCurso() + " " +
+                                                listarRequisicoesArrayList.get(i).getData_pedido() + " " + listarRequisicoesArrayList.get(i).getHora_pedido() + " " +
+                                                listarDocumentosArrayList.get(k).getDocumento() + " " + listarSolicitadosArrayList.get(j).getStatus());
 
                                     }
                                 }
@@ -223,23 +222,6 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
                     }
                 }
             }
-
-            for (int k = 0; k < jsonArraySolicitados.length(); k++) {
-                for (int l = 0; l < jsonArrayDocumentos.length(); l++) {
-                    if (listarSolicitadosArrayList.get(k).getDocumentoId().equals(listarDocumentosArrayList.get(l).getIdDocumento())) {
-                        //      System.out.println("Docs: "+ listarDocumentosArrayList.get(l).getDocumento());
-                    }
-                }
-            }// System.out.println("Documentos solicitados: "+ listarDocumentosArrayList.get(l).getDocumento());
-            for (int m = 0; m < jsonArrayRequisicoes.length(); m++) {
-                for (int n = 0; n < jsonArrayPerfis.length(); n++) {
-                    if (listarRequisicoesArrayList.get(m).getPerfilId().equals(listarPerfisArrayList.get(n).getIdPerfil())) {
-                        // System.out.println("Curso do perfil: " + listarPerfisArrayList.get(n).getCurso());
-                    }
-                }
-            }
-
-
 
 /*            for (int i=0; i< jsonArrayRequisicoes.length();i++){
 
