@@ -44,8 +44,6 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
     ArrayList<Solicitacoes> listarPerfisArrayList;
     ArrayList<Solicitacoes> listarDocumentosArrayList;
 
-    ArrayList<Solicitacoes> listarSolDocsArrayList;
-
     ArrayList<String> listarId = new ArrayList<>();
     ArrayList<String> listarData = new ArrayList<>();
     ArrayList<String> listarHora = new ArrayList<>();
@@ -72,25 +70,17 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
         inicializarComponentes();
-        buscarJSON();
 
-        //Listagem de solicitações
-        this.criarSolicitacoes();
+        this.buscarJSON();
 
-        //Configurar RecyclerView
+    }
+    public void configurarRecycler(){
+
         recyclerRequisicoes.setLayoutManager(new LinearLayoutManager(this));
         recyclerRequisicoes.setHasFixedSize(true);
         adapterDocumentos = new AdapterDocumentos(listaSolicitacoes, this);
         recyclerRequisicoes.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
         recyclerRequisicoes.setAdapter(adapterDocumentos);
-
-    }
-
-    public void criarSolicitacoes() {
-        Solicitacoes solicitacoes = new Solicitacoes("1", "Letras", "08/05/2020", "04h24", "Histórico", "Em andamento");
-        listaSolicitacoes.add(solicitacoes);
-        solicitacoes = new Solicitacoes("2", "Zootecnia", "07/05/2020", "12h24", "Declaração de Vínculo", "Em andamento");
-        listaSolicitacoes.add(solicitacoes);
     }
 
     private void buscarJSON() {
@@ -99,11 +89,9 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.code() == 200) {
-                    // System.out.println("Okk");
-
-
                     String jsonResponse = response.body();
                     listarSolicitacoes(jsonResponse);
+                    configurarRecycler();
 
 
                 } else {
@@ -111,17 +99,11 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
 
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 
             }
         });
-    }
-
-    public void retornarLogin(View view) {
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intent);
     }
 
     public void listarSolicitacoes(String response) {
@@ -185,7 +167,7 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
                 listarCursoPerfil.add(listarPerfisArrayList.get(i).getCurso());
                 listarIdPerfil.add(listarPerfisArrayList.get(i).getIdPerfil());
             }
-            System.out.println("ID: " + listarIdPerfil + "Curso: " + listarCursoPerfil);
+            System.out.println("ID: " + listarIdPerfil + " Curso: " + listarCursoPerfil);
 
             for (int i = 0; i < jsonArrayDocumentos.length(); i++) {
                 Solicitacoes documentos = new Solicitacoes();
@@ -211,9 +193,17 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
                                 if (listarSolicitadosArrayList.get(j).getDocumentoId().equals(listarDocumentosArrayList.get(k).getIdDocumento())) {
                                     if (listarRequisicoesArrayList.get(i).getPerfilId().equals(listarPerfisArrayList.get(l).getIdPerfil())) {
 
-                                        System.out.println("\n" + listarRequisicoesArrayList.get(i).getId() + " " + listarPerfisArrayList.get(l).getCurso() + " " +
+                                        Solicitacoes solicitacoes = new Solicitacoes(listarRequisicoesArrayList.get(i).getId(), listarPerfisArrayList.get(l).getCurso(),
+                                                listarRequisicoesArrayList.get(i).getData_pedido()+ " "+listarRequisicoesArrayList.get(i).getHora_pedido(), listarRequisicoesArrayList.get(i).getHora_pedido(),
+                                                listarDocumentosArrayList.get(k).getDocumento(), listarSolicitadosArrayList.get(j).getStatus());
+                                        listaSolicitacoes.add(solicitacoes);
+
+                                        /*System.out.println("\n" + listarRequisicoesArrayList.get(i).getId() + " " + listarPerfisArrayList.get(l).getCurso() + " " +
                                                 listarRequisicoesArrayList.get(i).getData_pedido() + " " + listarRequisicoesArrayList.get(i).getHora_pedido() + " " +
                                                 listarDocumentosArrayList.get(k).getDocumento() + " " + listarSolicitadosArrayList.get(j).getStatus());
+
+                                         */
+
 
                                     }
                                 }
@@ -230,7 +220,6 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
             }
 
  */
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
