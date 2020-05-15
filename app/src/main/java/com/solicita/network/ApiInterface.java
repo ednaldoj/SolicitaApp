@@ -1,6 +1,7 @@
 package com.solicita.network;
 
 import com.solicita.model.User;
+import com.solicita.network.response.PerfilResponse;
 import com.solicita.network.response.SolicitacaoResponse;
 import com.solicita.network.response.UserResponse;
 
@@ -46,5 +47,8 @@ public interface ApiInterface {
 
     @GET("api/requisicaos/listarRequisicoes")
     Call<String> getRequisicoesJSONString(@Header("Authorization") String token);
+
+    @POST("api/perfils")
+    Call<PerfilResponse> getPerfilInfoJSONString(@Header("Authorization") String token);
 
 }

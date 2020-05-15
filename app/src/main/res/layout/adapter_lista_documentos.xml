@@ -47,7 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="Status" />
+            android:text="Status"
+            android:textColor="#E88F00" />
 
         <Button
             android:id="@+id/buttonExcluir"

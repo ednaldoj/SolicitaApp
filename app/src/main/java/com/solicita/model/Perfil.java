@@ -15,7 +15,7 @@ public class Perfil {
     @SerializedName("situacao") String situacao;
     //private String situacao;
     private int aluno_id;
-    private int unidade_id;
+    private String unidade_id;
     private int curso_id;
 
     public String getSituacao() {
@@ -50,11 +50,11 @@ public class Perfil {
         this.aluno_id = aluno_id;
     }
 
-    public int getUnidade_id() {
+    public String getUnidade_id() {
         return unidade_id;
     }
 
-    public void setUnidade_id(int unidade_id) {
+    public void setUnidade_id(String unidade_id) {
         this.unidade_id = unidade_id;
     }
 

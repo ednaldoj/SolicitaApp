@@ -52,6 +52,7 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
     ArrayList<String> listarDocumentoId = new ArrayList<>();
     ArrayList<String> listarPerfilId = new ArrayList<>();
     ArrayList<String> listarRequisicaoId = new ArrayList<>();
+    ArrayList<String> listarDetalhes = new ArrayList<>();
 
     ArrayList<String> listarCursoPerfil = new ArrayList<>();
     ArrayList<String> listarIdPerfil = new ArrayList<>();
@@ -74,7 +75,8 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
         this.buscarJSON();
 
     }
-    public void configurarRecycler(){
+
+    public void configurarRecycler() {
 
         recyclerRequisicoes.setLayoutManager(new LinearLayoutManager(this));
         recyclerRequisicoes.setHasFixedSize(true);
@@ -99,6 +101,7 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
 
                 }
             }
+
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 
@@ -144,6 +147,7 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
                 solicitados.setStatus(jsonObject.getString("status"));
                 solicitados.setDocumentoId(jsonObject.getString("documento_id"));
                 solicitados.setRequisicaoId(jsonObject.getString("requisicao_id"));
+                solicitados.setDetalhes(jsonObject.getString("detalhes"));
 
                 listarSolicitadosArrayList.add(solicitados);
             }
@@ -151,8 +155,10 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
                 listarStatus.add(listarSolicitadosArrayList.get(i).getStatus());
                 listarDocumentoId.add(listarSolicitadosArrayList.get(i).getDocumentoId());
                 listarRequisicaoId.add(listarSolicitadosArrayList.get(i).getRequisicaoId());
+                listarDetalhes.add(listarSolicitadosArrayList.get(i).getDetalhes());
             }
-            System.out.println("Status: " + listarStatus + " ID Documento: " + listarDocumentoId + " ID Requisicao: " + listarRequisicaoId);
+            System.out.println("Status: " + listarStatus + " ID Documento: " + listarDocumentoId + " ID Requisicao: " + listarRequisicaoId
+                    + " Detalhes: " + listarDetalhes);
 
             for (int i = 0; i < jsonArrayPerfis.length(); i++) {
                 Solicitacoes perfis = new Solicitacoes();
@@ -184,8 +190,8 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
             }
             System.out.println("ID: " + listarIdDocumentos + "Documentos: " + listarDocumentos);
 
-            for (int i = 0; i < jsonArraySolicitados.length() - 1; i++) {
-                for (int j = 0; j < jsonArraySolicitados.length(); j++) {
+           /* for (int i = 0; i < jsonArrayRequisicoes.length(); i++) {
+                for (int j = 0; j <jsonArraySolicitados.length(); j++) {
                     for (int k = 0; k < jsonArrayDocumentos.length(); k++) {
                         for (int l = 0; l < jsonArrayPerfis.length(); l++) {
 
@@ -198,28 +204,35 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
                                                 listarDocumentosArrayList.get(k).getDocumento(), listarSolicitadosArrayList.get(j).getStatus());
                                         listaSolicitacoes.add(solicitacoes);
 
-                                        /*System.out.println("\n" + listarRequisicoesArrayList.get(i).getId() + " " + listarPerfisArrayList.get(l).getCurso() + " " +
+                                        System.out.println("\n" + listarRequisicoesArrayList.get(i).getId() + " " + listarPerfisArrayList.get(l).getCurso() + " " +
                                                 listarRequisicoesArrayList.get(i).getData_pedido() + " " + listarRequisicoesArrayList.get(i).getHora_pedido() + " " +
                                                 listarDocumentosArrayList.get(k).getDocumento() + " " + listarSolicitadosArrayList.get(j).getStatus());
-
-                                         */
 
 
                                     }
                                 }
                             }
+
                         }
                     }
                 }
+            }*/
+
+            for (int i = 0; i < jsonArrayRequisicoes.length(); i++) {
+                for (int j = 0; j < jsonArraySolicitados.length(); j++) {
+
+                    if (listarRequisicoesArrayList.get(i).getId().equals(listarSolicitadosArrayList.get(j).getRequisicaoId())) {
+                        if (listarSolicitadosArrayList.get(j).getRequisicaoId().equals(listarSolicitadosArrayList.get(--j).getRequisicaoId())) {
+
+                            System.out.println("\n" + listarRequisicoesArrayList.get(i).getId() + " " + listarRequisicoesArrayList.get(i).getPerfilId() + " " +
+                                    listarRequisicoesArrayList.get(i).getData_pedido() + ", " + listarRequisicoesArrayList.get(i).getHora_pedido() + " " +
+                                    listarSolicitadosArrayList.get(j).getDocumentoId() + " ");
+
+                        }
+                        System.out.println(listarSolicitadosArrayList.get(j).getRequisicaoId() + " " + listarSolicitadosArrayList.get(--j).getRequisicaoId());
+                    }
+                }
             }
-
-/*            for (int i=0; i< jsonArrayRequisicoes.length();i++){
-
-                System.out.println(listarRequisicoesArrayList.get(i).getId() + " " + listarRequisicoesArrayList.get(i).getData_pedido() + " " + listarRequisicoesArrayList.get(i).getHora_pedido()
-                + " " );
-            }
-
- */
         } catch (JSONException e) {
             e.printStackTrace();
         }

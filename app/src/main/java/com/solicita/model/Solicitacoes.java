@@ -1,8 +1,12 @@
 package com.solicita.model;
 
+import java.util.ArrayList;
+
 public class Solicitacoes {
 
-    private String id, curso, data_pedido, hora_pedido, documentosSolicitados, status, documentoId, perfilId, requisicaoId, documento, idDocumento, idPerfil;
+    private String id, curso, data_pedido, hora_pedido, documentosSolicitados, status, documentoId, perfilId, requisicaoId, documento, idDocumento, idPerfil, detalhes;
+   // private String id, curso, data_pedido, hora_pedido, status, documentoId, perfilId, requisicaoId, documento, idDocumento, idPerfil;
+   // private ArrayList documentosSolicitados;
 
     public Solicitacoes() {
     }
@@ -64,6 +68,7 @@ public class Solicitacoes {
         this.documentosSolicitados = documentosSolicitados;
     }
 
+
     public String getDocumentoId() {
         return documentoId;
     }
@@ -111,4 +116,21 @@ public class Solicitacoes {
     public void setIdPerfil(String idPerfil) {
         this.idPerfil = idPerfil;
     }
+
+    public String getDetalhes() {
+        return detalhes;
+    }
+
+    public void setDetalhes(String detalhes) {
+        this.detalhes = detalhes;
+    }
+/*    public ArrayList getDocumentosSolicitados() {
+        return documentosSolicitados;
+    }
+
+    public void setDocumentosSolicitados(ArrayList documentosSolicitados) {
+        this.documentosSolicitados = documentosSolicitados;
+    }
+
+ */
 }
