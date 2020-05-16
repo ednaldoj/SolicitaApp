@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Perfil {
 
-    private int id;
+    @Expose
+    @SerializedName("id") String id;
 
     @Expose
     @SerializedName("default") String curso;
@@ -26,11 +27,11 @@ public class Perfil {
         this.situacao = situacao;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

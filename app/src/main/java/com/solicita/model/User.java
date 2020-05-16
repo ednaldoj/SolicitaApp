@@ -21,11 +21,21 @@ public class User {
     @SerializedName("cursos") String cursos;
     @Expose
     @SerializedName("token") String token;
+    @Expose
+    @SerializedName("atual") String atual;
 
     //private String login, token, CPF, tipoVinculo, unidadeAcademica, tipoCurso, senha, confirmarSenha;
     private String password, confirm_password, login;
 
     public User() {
+    }
+
+    public String getAtual() {
+        return atual;
+    }
+
+    public void setAtual(String atual) {
+        this.atual = atual;
     }
 
     public int getId() {

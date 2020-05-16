@@ -49,6 +49,16 @@ public interface ApiInterface {
     Call<String> getRequisicoesJSONString(@Header("Authorization") String token);
 
     @POST("api/perfils")
-    Call<PerfilResponse> getPerfilInfoJSONString(@Header("Authorization") String token);
+    Call<String> getPerfilInfoJSONString(@Header("Authorization") String token);
 
+    @POST("api/perfils/editarInfo")
+    Call<UserResponse> getEdit(@Header("Authorization") String token);
+
+    @FormUrlEncoded
+    @POST("api/perfils/storeEditarInfo")
+    Call<UserResponse> postEdit(@Field("name") String name, @Field("email") String email, @Header("Authorization") String token);
+
+    @FormUrlEncoded
+    @POST("api/perfils/storeAlterarSenha")
+    Call<UserResponse> postEditSenha(@Field("atual") String atual, @Field("password") String password, @Field("password_confirmation") String password_confirmation, @Header("Authorization") String token);
 }

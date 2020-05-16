@@ -9,48 +9,84 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseUser;
 import com.solicita.R;
-import com.solicita.config.UsuarioFirebase;
+import com.solicita.helper.SharedPrefManager;
 import com.solicita.model.User;
+import com.solicita.network.ApiClient;
+import com.solicita.network.ApiInterface;
+import com.solicita.network.response.UserResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TelaEditarPerfil extends AppCompatActivity {
 
     private TextInputEditText editNomePerfil, editEmailPerfil;
     private Button buttonSalvarAlteracoes;
-    private User usuarioLogado;
+    ApiInterface apiInterface;
+    SharedPrefManager sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_editar_perfil);
 
+        sharedPrefManager = new SharedPrefManager(this);
+        apiInterface= ApiClient.getClient().create(ApiInterface.class);
 
-        //Configuracoes iniciais
-        usuarioLogado = new UsuarioFirebase().getDadosUsuarioLogado();
-
-        //inicializar componentes
         inicializarComponentes();
-
-        //Recuperar dados do usuário
-        FirebaseUser usuarioPerfil = UsuarioFirebase.getUsuarioAtual();
-        editNomePerfil.setText( usuarioPerfil.getDisplayName() );
-        editEmailPerfil.setText( usuarioPerfil.getEmail() );
+        buscarInfoJSON();
 
         //Salvar alterações
         buttonSalvarAlteracoes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nomeAtualizado = editNomePerfil.getText().toString();
+                editarPerfil();
+                Toast.makeText(TelaEditarPerfil.this, "Informações atualizadas com sucesso!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(TelaEditarPerfil.this, TelaInformacoesDiscente.class));
+                finish();
+            }
+        });
+    }
+    private void buscarInfoJSON(){
+        Call<UserResponse> userResponseCall = apiInterface.getEdit(sharedPrefManager.getSPToken());
+        userResponseCall.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                User user = response.body().getUser();
+                String nome = user.getName();
+                String email = user.getEmail();
 
-                //Atualizar nome no perfil
-                UsuarioFirebase.atualizarNomeUsuario(nomeAtualizado);
+                editNomePerfil.setText(nome);
+                editEmailPerfil.setText(email);
+            }
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
 
-                //Atualizar nome no banco de dados
-                usuarioLogado.setName(nomeAtualizado);
-             //   usuarioLogado.atualizar();
+            }
+        });
+    }
+    public void editarPerfil(){
 
-                Toast.makeText(TelaEditarPerfil.this, "Dados alterados com sucesso!", Toast.LENGTH_LONG).show();
+        String name = editNomePerfil.getText().toString();
+        String email = editEmailPerfil.getText().toString();
+
+        Call<UserResponse> userResponseCall = apiInterface.postEdit(name, email, sharedPrefManager.getSPToken());
+        userResponseCall.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.isSuccessful()){
+
+                }else{
+                    Toast.makeText(TelaEditarPerfil.this, "Erro ao atualizar informações! Verifique os dados e tente novamente.", Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+
             }
         });
     }

@@ -19,15 +19,22 @@ import com.google.firebase.auth.FirebaseUser;
 import com.solicita.R;
 import com.solicita.config.ConfiguracaoFirebase;
 import com.solicita.config.UsuarioFirebase;
+import com.solicita.helper.SharedPrefManager;
 import com.solicita.model.User;
+import com.solicita.network.ApiClient;
+import com.solicita.network.ApiInterface;
+import com.solicita.network.response.UserResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TelaAlterarSenha extends AppCompatActivity {
 
     private TextInputEditText campoConfNovaSenha, campoSenhaAtual, campoNovaSenha;
     private Button buttonAlterarSenha;
-    private User usuarioLogado;
-    private FirebaseAuth autenticacao;
-    private FirebaseUser usuario;
+    ApiInterface apiInterface;
+    SharedPrefManager sharedPrefManager;
 
 
     @Override
@@ -35,25 +42,46 @@ public class TelaAlterarSenha extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_alterar_senha);
 
-        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        sharedPrefManager = new SharedPrefManager(this);
+        apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        //Configuracoes iniciais
-        usuarioLogado = new UsuarioFirebase().getDadosUsuarioLogado();
-
-        //inicializar componentes
-        inicializarComponentes();
+       inicializarComponentes();
 
         buttonAlterarSenha.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                atualizarSenha();
+                alterarSenha();
 
             }
         });
     }
+    public void alterarSenha(){
+        String atual = campoSenhaAtual.getText().toString();
+        String novaSenha = campoNovaSenha.getText().toString();
+        String confNovaSenha = campoConfNovaSenha.getText().toString();
 
-    public void atualizarSenha() {
+        Call<UserResponse> userResponseCall = apiInterface.postEditSenha(atual, novaSenha, confNovaSenha, sharedPrefManager.getSPToken());
+        userResponseCall.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.isSuccessful()){
+                    Toast.makeText(TelaAlterarSenha.this, "Senha atualizada com sucesso!", Toast.LENGTH_SHORT).show();
+
+
+                }else{
+                    Toast.makeText(TelaAlterarSenha.this, "Falha ao atualizar senha!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+ /*   public void atualizarSenha() {
         usuario = FirebaseAuth.getInstance().getCurrentUser();
         String email = usuario.getEmail();
 
@@ -98,7 +126,7 @@ public class TelaAlterarSenha extends AppCompatActivity {
                 }
             }
         });
-    }
+    }*/
     public void inicializarComponentes() {
 
         campoSenhaAtual = findViewById(R.id.editSenhaAtual);
