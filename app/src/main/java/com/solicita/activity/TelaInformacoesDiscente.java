@@ -24,6 +24,7 @@ import com.solicita.model.Unidade;
 import com.solicita.model.User;
 import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
+import com.solicita.network.response.DefaultResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +57,9 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
 
     Button buttonExcluirPerfil;
 
+    String idPerfil = "";
+    String mensagemExcluir = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,14 +84,14 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
 
     }
 
-    public void radioGroupJSON(String response){
+    public void radioGroupJSON(String response) {
         try {
             JSONObject object = new JSONObject(response);
             perfilArrayList = new ArrayList<>();
             JSONArray jsonArray = object.getJSONArray("perfil");
 
 
-            for (int i=0; i<jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 Perfil perfil = new Perfil();
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 perfil.setCurso(jsonObject.getString("default"));
@@ -96,26 +100,27 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
 
                 perfilArrayList.add(perfil);
             }
-            for (int i=0; i<perfilArrayList.size();i++){
-                perfil.add(perfilArrayList.get(i).getCurso()+ " - "+ perfilArrayList.get(i).getSituacao());
-     ///////           System.out.println("Perfis: "+ perfilArrayList.get(i).getCurso()+ " - "+ perfilArrayList.get(i).getSituacao());
+            for (int i = 0; i < perfilArrayList.size(); i++) {
+                perfil.add(perfilArrayList.get(i).getCurso() + " - " + perfilArrayList.get(i).getSituacao());
+                ///////           System.out.println("Perfis: "+ perfilArrayList.get(i).getCurso()+ " - "+ perfilArrayList.get(i).getSituacao());
             }
 
             radioGroup = new RadioGroup(this);
             radioGroup.setOrientation(RadioGroup.VERTICAL);
 
 
-            for(int i=0; i<perfil.size();i++){
+            for (int i = 0; i < perfil.size(); i++) {
 
                 RadioGroup.LayoutParams rl2;
                 //radioGroup.setId(i);
                 RadioButton radioButton = new RadioButton(this);
                 radioButton.setText(perfil.get(i));
 
-                rl2=new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT);
+                rl2 = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT);
                 radioGroup.addView(radioButton, rl2);
 
-            }linearLayout.addView(radioGroup);
+            }
+            linearLayout.addView(radioGroup);
 
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
@@ -125,30 +130,32 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
                     System.out.println(radioGroup.getCheckedRadioButtonId());
                     int valor = radioGroup.getCheckedRadioButtonId();
 
-                    for (int i=0; i<perfilArrayList.size();i++){
-                        if (radioButton.getText().equals(perfilArrayList.get(i).getCurso()+ " - "+ perfilArrayList.get(i).getSituacao())){
+                    for (int i = 0; i < perfilArrayList.size(); i++) {
+                        if (radioButton.getText().equals(perfilArrayList.get(i).getCurso() + " - " + perfilArrayList.get(i).getSituacao())) {
                             System.out.println("Valor do ID: " + perfilArrayList.get(i).getId());
+                            idPerfil = perfilArrayList.get(i).getId();
                         }
 
                     }
                 }
             });
 
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-    public void buscarPerfisJSON(){
+
+    public void buscarPerfisJSON() {
 
         Call<String> stringCall = apiInterface.getUserPerfil(sharedPrefManager.getSPToken());
         stringCall.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     String jsonResponse = response.body();
                     radioGroupJSON(jsonResponse);
 
-                }else{
+                } else {
 
                 }
             }
@@ -340,26 +347,51 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
     }
 
     public void excluirPerfil() {
-        AlertDialog.Builder dialogExluirPerfil = new AlertDialog.Builder(this);
 
-        dialogExluirPerfil.setTitle("Exclusão de Perfil Acadêmico");
-        dialogExluirPerfil.setMessage("Deseja realmente excluir o perfil selecionado?");
+        if (idPerfil.equals("")) {
+            Toast.makeText(getApplicationContext(), "Selecione um perfil.", Toast.LENGTH_LONG).show();
+        } else {
 
-        dialogExluirPerfil.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Perfil exluído com sucesso", Toast.LENGTH_LONG).show();
-            }
-        });
-        dialogExluirPerfil.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+            AlertDialog.Builder dialogExluirPerfil = new AlertDialog.Builder(this);
 
-            }
-        });
-        dialogExluirPerfil.create();
-        dialogExluirPerfil.show();
+            dialogExluirPerfil.setTitle("Exclusão de Perfil Acadêmico");
+            dialogExluirPerfil.setMessage("Deseja realmente excluir o perfil selecionado?");
 
+            dialogExluirPerfil.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Call<DefaultResponse> callExcluir = apiInterface.postExcluirPerfil(idPerfil, sharedPrefManager.getSPToken());
+                    callExcluir.enqueue(new Callback<DefaultResponse>() {
+                        @Override
+                        public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                            if (response.code() == 200) {
+
+                                DefaultResponse dr = response.body();
+                                Toast.makeText(getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
+
+                            } else {
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
+                        }
+                    });
+                }
+            });
+            dialogExluirPerfil.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            dialogExluirPerfil.create();
+            dialogExluirPerfil.show();
+
+        }
     }
 }
 

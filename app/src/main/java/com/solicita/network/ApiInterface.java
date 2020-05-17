@@ -57,7 +57,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/perfils/storeEditarInfo")
-    Call<UserResponse> postEdit(@Field("name") String name, @Field("email") String email, @Header("Authorization") String token);
+    Call<DefaultResponse> postEdit(@Field("name") String name, @Field("email") String email, @Header("Authorization") String token);
 
     @FormUrlEncoded
     @POST("api/perfils/storeAlterarSenha")
@@ -66,5 +66,5 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/perfils/excluirPerfil")
-    Call<String> postExcluirPerfil (@Field("idPerfil") String idPerfil, @Header("Authorization") String token);
+    Call<DefaultResponse> postExcluirPerfil (@Field("idPerfil") String idPerfil, @Header("Authorization") String token);
 }

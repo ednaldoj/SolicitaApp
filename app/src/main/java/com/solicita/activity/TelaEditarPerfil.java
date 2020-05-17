@@ -14,6 +14,7 @@ import com.solicita.helper.SharedPrefManager;
 import com.solicita.model.User;
 import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
+import com.solicita.network.response.DefaultResponse;
 import com.solicita.network.response.UserResponse;
 
 import retrofit2.Call;
@@ -39,15 +40,7 @@ public class TelaEditarPerfil extends AppCompatActivity {
         buscarInfoJSON();
 
         //Salvar alterações
-        buttonSalvarAlteracoes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editarPerfil();
-                Toast.makeText(TelaEditarPerfil.this, "Informações atualizadas com sucesso!", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(TelaEditarPerfil.this, TelaInformacoesDiscente.class));
-                finish();
-            }
-        });
+        buttonSalvarAlteracoes.setOnClickListener(v -> editarPerfil());
     }
     private void buscarInfoJSON(){
         Call<UserResponse> userResponseCall = apiInterface.getEdit(sharedPrefManager.getSPToken());
@@ -72,20 +65,23 @@ public class TelaEditarPerfil extends AppCompatActivity {
         String name = editNomePerfil.getText().toString();
         String email = editEmailPerfil.getText().toString();
 
-        Call<UserResponse> userResponseCall = apiInterface.postEdit(name, email, sharedPrefManager.getSPToken());
-        userResponseCall.enqueue(new Callback<UserResponse>() {
+        Call<DefaultResponse> userResponseCall = apiInterface.postEdit(name, email, sharedPrefManager.getSPToken());
+        userResponseCall.enqueue(new Callback<DefaultResponse>() {
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                if (response.isSuccessful()){
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                if (response.code()==200){
+                    DefaultResponse dr = response.body();
+                    Toast.makeText(TelaEditarPerfil.this, dr.getMessage(), Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(TelaEditarPerfil.this, TelaInformacoesDiscente.class));
+                    finish();
 
                 }else{
-                    Toast.makeText(TelaEditarPerfil.this, "Erro ao atualizar informações! Verifique os dados e tente novamente.", Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(TelaEditarPerfil.this, "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
 
             }
         });

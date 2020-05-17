@@ -226,6 +226,7 @@
             android:layout_marginRight="32dp"
             android:layout_marginBottom="32dp"
             android:background="#1B2E4F"
+            android:onClick="excluirPerfil"
             android:text="Excluir perfil"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
