@@ -1,6 +1,7 @@
 package com.solicita.network;
 
 import com.solicita.model.User;
+import com.solicita.network.response.DefaultResponse;
 import com.solicita.network.response.PerfilResponse;
 import com.solicita.network.response.SolicitacaoResponse;
 import com.solicita.network.response.UserResponse;
@@ -60,5 +61,10 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/perfils/storeAlterarSenha")
-    Call<UserResponse> postEditSenha(@Field("atual") String atual, @Field("password") String password, @Field("password_confirmation") String password_confirmation, @Header("Authorization") String token);
+    //Call<UserResponse> postEditSenha(@Field("atual") String atual, @Field("password") String password, @Field("password_confirmation") String password_confirmation, @Header("Authorization") String token);
+    Call<DefaultResponse> postEditSenha(@Field("atual") String atual, @Field("password") String password, @Field("password_confirmation") String password_confirmation, @Header("Authorization") String token);
+
+    @FormUrlEncoded
+    @POST("api/perfils/excluirPerfil")
+    Call<String> postExcluirPerfil (@Field("idPerfil") String idPerfil, @Header("Authorization") String token);
 }

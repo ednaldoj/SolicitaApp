@@ -23,6 +23,7 @@ import com.solicita.helper.SharedPrefManager;
 import com.solicita.model.User;
 import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
+import com.solicita.network.response.DefaultResponse;
 import com.solicita.network.response.UserResponse;
 
 import retrofit2.Call;
@@ -61,12 +62,13 @@ public class TelaAlterarSenha extends AppCompatActivity {
         String novaSenha = campoNovaSenha.getText().toString();
         String confNovaSenha = campoConfNovaSenha.getText().toString();
 
-        Call<UserResponse> userResponseCall = apiInterface.postEditSenha(atual, novaSenha, confNovaSenha, sharedPrefManager.getSPToken());
-        userResponseCall.enqueue(new Callback<UserResponse>() {
+        Call<DefaultResponse> userResponseCall = apiInterface.postEditSenha(atual, novaSenha, confNovaSenha, sharedPrefManager.getSPToken());
+        userResponseCall.enqueue(new Callback<DefaultResponse>() {
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                if (response.isSuccessful()){
-                    Toast.makeText(TelaAlterarSenha.this, "Senha atualizada com sucesso!", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                if (response.code()==200){
+                    DefaultResponse dr = response.body();
+                    Toast.makeText(TelaAlterarSenha.this, dr.getMessage(), Toast.LENGTH_SHORT).show();
 
 
                 }else{
@@ -74,7 +76,7 @@ public class TelaAlterarSenha extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
 
             }
         });

@@ -218,7 +218,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/buttonExcluirPerfil"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -226,7 +226,6 @@
             android:layout_marginRight="32dp"
             android:layout_marginBottom="32dp"
             android:background="#1B2E4F"
-            android:onClick="abrirExcluirPerfil"
             android:text="Excluir perfil"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"

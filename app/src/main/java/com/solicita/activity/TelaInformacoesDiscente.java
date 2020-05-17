@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -53,6 +54,8 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
     ArrayList<Perfil> perfilArrayList;
     ArrayList<String> perfil = new ArrayList<>();
 
+    Button buttonExcluirPerfil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +69,13 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
         inicializarComponentes();
         buscarPerfisJSON();
         buscarInfoJSON();
+
+        buttonExcluirPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                excluirPerfil();
+            }
+        });
 
 
     }
@@ -310,6 +320,7 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
         textInfoCurso = findViewById(R.id.textCursoAdap);
         textInfoEmail = findViewById(R.id.textInfoEmail);
         linearLayout = findViewById(R.id.linearLayout);
+        buttonExcluirPerfil = findViewById(R.id.buttonExcluirPerfil);
 
     }
 
@@ -328,7 +339,7 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
         startActivity(irTelaAdicionarPerfil);
     }
 
-    public void abrirExcluirPerfil(View view) {
+    public void excluirPerfil() {
         AlertDialog.Builder dialogExluirPerfil = new AlertDialog.Builder(this);
 
         dialogExluirPerfil.setTitle("Exclusão de Perfil Acadêmico");
@@ -350,7 +361,6 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
         dialogExluirPerfil.show();
 
     }
-
 }
 
 
