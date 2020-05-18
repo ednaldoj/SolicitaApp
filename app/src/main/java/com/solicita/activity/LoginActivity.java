@@ -123,6 +123,6 @@ public class LoginActivity extends AppCompatActivity {
         editLoginEmail = findViewById(R.id.editLoginEmail);
         editLoginSenha = findViewById(R.id.editLoginSenha);
         buttonLogin = findViewById(R.id.buttonLogin);
-        buttonCadastrar = findViewById(R.id.buttonCadastro);
+        buttonCadastrar = findViewById(R.id.buttonAdicionarPerfil);
     }
 }

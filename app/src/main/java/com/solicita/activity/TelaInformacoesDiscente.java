@@ -80,8 +80,6 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
                 excluirPerfil();
             }
         });
-
-
     }
 
     public void radioGroupJSON(String response) {

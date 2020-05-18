@@ -214,7 +214,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/buttonCadastro"
+            android:id="@+id/buttonAdicionarPerfil"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"

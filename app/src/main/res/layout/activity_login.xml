@@ -108,7 +108,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/buttonCadastro"
+        android:id="@+id/buttonAdicionarPerfil"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"

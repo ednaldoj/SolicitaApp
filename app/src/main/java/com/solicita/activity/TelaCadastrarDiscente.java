@@ -33,7 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static android.R.layout.simple_spinner_item;
 
@@ -485,6 +484,6 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
         campoEmail = findViewById(R.id.editEmail);
         campoSenha = findViewById(R.id.editSenha);
         campoConfirmarSenha = findViewById(R.id.editConfirmarSenha);
-        buttonCadastro = findViewById(R.id.buttonCadastro);
+        buttonCadastro = findViewById(R.id.buttonAdicionarPerfil);
     }
 }

@@ -2,7 +2,6 @@ package com.solicita.network;
 
 import com.solicita.model.User;
 import com.solicita.network.response.DefaultResponse;
-import com.solicita.network.response.PerfilResponse;
 import com.solicita.network.response.SolicitacaoResponse;
 import com.solicita.network.response.UserResponse;
 
@@ -16,7 +15,6 @@ import retrofit2.http.POST;
 public interface ApiInterface {
 
     @FormUrlEncoded
-    //@POST("api/auth/login")
     @POST("api/login")
     Call<UserResponse> postLogin(@Field("email") String email,
                                  @Field("password") String password);
@@ -67,4 +65,8 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/perfils/excluirPerfil")
     Call<DefaultResponse> postExcluirPerfil (@Field("idPerfil") String idPerfil, @Header("Authorization") String token);
+
+    @FormUrlEncoded
+    @POST("api/perfils/salvaPerfil")
+    Call<DefaultResponse> postAdicionaPerfil (@Field("vinculo") String vinculo, @Field("unidade") String unidade, @Field("curso") String curso, @Field("selecaoPadrao") String selecaoVinculoPadrao, @Header("Authorization") String token);
 }
