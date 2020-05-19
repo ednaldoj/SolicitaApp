@@ -51,7 +51,7 @@
             android:textColor="#E88F00" />
 
         <Button
-            android:id="@+id/buttonExcluir"
+            android:id="@+id/buttonDelete"
             android:layout_width="20sp"
             android:layout_height="20sp"
             android:layout_weight="0.2"

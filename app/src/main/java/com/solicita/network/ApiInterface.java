@@ -47,6 +47,10 @@ public interface ApiInterface {
     @GET("api/requisicaos/listarRequisicoes")
     Call<String> getRequisicoesJSONString(@Header("Authorization") String token);
 
+    @FormUrlEncoded
+    @POST("api/requisicaos/excluirRequisicao")
+    Call<DefaultResponse> postExcluirRequisicao(@Field("idRequisicao") String idRequisicao, @Header("Authorization") String token);
+
     @POST("api/perfils")
     Call<String> getPerfilInfoJSONString(@Header("Authorization") String token);
 

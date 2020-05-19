@@ -1,12 +1,16 @@
 package com.solicita.activity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +22,7 @@ import com.solicita.helper.SharedPrefManager;
 import com.solicita.model.Solicitacoes;
 import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
+import com.solicita.network.response.DefaultResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +43,7 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
     public AdapterDocumentos adapterDocumentos;
     SharedPrefManager sharedPrefManager;
     ApiInterface apiInterface;
+    Context context;
 
     ArrayList<Solicitacoes> listarRequisicoesArrayList;
     ArrayList<Solicitacoes> listarSolicitadosArrayList;
@@ -59,6 +65,8 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
 
     ArrayList<String> listarDocumentos = new ArrayList<>();
     ArrayList<String> listarIdDocumentos = new ArrayList<>();
+
+    String idRequisicao = "";
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -97,7 +105,9 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
 
 
                 } else {
-                    System.out.println("Falhou ou token expirado");
+
+                    Toast.makeText(getApplicationContext(), "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(TelaListarDocumentosSolicitados.this, LoginActivity.class));
 
                 }
             }
@@ -220,22 +230,94 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
 
             for (int i = 0; i < jsonArrayRequisicoes.length(); i++) {
                 for (int j = 0; j < jsonArraySolicitados.length(); j++) {
-
                     if (listarRequisicoesArrayList.get(i).getId().equals(listarSolicitadosArrayList.get(j).getRequisicaoId())) {
-                        if (listarSolicitadosArrayList.get(j).getRequisicaoId().equals(listarSolicitadosArrayList.get(--j).getRequisicaoId())) {
 
-                            System.out.println("\n" + listarRequisicoesArrayList.get(i).getId() + " " + listarRequisicoesArrayList.get(i).getPerfilId() + " " +
-                                    listarRequisicoesArrayList.get(i).getData_pedido() + ", " + listarRequisicoesArrayList.get(i).getHora_pedido() + " " +
-                                    listarSolicitadosArrayList.get(j).getDocumentoId() + " ");
+                        Solicitacoes solicitacoes = new Solicitacoes(listarRequisicoesArrayList.get(i).getId(), listarSolicitadosArrayList.get(j).getDocumentoId(), "", "", "", "");
+                        listaSolicitacoes.add(solicitacoes);
 
+       /*                 if (listarSolicitadosArrayList.contains(listarSolicitadosArrayList.get(j).getRequisicaoId())){
+                            System.out.println("Mesma requisição");
+                        }else{
+                            System.out.println("Nova requisição");
                         }
-                        System.out.println(listarSolicitadosArrayList.get(j).getRequisicaoId() + " " + listarSolicitadosArrayList.get(--j).getRequisicaoId());
+
+        */
+                        System.out.println("\n" + listarRequisicoesArrayList.get(i).getId() + " " + listarRequisicoesArrayList.get(i).getPerfilId() + " " +
+                                listarRequisicoesArrayList.get(i).getData_pedido() + ", " + listarRequisicoesArrayList.get(i).getHora_pedido() + " " +
+                                listarSolicitadosArrayList.get(j).getDocumentoId() + " ");
+
                     }
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+   /* public static void excluirRequisicao() {
+
+            AlertDialog.Builder dialogExluirPerfil = new AlertDialog.Builder(this);
+
+            dialogExluirPerfil.setTitle("Exclusão de Requisição");
+            dialogExluirPerfil.setMessage("Deseja realmente excluir a requisição?");
+
+            dialogExluirPerfil.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Call<DefaultResponse> callExcluir = apiInterface.postExcluirPerfil(idRequisicao, sharedPrefManager.getSPToken());
+                    callExcluir.enqueue(new Callback<DefaultResponse>() {
+                        @Override
+                        public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                            if (response.code() == 200) {
+
+                                DefaultResponse dr = response.body();
+                                Toast.makeText(getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
+
+                            } else {
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
+                        }
+                    });
+                }
+            });
+            dialogExluirPerfil.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            dialogExluirPerfil.create();
+            dialogExluirPerfil.show();
+
+    } */
+
+    public void excluirRequisicao() {
+
+        Call<DefaultResponse> callExcluir = apiInterface.postExcluirRequisicao(idRequisicao, sharedPrefManager.getSPToken());
+        callExcluir.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                if (response.code() == 200) {
+
+                    DefaultResponse dr = response.body();
+                    Toast.makeText(getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     public void irTelaHomeAluno(View view) {
