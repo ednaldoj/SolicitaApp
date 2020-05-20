@@ -49,13 +49,14 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textEsqueciSenha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Endereço de e-mail" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonRedefinirSenha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

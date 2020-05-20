@@ -124,7 +124,6 @@ public class AdapterDocumentos extends RecyclerView.Adapter<AdapterDocumentos.My
 
                 dialogExluirRequisicao.create();
                 dialogExluirRequisicao.show();
-               // removerItem(position);
             }
 
         });
