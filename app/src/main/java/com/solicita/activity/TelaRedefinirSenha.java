@@ -60,7 +60,7 @@ public class TelaRedefinirSenha extends AppCompatActivity {
                         Toast.makeText(TelaRedefinirSenha.this, dr.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }else {
-                    Toast.makeText(TelaRedefinirSenha.this, dr.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(TelaRedefinirSenha.this, "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
 
                 }
             }

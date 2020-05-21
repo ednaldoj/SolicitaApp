@@ -200,7 +200,7 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
             }
             System.out.println("ID: " + listarIdDocumentos + "Documentos: " + listarDocumentos);
 
-           /* for (int i = 0; i < jsonArrayRequisicoes.length(); i++) {
+            for (int i = 0; i < jsonArrayRequisicoes.length(); i++) {
                 for (int j = 0; j <jsonArraySolicitados.length(); j++) {
                     for (int k = 0; k < jsonArrayDocumentos.length(); k++) {
                         for (int l = 0; l < jsonArrayPerfis.length(); l++) {
@@ -226,9 +226,9 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
                         }
                     }
                 }
-            }*/
+            }
 
-            for (int i = 0; i < jsonArrayRequisicoes.length(); i++) {
+ /*           for (int i = 0; i < jsonArrayRequisicoes.length(); i++) {
                 for (int j = 0; j < jsonArraySolicitados.length(); j++) {
                     if (listarRequisicoesArrayList.get(i).getId().equals(listarSolicitadosArrayList.get(j).getRequisicaoId())) {
 
@@ -242,13 +242,13 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
                         }
 
         */
-                        System.out.println("\n" + listarRequisicoesArrayList.get(i).getId() + " " + listarRequisicoesArrayList.get(i).getPerfilId() + " " +
+ /*                       System.out.println("\n" + listarRequisicoesArrayList.get(i).getId() + " " + listarRequisicoesArrayList.get(i).getPerfilId() + " " +
                                 listarRequisicoesArrayList.get(i).getData_pedido() + ", " + listarRequisicoesArrayList.get(i).getHora_pedido() + " " +
                                 listarSolicitadosArrayList.get(j).getDocumentoId() + " ");
 
                     }
                 }
-            }
+            }*/
         } catch (JSONException e) {
             e.printStackTrace();
         }
