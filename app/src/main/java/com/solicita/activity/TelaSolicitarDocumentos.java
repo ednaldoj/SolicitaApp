@@ -50,6 +50,7 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
 
     ArrayList<Perfil> perfilArrayList;
     ArrayList<String> perfil = new ArrayList<>();
+    ArrayList<String> perfilId = new ArrayList<>();
 
     ArrayList<Documento> documentoArrayList;
     ArrayList<Documento> documentoDetalhesArrayList;
@@ -66,7 +67,10 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
 
     TextView textNomeUsuario;
 
-    private int index, idPerfil;
+    Button buttonLogout, buttonHome;
+
+    private int index;
+    String idPerfil = "";
 
     Context context;
 
@@ -89,18 +93,16 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
 
         buscarJSON();
 
-        buttonSolicitar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finalizarSolicitacao();
+        buttonHome.setOnClickListener(v -> irHome());
 
-            }
-        });
+        buttonLogout.setOnClickListener(v -> logoutApp());
+
+        buttonSolicitar.setOnClickListener(v -> finalizarSolicitacao());
     }
 
     public void finalizarSolicitacao(){
 
-        int defaultt=idPerfil;
+        String defaultt=idPerfil;
 
         Call<SolicitacaoResponse> solicitacaoResponseCall = apiInterface.postSolicitacao(defaultt, declaracaoVinculo, comprovanteMatricula, historico, programaDisciplina, outros, requisicaoPrograma, requisicaoOutros, sharedPrefManager.getSPToken());
 
@@ -127,7 +129,7 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                     abrirProtocolo.putExtra("data", dataP);
                     abrirProtocolo.putExtra("hora", horaP);
 
-                    abrirProtocolo.putExtra("solicitados", (Serializable) solicitados);
+                    abrirProtocolo.putExtra("solicitados", solicitados);
                     System.out.println(solicitados);
 
                     startActivity(abrirProtocolo);
@@ -340,6 +342,7 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 perfil.setCurso(jsonObject.getString("default"));
                 perfil.setSituacao(jsonObject.getString("situacao"));
+                perfil.setId(jsonObject.getString("id"));
 
                 perfilArrayList.add(perfil);
             }
@@ -347,6 +350,11 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                 perfil.add(perfilArrayList.get(i).getCurso() + " - " + perfilArrayList.get(i).getSituacao());
 
             }
+            for (int i = 0; i < perfilArrayList.size(); i++) {
+                perfilId.add(perfilArrayList.get(i).getId());
+                System.out.println("ID do perfil: "+perfilId);
+            }
+
             ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(TelaSolicitarDocumentos.this, simple_spinner_item, perfil);
             stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerPerfil.setAdapter(stringArrayAdapter);
@@ -355,9 +363,16 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     index = parent.getSelectedItemPosition();
-                    index++;
-                    idPerfil = index;
-                }
+                  //  index++;
+                    //idPerfil = index;
+
+                            //if (perfilArrayList.get(index).getId().equals(index)){
+                                 idPerfil = perfilArrayList.get(index).getId();
+
+                                System.out.println("ID Selecionado: "+ idPerfil);
+
+                           // }
+                        }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
@@ -370,6 +385,16 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    public void logoutApp() {
+        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+        startActivity(new Intent(TelaSolicitarDocumentos.this, LoginActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
+    }
+    public void irHome(){
+        startActivity(new Intent(TelaSolicitarDocumentos.this, TelaHomeAluno.class));
+
+    }
 
     public void inicializarComponentes() {
 
@@ -377,6 +402,8 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
         linearLayout = findViewById(R.id.linear_docs);
         buttonSolicitar = findViewById(R.id.buttonSolicitar);
         textNomeUsuario = findViewById(R.id.textNomeUsuario);
+        buttonLogout = findViewById(R.id.buttonLogout);
+        buttonHome = findViewById(R.id.buttonHome);
 
     }
 }

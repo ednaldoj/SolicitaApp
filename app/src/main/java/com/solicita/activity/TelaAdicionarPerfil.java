@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.solicita.R;
@@ -42,6 +43,8 @@ public class TelaAdicionarPerfil extends AppCompatActivity {
     private Button buttonAdicionarPerfil;
     private ApiInterface apiInterface;
     private SharedPrefManager sharedPrefManager;
+    TextView textNomeUsuario;
+
 
     ArrayList<Curso> cursoArrayList;
     ArrayList<Unidade> unidadeArrayList;
@@ -58,6 +61,8 @@ public class TelaAdicionarPerfil extends AppCompatActivity {
 
     String vinculo = "", checkDefault = "";
 
+    Button buttonLogout, buttonHome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +72,15 @@ public class TelaAdicionarPerfil extends AppCompatActivity {
         apiInterface= ApiClient.getClient().create(ApiInterface.class);
 
         inicializarComponentes();
+
+        textNomeUsuario.setText(sharedPrefManager.getSPNome());
+
         adicionarListenerCheck();
         buscarJSON();
+
+        buttonHome.setOnClickListener(v -> irHome());
+
+        buttonLogout.setOnClickListener(v -> logoutApp());
 
         buttonAdicionarPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,7 +302,16 @@ public class TelaAdicionarPerfil extends AppCompatActivity {
             }
         });
     }
+    public void logoutApp() {
+        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+        startActivity(new Intent(TelaAdicionarPerfil.this, LoginActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
+    }
+    public void irHome(){
+        startActivity(new Intent(TelaAdicionarPerfil.this, TelaHomeAluno.class));
 
+    }
 
     public void abrirPerfilDiscente(View view){
         Intent abrirPerfil = new Intent(getApplicationContext(), TelaInformacoesDiscente.class);
@@ -303,5 +324,9 @@ public class TelaAdicionarPerfil extends AppCompatActivity {
         spinnerCurso=findViewById(R.id.spinnerCurso);
         checkDefinirPadrao=findViewById(R.id.checkDefinirPadrao);
         buttonAdicionarPerfil=findViewById(R.id.buttonAdicionarPerfil);
+        buttonLogout = findViewById(R.id.buttonLogout);
+        buttonHome = findViewById(R.id.buttonHome);
+        textNomeUsuario = findViewById(R.id.textNomeUsuario);
+
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -27,6 +28,9 @@ public class TelaEditarPerfil extends AppCompatActivity {
     private Button buttonSalvarAlteracoes;
     ApiInterface apiInterface;
     SharedPrefManager sharedPrefManager;
+    Button buttonLogout, buttonHome;
+    TextView textNomeUsuario;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,14 @@ public class TelaEditarPerfil extends AppCompatActivity {
         apiInterface= ApiClient.getClient().create(ApiInterface.class);
 
         inicializarComponentes();
+
+        textNomeUsuario.setText(sharedPrefManager.getSPNome());
+
         buscarInfoJSON();
+
+        buttonHome.setOnClickListener(v -> irHome());
+
+        buttonLogout.setOnClickListener(v -> logoutApp());
 
         //Salvar alterações
         buttonSalvarAlteracoes.setOnClickListener(v -> editarPerfil());
@@ -92,7 +103,21 @@ public class TelaEditarPerfil extends AppCompatActivity {
         editNomePerfil         = findViewById(R.id.editNomePerfil);
         editEmailPerfil        = findViewById(R.id.editEmailPerfil);
         buttonSalvarAlteracoes = findViewById(R.id.buttonSalvarAlteracoes);
-        editEmailPerfil.setFocusable(false);
+        buttonLogout = findViewById(R.id.buttonLogout);
+        buttonHome = findViewById(R.id.buttonHome);
+        textNomeUsuario = findViewById(R.id.textNomeUsuario);
+
+        // editEmailPerfil.setFocusable(false);
+    }
+    public void logoutApp() {
+        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+        startActivity(new Intent(TelaEditarPerfil.this, LoginActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
+    }
+    public void irHome(){
+        startActivity(new Intent(TelaEditarPerfil.this, TelaHomeAluno.class));
+
     }
 
     public void irTelaInformacoesDiscente(View view){

@@ -69,9 +69,9 @@ public class AdapterDocumentos extends RecyclerView.Adapter<AdapterDocumentos.My
 
         Solicitacoes solicitacoes = listaSolicitacoes.get(position);
 
-        holder.textIdAdap.setText(solicitacoes.getId());
+    //    holder.textIdAdap.setText(solicitacoes.getId());
         holder.textCursoAdap.setText(solicitacoes.getCurso());
-        holder.textDataAdap.setText(solicitacoes.getData_pedido());
+    //    holder.textDataAdap.setText(solicitacoes.getData_pedido());
         holder.textStatusAdap.setText(solicitacoes.getStatus());
         holder.textSolicitadosAdap.setText(solicitacoes.getDocumentosSolicitados());
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -142,9 +142,9 @@ public class AdapterDocumentos extends RecyclerView.Adapter<AdapterDocumentos.My
         public MyViewHolder(View itemView){
             super(itemView);
 
-            textIdAdap=itemView.findViewById(R.id.textIdAdap);
+       //     textIdAdap=itemView.findViewById(R.id.textIdAdap);
             textCursoAdap=itemView.findViewById(R.id.textCursoAdap);
-            textDataAdap =itemView.findViewById(R.id.textDataAdap);
+         //   textDataAdap =itemView.findViewById(R.id.textDataAdap);
             textStatusAdap=itemView.findViewById(R.id.textStatusAdap);
             textSolicitadosAdap=itemView.findViewById(R.id.textSolicitadosAdap);
             deleteButton = itemView.findViewById(R.id.buttonDelete);

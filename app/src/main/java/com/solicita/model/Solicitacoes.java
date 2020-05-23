@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Solicitacoes {
 
-    private String id, curso, data_pedido, hora_pedido, documentosSolicitados, status, documentoId, perfilId, requisicaoId, documento, idDocumento, idPerfil, detalhes;
+    private String id, curso, data_pedido, hora_pedido, documentosSolicitados, status, documentoId, perfilId, requisicaoId, documento, idDocumento, idPerfil, detalhes, abreviatura, idCurso, cursoId;
    // private String id, curso, data_pedido, hora_pedido, status, documentoId, perfilId, requisicaoId, documento, idDocumento, idPerfil;
    // private ArrayList documentosSolicitados;
 
@@ -16,6 +16,13 @@ public class Solicitacoes {
         this.curso = curso;
         this.data_pedido = data_pedido;
         this.hora_pedido = hora_pedido;
+        this.documentosSolicitados = documentosSolicitados;
+        this.status = status;
+    }
+
+    public Solicitacoes(String id, String curso, String documentosSolicitados, String status) {
+        this.id = id;
+        this.curso = curso;
         this.documentosSolicitados = documentosSolicitados;
         this.status = status;
     }
@@ -133,4 +140,28 @@ public class Solicitacoes {
     }
 
  */
+
+    public String getAbreviatura() {
+        return abreviatura;
+    }
+
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
+    }
+
+    public String getIdCurso() {
+        return idCurso;
+    }
+
+    public void setIdCurso(String idCurso) {
+        this.idCurso = idCurso;
+    }
+
+    public String getCursoId() {
+        return cursoId;
+    }
+
+    public void setCursoId(String cursoId) {
+        this.cursoId = cursoId;
+    }
 }

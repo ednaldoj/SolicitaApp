@@ -234,7 +234,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/buttonVoltar"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -262,7 +262,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInfoEmail" />
 
         <Button
-            android:id="@+id/button13"
+            android:id="@+id/buttonHome"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginStart="16dp"

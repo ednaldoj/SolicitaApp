@@ -15,7 +15,7 @@ public class TelaHomeAluno extends AppCompatActivity {
 
     SharedPrefManager sharedPrefManager;
     TextView textNomeUsuario;
-    Button buttonLogout;
+    Button buttonLogout, buttonHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,8 @@ public class TelaHomeAluno extends AppCompatActivity {
 
         textNomeUsuario.setText(sharedPrefManager.getSPNome());
 
+        buttonHome.setOnClickListener(v -> irHome());
+
         buttonLogout.setOnClickListener(v -> logoutApp());
     }
     public void logoutApp() {
@@ -34,6 +36,10 @@ public class TelaHomeAluno extends AppCompatActivity {
         startActivity(new Intent(TelaHomeAluno.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
+    }
+    public void irHome(){
+        startActivity(new Intent(TelaHomeAluno.this, TelaHomeAluno.class));
+
     }
 
 
@@ -52,5 +58,6 @@ public class TelaHomeAluno extends AppCompatActivity {
     public void inicializarComponentes(){
         textNomeUsuario = findViewById(R.id.textNomeUsuario);
         buttonLogout = findViewById(R.id.buttonLogout);
+        buttonHome = findViewById(R.id.buttonHome);
     }
 }

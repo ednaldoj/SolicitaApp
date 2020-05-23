@@ -38,7 +38,7 @@ import retrofit2.Response;
 
 public class TelaInformacoesDiscente extends AppCompatActivity {
 
-    public TextView textInfoNome, textInfoCPF, textInfoVinculo, textInfoUnidadeAcademica, textInfoCurso, textInfoEmail;
+    public TextView textInfoNome, textInfoCPF, textInfoVinculo, textInfoUnidadeAcademica, textInfoCurso, textInfoEmail, textNomeUsuario;
 
     ApiInterface apiInterface;
     SharedPrefManager sharedPrefManager;
@@ -55,7 +55,7 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
     ArrayList<Perfil> perfilArrayList;
     ArrayList<String> perfil = new ArrayList<>();
 
-    Button buttonExcluirPerfil;
+    Button buttonExcluirPerfil, buttonLogout, buttonHome;
 
     String idPerfil = "";
     String mensagemExcluir = "";
@@ -71,15 +71,17 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
 
         //inicializar componentes
         inicializarComponentes();
+
+        textNomeUsuario.setText(sharedPrefManager.getSPNome());
+
         buscarPerfisJSON();
         buscarInfoJSON();
 
-        buttonExcluirPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                excluirPerfil();
-            }
-        });
+        buttonHome.setOnClickListener(v -> irHome());
+
+        buttonLogout.setOnClickListener(v -> logoutApp());
+
+        buttonExcluirPerfil.setOnClickListener(v -> excluirPerfil());
     }
 
     public void radioGroupJSON(String response) {
@@ -326,6 +328,20 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
         textInfoEmail = findViewById(R.id.textInfoEmail);
         linearLayout = findViewById(R.id.linearLayout);
         buttonExcluirPerfil = findViewById(R.id.buttonExcluirPerfil);
+        buttonLogout = findViewById(R.id.buttonLogout);
+        buttonHome = findViewById(R.id.buttonHome);
+        textNomeUsuario = findViewById(R.id.textNomeUsuario);
+
+
+    }
+    public void logoutApp() {
+        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+        startActivity(new Intent(TelaInformacoesDiscente.this, LoginActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
+    }
+    public void irHome(){
+        startActivity(new Intent(TelaInformacoesDiscente.this, TelaHomeAluno.class));
 
     }
 

@@ -119,7 +119,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button13"
+        android:id="@+id/buttonHome"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginStart="16dp"

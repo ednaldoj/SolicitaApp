@@ -3,7 +3,7 @@ package com.solicita.model;
 public class Curso {
 
     private int id;
-    private String nome, unidade_id;
+    private String nome, unidade_id, abreviatura;
 
     public int getId() {
         return id;
@@ -27,5 +27,13 @@ public class Curso {
 
     public void setUnidade_id(String unidade_id) {
         this.unidade_id = unidade_id;
+    }
+
+    public String getAbreviatura() {
+        return abreviatura;
+    }
+
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
     }
 }

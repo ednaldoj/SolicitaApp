@@ -10,11 +10,9 @@ public class Perfil {
 
     @Expose
     @SerializedName("default") String curso;
-    //private String curso;
 
     @Expose
     @SerializedName("situacao") String situacao;
-    //private String situacao;
     private int aluno_id;
     private String unidade_id;
     private int curso_id;

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.solicita.R;
@@ -15,9 +16,11 @@ import java.util.ArrayList;
 public class TelaConfirmacaoRequisicao extends AppCompatActivity {
 
 
-    private TextView textProtNome, textProtCurso, textProtVinculo, textProtData, textProtDocumentos;
+    private TextView textProtNome, textProtCurso, textProtVinculo, textProtData, textProtDocumentos, textNomeUsuario;
 
     private SharedPrefManager sharedPrefManager;
+
+    Button buttonLogout, buttonHome, buttonVoltar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,14 @@ public class TelaConfirmacaoRequisicao extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(this);
 
         inicializarComponentes();
+
+        textNomeUsuario.setText(sharedPrefManager.getSPNome());
+
+        buttonHome.setOnClickListener(v -> irHome());
+
+        buttonLogout.setOnClickListener(v -> logoutApp());
+
+        buttonVoltar.setOnClickListener(v -> irHome());
 
         //Recuperar dados enviados
         Bundle dados = getIntent().getExtras();
@@ -59,9 +70,21 @@ public class TelaConfirmacaoRequisicao extends AppCompatActivity {
         textProtVinculo = findViewById(R.id.textProtVinculo);
         textProtData = findViewById(R.id.textProtData);
         textProtDocumentos = findViewById(R.id.textProtDocumentos);
+        buttonLogout = findViewById(R.id.buttonLogout);
+        buttonHome = findViewById(R.id.buttonHome);
+        buttonVoltar = findViewById(R.id.buttonVoltar);
+        textNomeUsuario = findViewById(R.id.textNomeUsuario);
 
-    }public void abrirHome(View view){
-        Intent abrirHome = new Intent(getApplicationContext(), TelaHomeAluno.class);
-        startActivity(abrirHome);
+
+    }
+    public void logoutApp() {
+        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+        startActivity(new Intent(TelaConfirmacaoRequisicao.this, LoginActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
+    }
+    public void irHome(){
+        startActivity(new Intent(TelaConfirmacaoRequisicao.this, TelaHomeAluno.class));
+
     }
 }

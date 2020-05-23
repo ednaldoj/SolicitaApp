@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,9 +34,11 @@ import retrofit2.Response;
 public class TelaAlterarSenha extends AppCompatActivity {
 
     private TextInputEditText campoConfNovaSenha, campoSenhaAtual, campoNovaSenha;
-    private Button buttonAlterarSenha;
+    private Button buttonAlterarSenha, buttonLogout, buttonHome;
     ApiInterface apiInterface;
     SharedPrefManager sharedPrefManager;
+    TextView textNomeUsuario;
+
 
 
     @Override
@@ -46,16 +49,17 @@ public class TelaAlterarSenha extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-       inicializarComponentes();
 
-        buttonAlterarSenha.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                alterarSenha();
+        inicializarComponentes();
 
-            }
-        });
+        textNomeUsuario.setText(sharedPrefManager.getSPNome());
+
+        buttonHome.setOnClickListener(v -> irHome());
+
+        buttonLogout.setOnClickListener(v -> logoutApp());
+
+        buttonAlterarSenha.setOnClickListener(v -> alterarSenha());
     }
     public void alterarSenha(){
         String atual = campoSenhaAtual.getText().toString();
@@ -66,11 +70,14 @@ public class TelaAlterarSenha extends AppCompatActivity {
         userResponseCall.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
-                if (response.code()==200){
-                    DefaultResponse dr = response.body();
-                    Toast.makeText(TelaAlterarSenha.this, dr.getMessage(), Toast.LENGTH_SHORT).show();
+                DefaultResponse dr = response.body();
+                Toast.makeText(TelaAlterarSenha.this, dr.getMessage(), Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful()){
+                    if(response.code()==201){
+                        Toast.makeText(TelaAlterarSenha.this, dr.getMessage(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(TelaAlterarSenha.this, TelaInformacoesDiscente.class));
 
-
+                    }
                 }else{
                     Toast.makeText(TelaAlterarSenha.this, "Falha ao atualizar senha!", Toast.LENGTH_SHORT).show();
                 }
@@ -135,6 +142,21 @@ public class TelaAlterarSenha extends AppCompatActivity {
         campoNovaSenha = findViewById(R.id.editNovaSenha);
         campoConfNovaSenha = findViewById(R.id.editConfNovaSenha);
         buttonAlterarSenha = findViewById(R.id.buttonAlterarSenha);
+        buttonLogout = findViewById(R.id.buttonLogout);
+        buttonHome = findViewById(R.id.buttonHome);
+        textNomeUsuario = findViewById(R.id.textNomeUsuario);
+
+
+    }
+
+    public void logoutApp() {
+        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+        startActivity(new Intent(TelaAlterarSenha.this, LoginActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
+    }
+    public void irHome(){
+        startActivity(new Intent(TelaAlterarSenha.this, TelaHomeAluno.class));
 
     }
     public void irTelaInformacoesDiscente(View view) {

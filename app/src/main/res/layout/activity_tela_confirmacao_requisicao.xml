@@ -201,7 +201,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textProtData" />
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/buttonVoltar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -211,7 +211,6 @@
             android:layout_marginRight="32dp"
             android:layout_marginBottom="32dp"
             android:background="#1B2E4F"
-            android:onClick="abrirHome"
             android:text=" Voltar para a tela inicial "
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -220,7 +219,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
         <Button
-            android:id="@+id/button13"
+            android:id="@+id/buttonHome"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginStart="16dp"

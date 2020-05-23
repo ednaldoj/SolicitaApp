@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.solicita.R;
+import com.solicita.helper.SharedPrefManager;
 import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
 import com.solicita.network.response.DefaultResponse;
@@ -22,7 +24,9 @@ public class TelaRedefinirSenha extends AppCompatActivity {
 
     private TextInputEditText textEsqueciSenha;
     ApiInterface apiInterface;
-    Button buttonRedefinirSenha;
+    Button buttonRedefinirSenha, buttonLogout, buttonHome;
+    SharedPrefManager sharedPrefManager;
+    TextView textNomeUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +34,18 @@ public class TelaRedefinirSenha extends AppCompatActivity {
         setContentView(R.layout.activity_tela_redefinir_senha);
 
         inicializarComponentes();
+
+        sharedPrefManager = new SharedPrefManager(this);
+
+        textNomeUsuario.setText(sharedPrefManager.getSPNome());
+
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        buttonRedefinirSenha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                redefinirSenha();
+        buttonHome.setOnClickListener(v -> irHome());
 
-            }
-        });
+        buttonLogout.setOnClickListener(v -> logoutApp());
+
+        buttonRedefinirSenha.setOnClickListener(v -> redefinirSenha());
 
     }
 
@@ -72,10 +79,25 @@ public class TelaRedefinirSenha extends AppCompatActivity {
 
     }
 
+    public void logoutApp() {
+        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+        startActivity(new Intent(TelaRedefinirSenha.this, LoginActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
+    }
+    public void irHome(){
+        startActivity(new Intent(TelaRedefinirSenha.this, TelaHomeAluno.class));
+
+    }
+
     public void inicializarComponentes(){
 
         textEsqueciSenha=findViewById(R.id.textEsqueciSenha);
         buttonRedefinirSenha=findViewById(R.id.buttonRedefinirSenha);
+        buttonLogout = findViewById(R.id.buttonLogout);
+        buttonHome = findViewById(R.id.buttonHome);
+        textNomeUsuario = findViewById(R.id.textNomeUsuario);
+
 
     }
 }
