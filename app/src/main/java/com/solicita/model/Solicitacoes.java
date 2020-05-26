@@ -11,9 +11,10 @@ public class Solicitacoes {
     public Solicitacoes() {
     }
 
-    public Solicitacoes(String id, String curso, String data_pedido, String hora_pedido, String documentosSolicitados, String status) {
+    public Solicitacoes(String id, String curso, String abreviatura, String data_pedido, String hora_pedido, String documentosSolicitados, String status) {
         this.id = id;
         this.curso = curso;
+        this.abreviatura = abreviatura;
         this.data_pedido = data_pedido;
         this.hora_pedido = hora_pedido;
         this.documentosSolicitados = documentosSolicitados;

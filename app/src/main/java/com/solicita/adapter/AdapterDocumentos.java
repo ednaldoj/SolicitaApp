@@ -67,10 +67,11 @@ public class AdapterDocumentos extends RecyclerView.Adapter<AdapterDocumentos.My
         Solicitacoes solicitacoes = listaSolicitacoes.get(position);
 
     //    holder.textIdAdap.setText(solicitacoes.getId());
-        holder.textCursoAdap.setText(solicitacoes.getCurso());
+        holder.textCursoAdap.setText(solicitacoes.getAbreviatura());
     //    holder.textDataAdap.setText(solicitacoes.getData_pedido());
         holder.textStatusAdap.setText(solicitacoes.getStatus());
         holder.textSolicitadosAdap.setText(solicitacoes.getDocumentosSolicitados());
+
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
