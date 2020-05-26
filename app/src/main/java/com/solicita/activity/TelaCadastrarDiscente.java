@@ -1,19 +1,28 @@
 package com.solicita.activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.safetynet.SafetyNet;
+import com.google.android.gms.safetynet.SafetyNetApi;
 import com.solicita.helper.MaskCustom;
 import com.solicita.helper.ValidacaoCPF;
 import com.solicita.R;
@@ -37,11 +46,12 @@ import java.util.ArrayList;
 
 import static android.R.layout.simple_spinner_item;
 
-public class TelaCadastrarDiscente extends AppCompatActivity {
+public class TelaCadastrarDiscente extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks {
 
     TextInputEditText campoNome, campoCPF, campoEmail, campoSenha, campoConfirmarSenha;
     Spinner spinnerVinculo, spinnerUnidade, spinnerCurso;
     Button buttonCadastro;
+    CheckBox checkBox;
     ApiInterface apiInterface;
     Call<UserResponse> call;
     Context mContext;
@@ -52,6 +62,9 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
     private int index;
     String idUnidade;
     String idCurso;
+    GoogleApiClient googleApiClient;
+
+    String SiteKey="6LcgPvsUAAAAADb-PsgvX4Q7WJQQvtM1mLE6njKR";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +77,27 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
         inicializarComponentes();
         buscarJSON();
 
+        googleApiClient = new GoogleApiClient.Builder(this).addApi(SafetyNet.API).addConnectionCallbacks(TelaCadastrarDiscente.this).build();
+        googleApiClient.connect();
+
         buttonCadastro.setOnClickListener(v -> cadastrar());
+
+        checkBox.setOnClickListener(v -> {
+            if (checkBox.isChecked()){
+                SafetyNet.SafetyNetApi.verifyWithRecaptcha(googleApiClient, SiteKey).setResultCallback(recaptchaTokenResult -> {
+                    Status status = recaptchaTokenResult.getStatus();
+                    if ((status!=null) && status.isSuccess()){
+                        Toast.makeText(getApplicationContext(), "Sucessfully Varified...", Toast.LENGTH_LONG).show();
+                        checkBox.setTextColor(Color.GREEN);
+                        System.out.println("Sucessoooo");
+                    }
+                });
+            }else{
+                System.out.println("Falhou");
+                checkBox.setTextColor(Color.BLACK);
+            }
+
+        });
     }
     private void buscarJSON(){
 
@@ -486,5 +519,16 @@ public class TelaCadastrarDiscente extends AppCompatActivity {
         campoSenha = findViewById(R.id.editSenha);
         campoConfirmarSenha = findViewById(R.id.editConfirmarSenha);
         buttonCadastro = findViewById(R.id.buttonAdicionarPerfil);
+        checkBox = findViewById(R.id.checkBox);
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
     }
 }

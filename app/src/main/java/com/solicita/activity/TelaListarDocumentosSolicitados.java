@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.solicita.R;
 import com.solicita.adapter.AdapterDocumentos;
+import com.solicita.helper.RecyclerItemClickListener;
 import com.solicita.helper.SharedPrefManager;
 import com.solicita.model.Solicitacoes;
 import com.solicita.network.ApiClient;
@@ -79,6 +81,7 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
     ArrayList<String> listarIdDocumentos = new ArrayList<>();
 
     ArrayList<String> listarCursos = new ArrayList<>();
+    ArrayList<String> listarCursosAbrev = new ArrayList<>();
     ArrayList<String> listarIdCursos = new ArrayList<>();
 
     String idRequisicao = "";
@@ -92,7 +95,7 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
 
         sharedPrefManager = new SharedPrefManager(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
-
+        context = this;
         inicializarComponentes();
 
         textNomeUsuario.setText(sharedPrefManager.getSPNome());
@@ -114,6 +117,41 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
         adapterDocumentos = new AdapterDocumentos(listaSolicitacoes, this);
         recyclerRequisicoes.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
         recyclerRequisicoes.setAdapter(adapterDocumentos);
+
+        //evento de click
+        recyclerRequisicoes.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerRequisicoes, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Solicitacoes solicitacoes = listaSolicitacoes.get(position);
+
+                AlertDialog alertDialog = new AlertDialog.Builder(TelaListarDocumentosSolicitados.this).create();
+                alertDialog.setTitle("Informações da Requisição");
+                alertDialog.setMessage("ID: " + solicitacoes.getId() + "\n" +
+                        "Curso: " + solicitacoes.getCurso() + "\n" +
+                        "Data e Hora: " + solicitacoes.getData_pedido() + "\n" +
+                        "Status: " + solicitacoes.getStatus() + "\n" +
+                        "Documentos: " + solicitacoes.getDocumentosSolicitados());
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+                //   Toast.makeText(getApplicationContext(), "Click longo", Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        }));
+
     }
 
     private void buscarJSON() {
@@ -228,130 +266,74 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
             }
             System.out.println("ID: " + listarIdDocumentos + " Documentos: " + listarDocumentos);
 
-            for (int i=0; i<jsonArrayCursos.length(); i++){
+            for (int i = 0; i < jsonArrayCursos.length(); i++) {
                 Solicitacoes cursos = new Solicitacoes();
                 JSONObject jsonObject = jsonArrayCursos.getJSONObject(i);
                 cursos.setIdCurso(jsonObject.getString("id"));
+                cursos.setCurso(jsonObject.getString("nome"));
                 cursos.setAbreviatura(jsonObject.getString("abreviatura"));
 
                 listarCursosArrayList.add(cursos);
             }
 
-            for (int i=0; i<listarCursosArrayList.size();i++){
-                listarCursos.add(listarCursosArrayList.get(i).getAbreviatura());
+            for (int i = 0; i < listarCursosArrayList.size(); i++) {
+                listarCursos.add(listarCursosArrayList.get(i).getCurso());
+                listarCursosAbrev.add(listarCursosArrayList.get(i).getAbreviatura());
                 listarIdCursos.add(listarCursosArrayList.get(i).getIdCurso());
             }
 
-            System.out.println("ID: " + listarIdCursos + " Curso: " + listarCursos);
+            System.out.println("ID: " + listarIdCursos + " Curso: " + listarCursos + " Abreviatura " + listarCursosAbrev);
+
+            ArrayList listaDocs = null;
+            ArrayList listaStatus = null;
 
             for (int i = 0; i < jsonArrayRequisicoes.length(); i++) {
+                listaDocs = new ArrayList<>();
                 for (int j = 0; j < jsonArraySolicitados.length(); j++) {
-                    for (int k = 0; k < jsonArrayDocumentos.length(); k++) {
-                        for (int l = 0; l < jsonArrayPerfis.length(); l++) {
-                            for (int m = 0; m < jsonArrayCursos.length(); m++) {
+                    if (listarRequisicoesArrayList.get(i).getId().equals(listarSolicitadosArrayList.get(j).getRequisicaoId())) {
+                        listaDocs.add(listarSolicitadosArrayList.get(j).getDocumentoId());
+                    }
+                }
+                System.out.println("Requisição: " + listarRequisicoesArrayList.get(i).getId() + " " + listarRequisicoesArrayList.get(i).getPerfilId() + " " +
+                        listarRequisicoesArrayList.get(i).getData_pedido() + " " + listarRequisicoesArrayList.get(i).getHora_pedido() + " " + listaDocs);
+            }
 
-                                if (listarRequisicoesArrayList.get(i).getId().equals(listarSolicitadosArrayList.get(j).getRequisicaoId())) {
-                                    if (listarSolicitadosArrayList.get(j).getDocumentoId().equals(listarDocumentosArrayList.get(k).getIdDocumento())) {
-                                        if (listarRequisicoesArrayList.get(i).getPerfilId().equals(listarPerfisArrayList.get(l).getIdPerfil())) {
-                                            if (listarPerfisArrayList.get(l).getCursoId().equals(listarCursosArrayList.get(m).getIdCurso())) {
+            for (int i = 0; i < jsonArrayRequisicoes.length(); i++) {
+                for (int j = 0; j < jsonArrayPerfis.length(); j++) {
+                    for (int k = 0; k < jsonArrayCursos.length(); k++) {
 
-
-                                                Solicitacoes solicitacoes = new Solicitacoes(listarRequisicoesArrayList.get(i).getId(), "     " + listarCursosArrayList.get(m).getAbreviatura(),
-                                                        listarRequisicoesArrayList.get(i).getData_pedido() + " " + listarRequisicoesArrayList.get(i).getHora_pedido(), listarRequisicoesArrayList.get(i).getHora_pedido(),
-                                                        listarDocumentosArrayList.get(k).getDocumento(), listarSolicitadosArrayList.get(j).getStatus());
-                                                listaSolicitacoes.add(solicitacoes);
-
-                                      /*  List<Solicitacoes> solicitacoesList = Arrays.asList(
-                                           new Solicitacoes(listarRequisicoesArrayList.get(i).getId(), listarPerfisArrayList.get(l).getCurso(), listarDocumentosArrayList.get(k).getDocumento(), listarSolicitadosArrayList.get(j).getStatus())
-                                        );
-                                        Map<String, List<Solicitacoes>> groupedById = solicitacoesList.stream().collect(Collectors.groupingBy(Solicitacoes::getId));
-                                     //   Map<String, List<Solicitacoes>> groupedById2 = solicitacoesList.stream().collect(Collectors.groupingBy(it -> it.getId()));
-                                        System.out.println("Resultado: "+groupedById);*/
-                                                // System.out.println("Resultado: "+groupedById2);
-
-
-                                        /*System.out.println("\n" + listarRequisicoesArrayList.get(i).getId() + " " + listarPerfisArrayList.get(l).getCurso() + " " +
-                                                listarDocumentosArrayList.get(k).getDocumento() + " " + listarSolicitadosArrayList.get(j).getStatus());*/
-
-
+                        if (listarRequisicoesArrayList.get(i).getPerfilId().equals(listarPerfisArrayList.get(j).getIdPerfil())) {
+                            if (listarPerfisArrayList.get(j).getCursoId().equals(listarCursosArrayList.get(k).getIdCurso())) {
+                                listaDocs = new ArrayList<>();
+                                listaStatus = new ArrayList();
+                                for (int l = 0; l < jsonArraySolicitados.length(); l++) {
+                                    for (int m = 0; m < jsonArrayDocumentos.length(); m++) {
+                                        if (listarRequisicoesArrayList.get(i).getId().equals(listarSolicitadosArrayList.get(l).getRequisicaoId())) {
+                                            if (listarSolicitadosArrayList.get(l).getDocumentoId().equals(listarDocumentosArrayList.get(m).getIdDocumento())) {
+                                                listaDocs.add(listarDocumentosArrayList.get(m).getDocumento());
+                                                listaStatus.add(listarSolicitadosArrayList.get(l).getStatus());
                                             }
                                         }
                                     }
-
                                 }
+                                //String convert = solicitados.toString().replace("[", " ").replace("]", "").replace(",", "\n\n");
+                                String convertDocs = listaDocs.toString().replace("[", " ").replace("]", "");
+                                String convertStatus = listaStatus.toString().replace("[", " ").replace("]", "");
+
+                                System.out.println(listarRequisicoesArrayList.get(i).getId() + " " + listarCursosArrayList.get(k).getCurso() + " " +
+                                        listarCursosArrayList.get(k).getAbreviatura() + " " + listarRequisicoesArrayList.get(i).getData_pedido() + " " +
+                                        listarRequisicoesArrayList.get(i).getHora_pedido() + " " + convertDocs + " " + convertStatus);
+
                             }
                         }
                     }
                 }
             }
- /*           for (int i = 0; i < jsonArrayRequisicoes.length(); i++) {
-                for (int j = 0; j < jsonArraySolicitados.length(); j++) {
-                    if (listarRequisicoesArrayList.get(i).getId().equals(listarSolicitadosArrayList.get(j).getRequisicaoId())) {
 
-                        Solicitacoes solicitacoes = new Solicitacoes(listarRequisicoesArrayList.get(i).getId(), listarSolicitadosArrayList.get(j).getDocumentoId(), "", "", "", "");
-                        listaSolicitacoes.add(solicitacoes);
-
-       /*                 if (listarSolicitadosArrayList.contains(listarSolicitadosArrayList.get(j).getRequisicaoId())){
-                            System.out.println("Mesma requisição");
-                        }else{
-                            System.out.println("Nova requisição");
-                        }
-
-        */
- /*                       System.out.println("\n" + listarRequisicoesArrayList.get(i).getId() + " " + listarRequisicoesArrayList.get(i).getPerfilId() + " " +
-                                listarRequisicoesArrayList.get(i).getData_pedido() + ", " + listarRequisicoesArrayList.get(i).getHora_pedido() + " " +
-                                listarSolicitadosArrayList.get(j).getDocumentoId() + " ");
-
-                    }
-                }
-            }*/
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
-   /* public static void excluirRequisicao() {
-
-            AlertDialog.Builder dialogExluirPerfil = new AlertDialog.Builder(this);
-
-            dialogExluirPerfil.setTitle("Exclusão de Requisição");
-            dialogExluirPerfil.setMessage("Deseja realmente excluir a requisição?");
-
-            dialogExluirPerfil.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Call<DefaultResponse> callExcluir = apiInterface.postExcluirPerfil(idRequisicao, sharedPrefManager.getSPToken());
-                    callExcluir.enqueue(new Callback<DefaultResponse>() {
-                        @Override
-                        public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
-                            if (response.code() == 200) {
-
-                                DefaultResponse dr = response.body();
-                                Toast.makeText(getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
-
-                            } else {
-
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<DefaultResponse> call, Throwable t) {
-
-                        }
-                    });
-                }
-            });
-            dialogExluirPerfil.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            dialogExluirPerfil.create();
-            dialogExluirPerfil.show();
-
-    } */
 
     public void logoutApp() {
         sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
@@ -359,7 +341,8 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
-    public void irHome(){
+
+    public void irHome() {
         startActivity(new Intent(TelaListarDocumentosSolicitados.this, TelaHomeAluno.class));
 
     }

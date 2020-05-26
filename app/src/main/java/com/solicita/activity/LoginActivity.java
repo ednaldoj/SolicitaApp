@@ -93,7 +93,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (response.code() == 200) {
                     User user = response.body().getUser();
-                    sharedPrefManager.saveSPString(SharedPrefManager.SP_NOME, user.getName());
+                    String primeiroNome = user.getName();
+                    String[] s = primeiroNome.trim().split(" ");
+                    sharedPrefManager.saveSPString(SharedPrefManager.SP_NOME, s[0]);
+                   // sharedPrefManager.saveSPString(SharedPrefManager.SP_NOME, user.getName());
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_TOKEN, "Bearer " +response.body().getToken());
                     System.out.println(response.body().getToken());
                     sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, true);

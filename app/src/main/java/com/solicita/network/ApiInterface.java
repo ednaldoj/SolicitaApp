@@ -2,6 +2,7 @@ package com.solicita.network;
 
 import com.solicita.model.User;
 import com.solicita.network.response.DefaultResponse;
+import com.solicita.network.response.RecaptchaResponse;
 import com.solicita.network.response.SolicitacaoResponse;
 import com.solicita.network.response.UserResponse;
 
@@ -11,6 +12,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ApiInterface {
 
@@ -77,4 +79,6 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/requisicaos/esqueciSenha")
     Call<DefaultResponse> postEsqueciSenha (@Field("email") String email);
+
+    Call<RecaptchaResponse> validateRecaptcha(@Query("response_key") String response_key, @Query("feedback") String feedback);
 }

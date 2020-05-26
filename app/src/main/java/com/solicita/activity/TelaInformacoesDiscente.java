@@ -58,7 +58,6 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
     Button buttonExcluirPerfil, buttonLogout, buttonHome;
 
     String idPerfil = "";
-    String mensagemExcluir = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -334,12 +333,14 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
 
 
     }
+
     public void logoutApp() {
         sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
         startActivity(new Intent(TelaInformacoesDiscente.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
+
     public void irHome(){
         startActivity(new Intent(TelaInformacoesDiscente.this, TelaHomeAluno.class));
 

@@ -6,17 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.solicita.R;
-import com.solicita.activity.TelaListarDocumentosSolicitados;
 import com.solicita.helper.SharedPrefManager;
 import com.solicita.model.Solicitacoes;
 import com.solicita.network.ApiClient;
