@@ -77,6 +77,10 @@ public interface ApiInterface {
     Call<DefaultResponse> postAdicionaPerfil (@Field("vinculo") String vinculo, @Field("unidade") String unidade, @Field("curso") String curso, @Field("selecaoPadrao") String selecaoVinculoPadrao, @Header("Authorization") String token);
 
     @FormUrlEncoded
+    @POST("api/perfils/definirPerfilDefault")
+    Call<DefaultResponse> postAlterarPerfil (@Field("idPerfil") String idPerfilDefault, @Header("Authorization") String token);
+
+    @FormUrlEncoded
     @POST("api/requisicaos/esqueciSenha")
     Call<DefaultResponse> postEsqueciSenha (@Field("email") String email);
 

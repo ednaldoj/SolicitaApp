@@ -205,17 +205,15 @@
             android:id="@+id/button6"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
             android:background="#1B2E4F"
             android:onClick="irTelaAdicionarPerfil"
             android:text="Adicionar perfil"
             android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button12" />
 
         <Button
             android:id="@+id/buttonExcluirPerfil"
@@ -225,7 +223,7 @@
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginBottom="32dp"
-            android:background="#1B2E4F"
+            android:background="#9E1717"
             android:onClick="excluirPerfil"
             android:text="Excluir perfil"
             android:textColor="#FFFFFF"
@@ -239,13 +237,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:background="#1B2E4F"
             android:onClick="irTelaEditarPerfil"
             android:text="Editar perfil"
             android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toTopOf="@+id/textView5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInfoEmail" />
 
@@ -253,7 +249,7 @@
             android:id="@+id/button12"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
             android:onClick="irTelaAlterarSenha"
@@ -307,7 +303,7 @@
             android:layout_marginLeft="32dp"
             android:text="Perfis do Aluno"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/button"
+            app:layout_constraintBaseline_toBaselineOf="@+id/button6"
             app:layout_constraintStart_toStartOf="parent" />
 
         <LinearLayout
@@ -322,19 +318,21 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button"></LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/button6"></LinearLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonAlterarPerfil"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
+            android:layout_marginBottom="32dp"
             android:text="Alterar perfil padrão"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button12" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

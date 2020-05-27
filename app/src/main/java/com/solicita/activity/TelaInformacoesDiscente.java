@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +39,8 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
 
     public TextView textInfoNome, textInfoCPF, textInfoVinculo, textInfoUnidadeAcademica, textInfoCurso, textInfoEmail, textNomeUsuario;
 
+    Button buttonAlterarPerfil;
+
     ApiInterface apiInterface;
     SharedPrefManager sharedPrefManager;
     Context context;
@@ -58,6 +59,7 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
     Button buttonExcluirPerfil, buttonLogout, buttonHome;
 
     String idPerfil = "";
+    String idPerfilDefault = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,9 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
         buttonLogout.setOnClickListener(v -> logoutApp());
 
         buttonExcluirPerfil.setOnClickListener(v -> excluirPerfil());
+
+        buttonAlterarPerfil.setOnClickListener(v -> alterarPerfilDefault());
+
     }
 
     public void radioGroupJSON(String response) {
@@ -127,15 +132,20 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
                     RadioButton radioButton = findViewById(checkedId);
                     Toast.makeText(getApplicationContext(), radioButton.getText(), Toast.LENGTH_LONG).show();
                     System.out.println(radioGroup.getCheckedRadioButtonId());
-                    int valor = radioGroup.getCheckedRadioButtonId();
 
                     for (int i = 0; i < perfilArrayList.size(); i++) {
                         if (radioButton.getText().equals(perfilArrayList.get(i).getCurso() + " - " + perfilArrayList.get(i).getSituacao())) {
                             System.out.println("Valor do ID: " + perfilArrayList.get(i).getId());
                             idPerfil = perfilArrayList.get(i).getId();
                         }
-
                     }
+                    for (int j = 0; j < perfilArrayList.size(); j++) {
+                        if (radioButton.getText().equals(perfilArrayList.get(j).getCurso() + " - " + perfilArrayList.get(j).getSituacao())) {
+                            System.out.println("Valor do ID: " + perfilArrayList.get(j).getId());
+                                 idPerfilDefault=perfilArrayList.get(j).getId();
+                        }
+                    }
+
                 }
             });
 
@@ -330,8 +340,7 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
         buttonLogout = findViewById(R.id.buttonLogout);
         buttonHome = findViewById(R.id.buttonHome);
         textNomeUsuario = findViewById(R.id.textNomeUsuario);
-
-
+        buttonAlterarPerfil = findViewById(R.id.buttonAlterarPerfil);
     }
 
     public void logoutApp() {
@@ -384,6 +393,7 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
 
                                 DefaultResponse dr = response.body();
                                 Toast.makeText(getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(TelaInformacoesDiscente.this, TelaInformacoesDiscente.class));
 
                             } else {
 
@@ -408,26 +418,53 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
 
         }
     }
+
+    public void alterarPerfilDefault() {
+
+        if (idPerfilDefault.equals("")) {
+            Toast.makeText(getApplicationContext(), "Selecione um perfil.", Toast.LENGTH_LONG).show();
+        } else {
+
+            AlertDialog.Builder dialogAlterarPerfil = new AlertDialog.Builder(this);
+
+            dialogAlterarPerfil.setTitle("Alteração de Perfil Acadêmico");
+            dialogAlterarPerfil.setMessage("Definir o perfil selecionado como padrão?");
+
+            dialogAlterarPerfil.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Call<DefaultResponse> callAlterar = apiInterface.postAlterarPerfil(idPerfilDefault, sharedPrefManager.getSPToken());
+                    callAlterar.enqueue(new Callback<DefaultResponse>() {
+                        @Override
+                        public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                            if (response.code() == 200) {
+
+                                DefaultResponse dr = response.body();
+                                Toast.makeText(getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(TelaInformacoesDiscente.this, TelaInformacoesDiscente.class));
+
+                            } else {
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
+                        }
+                    });
+                }
+            });
+            dialogAlterarPerfil.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            dialogAlterarPerfil.create();
+            dialogAlterarPerfil.show();
+
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
