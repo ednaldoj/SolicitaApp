@@ -4,21 +4,27 @@ import java.util.ArrayList;
 
 public class Solicitacoes {
 
-    private String id, curso, data_pedido, hora_pedido, documentosSolicitados, status, documentoId, perfilId, requisicaoId, documento, idDocumento, idPerfil, detalhes, abreviatura, idCurso, cursoId;
+    private String id, curso, data_pedido, hora_pedido, documentosSolicitados, status, detalhes, documentoId, perfilId, requisicaoId, documento, idDocumento, idPerfil, abreviatura, idCurso, cursoId;
    // private String id, curso, data_pedido, hora_pedido, status, documentoId, perfilId, requisicaoId, documento, idDocumento, idPerfil;
    // private ArrayList documentosSolicitados;
+    private ArrayList arrayDocumentos, arrayStatus, arrayDetalhes;
 
     public Solicitacoes() {
     }
 
-    public Solicitacoes(String id, String curso, String abreviatura, String data_pedido, String hora_pedido, String documentosSolicitados, String status) {
+    public Solicitacoes(String id, String curso, String abreviatura, String data_pedido, String hora_pedido, String documentosSolicitados, String detalhes, String status, ArrayList arrayDocumentos, ArrayList arrayStatus, ArrayList arrayDetalhes) {
         this.id = id;
         this.curso = curso;
         this.abreviatura = abreviatura;
         this.data_pedido = data_pedido;
         this.hora_pedido = hora_pedido;
         this.documentosSolicitados = documentosSolicitados;
+        this.detalhes=detalhes;
         this.status = status;
+        this.arrayDocumentos = arrayDocumentos;
+        this.arrayStatus = arrayStatus;
+        this.arrayDetalhes = arrayDetalhes;
+
     }
 
     public Solicitacoes(String id, String curso, String documentosSolicitados, String status) {
@@ -59,7 +65,6 @@ public class Solicitacoes {
     public void setStatus(String status) {
         this.status = status;
     }
-
     public String getCurso() {
         return curso;
     }
@@ -75,8 +80,6 @@ public class Solicitacoes {
     public void setDocumentosSolicitados(String documentosSolicitados) {
         this.documentosSolicitados = documentosSolicitados;
     }
-
-
     public String getDocumentoId() {
         return documentoId;
     }
@@ -132,15 +135,6 @@ public class Solicitacoes {
     public void setDetalhes(String detalhes) {
         this.detalhes = detalhes;
     }
-/*    public ArrayList getDocumentosSolicitados() {
-        return documentosSolicitados;
-    }
-
-    public void setDocumentosSolicitados(ArrayList documentosSolicitados) {
-        this.documentosSolicitados = documentosSolicitados;
-    }
-
- */
 
     public String getAbreviatura() {
         return abreviatura;
@@ -164,5 +158,29 @@ public class Solicitacoes {
 
     public void setCursoId(String cursoId) {
         this.cursoId = cursoId;
+    }
+
+    public ArrayList getArrayDocumentos() {
+        return arrayDocumentos;
+    }
+
+    public void setArrayDocumentos(ArrayList arrayDocumentos) {
+        this.arrayDocumentos = arrayDocumentos;
+    }
+
+    public ArrayList getArrayStatus() {
+        return arrayStatus;
+    }
+
+    public void setArrayStatus(ArrayList arrayStatus) {
+        this.arrayStatus = arrayStatus;
+    }
+
+    public ArrayList getArrayDetalhes() {
+        return arrayDetalhes;
+    }
+
+    public void setArrayDetalhes(ArrayList arrayDetalhes) {
+        this.arrayDetalhes = arrayDetalhes;
     }
 }

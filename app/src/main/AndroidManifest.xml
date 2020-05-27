@@ -15,16 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity"/>
-        <activity android:name=".activity.TelaCadastrarDiscente" ></activity>
-        <activity android:name=".activity.TelaSolicitarDocumentos" />
-        <activity android:name=".activity.TelaConfirmacaoRequisicao" />
-        <activity android:name=".activity.TelaListarDocumentosSolicitados" />
-        <activity android:name=".activity.TelaAdicionarPerfil" />
-        <activity android:name=".activity.TelaRedefinirSenha" />
-        <activity android:name=".activity.TelaInformacoesDiscente" />
-        <activity android:name=".activity.TelaHomeAluno" />
-        <activity android:name=".activity.TelaEditarPerfil" />
-        <activity android:name=".activity.TelaAlterarSenha" />
+        <activity android:name=".activity.CadastrarDiscenteActivity" ></activity>
+        <activity android:name=".activity.SolicitarDocumentosActivity" />
+        <activity android:name=".activity.ConfirmacaoRequisicaoActivity" />
+        <activity android:name=".activity.ListarDocumentosSolicitadosActivity" />
+        <activity android:name=".activity.AdicionarPerfilActivity" />
+        <activity android:name=".activity.RedefinirSenhaActivity" />
+        <activity android:name=".activity.InformacoesDiscenteActivity" />
+        <activity android:name=".activity.HomeAlunoActivity" />
+        <activity android:name=".activity.EditarPerfilActivity" />
+        <activity android:name=".activity.AlterarSenhaActivity" />
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="sensor">

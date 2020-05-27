@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TelaRedefinirSenha extends AppCompatActivity {
+public class RedefinirSenhaActivity extends AppCompatActivity {
 
     private TextInputEditText textEsqueciSenha;
     ApiInterface apiInterface;
@@ -31,7 +30,7 @@ public class TelaRedefinirSenha extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_redefinir_senha);
+        setContentView(R.layout.activity_redefinir_senha);
 
         inicializarComponentes();
 
@@ -59,15 +58,15 @@ public class TelaRedefinirSenha extends AppCompatActivity {
                 if (response.isSuccessful()){
 
                     if (response.code()==201){
-                        Toast.makeText(TelaRedefinirSenha.this, dr.getMessage(), Toast.LENGTH_LONG).show();
-                          startActivity(new Intent(TelaRedefinirSenha.this, LoginActivity.class));
+                        Toast.makeText(RedefinirSenhaActivity.this, dr.getMessage(), Toast.LENGTH_LONG).show();
+                          startActivity(new Intent(RedefinirSenhaActivity.this, LoginActivity.class));
                         finish();
 
                     }else{
-                        Toast.makeText(TelaRedefinirSenha.this, dr.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(RedefinirSenhaActivity.this, dr.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }else {
-                    Toast.makeText(TelaRedefinirSenha.this, "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RedefinirSenhaActivity.this, "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -81,12 +80,12 @@ public class TelaRedefinirSenha extends AppCompatActivity {
 
     public void logoutApp() {
         sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(TelaRedefinirSenha.this, LoginActivity.class)
+        startActivity(new Intent(RedefinirSenhaActivity.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
     public void irHome(){
-        startActivity(new Intent(TelaRedefinirSenha.this, TelaHomeAluno.class));
+        startActivity(new Intent(RedefinirSenhaActivity.this, HomeAlunoActivity.class));
 
     }
 

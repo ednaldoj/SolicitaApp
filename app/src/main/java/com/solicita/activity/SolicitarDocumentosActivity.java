@@ -32,7 +32,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -41,7 +40,7 @@ import retrofit2.Response;
 
 import static android.R.layout.simple_spinner_item;
 
-public class TelaSolicitarDocumentos extends AppCompatActivity {
+public class SolicitarDocumentosActivity extends AppCompatActivity {
 
     private Spinner spinnerPerfil;
 
@@ -81,7 +80,7 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_solicitar_documentos);
+        setContentView(R.layout.activity_solicitar_documentos);
 
         sharedPrefManager = new SharedPrefManager(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
@@ -122,7 +121,7 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                     dataP = requisicao.getData_pedido();
                     horaP = requisicao.getHora_pedido();
 
-                    Intent abrirProtocolo = new Intent(getApplicationContext(), TelaConfirmacaoRequisicao.class);
+                    Intent abrirProtocolo = new Intent(getApplicationContext(), ConfirmacaoRequisicaoActivity.class);
 
                     abrirProtocolo.putExtra("curso", cursoP);
                     abrirProtocolo.putExtra("situacao", situacaoP);
@@ -355,7 +354,7 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
                 System.out.println("ID do perfil: "+perfilId);
             }
 
-            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(TelaSolicitarDocumentos.this, simple_spinner_item, perfil);
+            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(SolicitarDocumentosActivity.this, simple_spinner_item, perfil);
             stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerPerfil.setAdapter(stringArrayAdapter);
 
@@ -387,12 +386,12 @@ public class TelaSolicitarDocumentos extends AppCompatActivity {
     }
     public void logoutApp() {
         sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(TelaSolicitarDocumentos.this, LoginActivity.class)
+        startActivity(new Intent(SolicitarDocumentosActivity.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
     public void irHome(){
-        startActivity(new Intent(TelaSolicitarDocumentos.this, TelaHomeAluno.class));
+        startActivity(new Intent(SolicitarDocumentosActivity.this, HomeAlunoActivity.class));
 
     }
 

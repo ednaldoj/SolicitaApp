@@ -36,7 +36,7 @@ import retrofit2.Response;
 
 import static android.R.layout.simple_spinner_item;
 
-public class TelaAdicionarPerfil extends AppCompatActivity {
+public class AdicionarPerfilActivity extends AppCompatActivity {
 
     private Spinner spinnerVinculo, spinnerUnidade, spinnerCurso;
     private CheckBox checkDefinirPadrao;
@@ -66,7 +66,7 @@ public class TelaAdicionarPerfil extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_adicionar_perfil);
+        setContentView(R.layout.activity_adicionar_perfil);
 
         sharedPrefManager=new SharedPrefManager(this);
         apiInterface= ApiClient.getClient().create(ApiInterface.class);
@@ -158,7 +158,7 @@ public class TelaAdicionarPerfil extends AppCompatActivity {
                 //      System.out.println("arr: "+ Arrays.toString(new ArrayList[]{cursos}));
             }
 
-            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(TelaAdicionarPerfil.this, simple_spinner_item, cursos);
+            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(AdicionarPerfilActivity.this, simple_spinner_item, cursos);
             stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerCurso.setAdapter(stringArrayAdapter);
 
@@ -209,7 +209,7 @@ public class TelaAdicionarPerfil extends AppCompatActivity {
                 //      System.out.println("arr: "+ Arrays.toString(new ArrayList[]{cursos}));
 
             }
-            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(TelaAdicionarPerfil.this, simple_spinner_item, unidade);
+            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(AdicionarPerfilActivity.this, simple_spinner_item, unidade);
             stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerUnidade.setAdapter(stringArrayAdapter);
 
@@ -271,12 +271,12 @@ public class TelaAdicionarPerfil extends AppCompatActivity {
                 if (response.isSuccessful()){
 
                     DefaultResponse dr = response.body();
-                    Toast.makeText(TelaAdicionarPerfil.this, dr.getMessage(), Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(TelaAdicionarPerfil.this, TelaInformacoesDiscente.class));
+                    Toast.makeText(AdicionarPerfilActivity.this, dr.getMessage(), Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(AdicionarPerfilActivity.this, InformacoesDiscenteActivity.class));
 
 
                 }else{
-                    Toast.makeText(TelaAdicionarPerfil.this, "Erro ao adicionar perfil! Verifique os dados e tente novamente.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdicionarPerfilActivity.this, "Erro ao adicionar perfil! Verifique os dados e tente novamente.", Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -304,17 +304,17 @@ public class TelaAdicionarPerfil extends AppCompatActivity {
     }
     public void logoutApp() {
         sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(TelaAdicionarPerfil.this, LoginActivity.class)
+        startActivity(new Intent(AdicionarPerfilActivity.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
     public void irHome(){
-        startActivity(new Intent(TelaAdicionarPerfil.this, TelaHomeAluno.class));
+        startActivity(new Intent(AdicionarPerfilActivity.this, HomeAlunoActivity.class));
 
     }
 
     public void abrirPerfilDiscente(View view){
-        Intent abrirPerfil = new Intent(getApplicationContext(), TelaInformacoesDiscente.class);
+        Intent abrirPerfil = new Intent(getApplicationContext(), InformacoesDiscenteActivity.class);
         startActivity(abrirPerfil);
     }
     public void inicializarComponentes(){

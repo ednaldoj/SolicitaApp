@@ -22,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TelaEditarPerfil extends AppCompatActivity {
+public class EditarPerfilActivity extends AppCompatActivity {
 
     private TextInputEditText editNomePerfil, editEmailPerfil;
     private Button buttonSalvarAlteracoes;
@@ -35,7 +35,7 @@ public class TelaEditarPerfil extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_editar_perfil);
+        setContentView(R.layout.activity_editar_perfil);
 
         sharedPrefManager = new SharedPrefManager(this);
         apiInterface= ApiClient.getClient().create(ApiInterface.class);
@@ -82,12 +82,12 @@ public class TelaEditarPerfil extends AppCompatActivity {
             public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
                 if (response.code()==200){
                     DefaultResponse dr = response.body();
-                    Toast.makeText(TelaEditarPerfil.this, dr.getMessage(), Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(TelaEditarPerfil.this, TelaInformacoesDiscente.class));
+                    Toast.makeText(EditarPerfilActivity.this, dr.getMessage(), Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(EditarPerfilActivity.this, InformacoesDiscenteActivity.class));
                     finish();
 
                 }else{
-                    Toast.makeText(TelaEditarPerfil.this, "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditarPerfilActivity.this, "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -111,17 +111,17 @@ public class TelaEditarPerfil extends AppCompatActivity {
     }
     public void logoutApp() {
         sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(TelaEditarPerfil.this, LoginActivity.class)
+        startActivity(new Intent(EditarPerfilActivity.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
     public void irHome(){
-        startActivity(new Intent(TelaEditarPerfil.this, TelaHomeAluno.class));
+        startActivity(new Intent(EditarPerfilActivity.this, HomeAlunoActivity.class));
 
     }
 
     public void irTelaInformacoesDiscente(View view){
-        Intent irTelaInformacoesDiscente = new Intent(getApplicationContext(), TelaInformacoesDiscente.class);
+        Intent irTelaInformacoesDiscente = new Intent(getApplicationContext(), InformacoesDiscenteActivity.class);
         startActivity(irTelaInformacoesDiscente);
     }
 }

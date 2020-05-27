@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -13,7 +12,7 @@ import com.solicita.helper.SharedPrefManager;
 
 import java.util.ArrayList;
 
-public class TelaConfirmacaoRequisicao extends AppCompatActivity {
+public class ConfirmacaoRequisicaoActivity extends AppCompatActivity {
 
 
     private TextView textProtNome, textProtCurso, textProtVinculo, textProtData, textProtDocumentos, textNomeUsuario;
@@ -25,7 +24,7 @@ public class TelaConfirmacaoRequisicao extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_confirmacao_requisicao);
+        setContentView(R.layout.activity_confirmacao_requisicao);
 
         sharedPrefManager = new SharedPrefManager(this);
 
@@ -79,12 +78,12 @@ public class TelaConfirmacaoRequisicao extends AppCompatActivity {
     }
     public void logoutApp() {
         sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(TelaConfirmacaoRequisicao.this, LoginActivity.class)
+        startActivity(new Intent(ConfirmacaoRequisicaoActivity.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
     public void irHome(){
-        startActivity(new Intent(TelaConfirmacaoRequisicao.this, TelaHomeAluno.class));
+        startActivity(new Intent(ConfirmacaoRequisicaoActivity.this, HomeAlunoActivity.class));
 
     }
 }

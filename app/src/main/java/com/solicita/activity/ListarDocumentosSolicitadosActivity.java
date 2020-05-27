@@ -38,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TelaListarDocumentosSolicitados extends AppCompatActivity {
+public class ListarDocumentosSolicitadosActivity extends AppCompatActivity {
 
     //RecyclerView
     public RecyclerView recyclerRequisicoes;
@@ -80,12 +80,18 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
 
     ArrayList listaDocs = null;
     ArrayList listaStatus = null;
+    ArrayList listaDetalhes = null;
+
+    ArrayList listaElementosDoc = null;
+    ArrayList listaElementosStatus = null;
+    ArrayList listaElementosDet = null;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_listar_documetos_solicitados);
+        setContentView(R.layout.activity_listar_documetos_solicitados);
 
         sharedPrefManager = new SharedPrefManager(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
@@ -118,13 +124,14 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 Solicitacoes solicitacoes = listaSolicitacoes.get(position);
 
-                AlertDialog alertDialog = new AlertDialog.Builder(TelaListarDocumentosSolicitados.this).create();
+                AlertDialog alertDialog = new AlertDialog.Builder(ListarDocumentosSolicitadosActivity.this).create();
                 alertDialog.setTitle("Informações da Requisição");
                 alertDialog.setMessage("ID: " + solicitacoes.getId() + "\n" +
                         "Curso: " + solicitacoes.getCurso() + "\n" +
-                        "Data e Hora: " + solicitacoes.getData_pedido() + " "+ solicitacoes.getHora_pedido() +"\n");
-                       // "Status: " + solicitacoes.getStatus() + "\n" +
-                        //"Documentos: " + solicitacoes.getDocumentosSolicitados());
+                        "Data e Hora: " + solicitacoes.getData_pedido() + " "+ solicitacoes.getHora_pedido() +"\n" +
+                        "Documento(s): " + solicitacoes.getArrayDocumentos().toString().replace("[", "").replace("]", "")+ "\n" +
+                        "Status: " + solicitacoes.getArrayStatus().toString().replace("[", "").replace("]", "")+"\n" +
+                        "Detalhes: " + solicitacoes.getArrayDetalhes().toString().replace("[","").replace("]", ""));
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -162,7 +169,7 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
                 } else {
 
                     Toast.makeText(getApplicationContext(), "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(TelaListarDocumentosSolicitados.this, LoginActivity.class));
+                    startActivity(new Intent(ListarDocumentosSolicitadosActivity.this, LoginActivity.class));
 
                 }
             }
@@ -288,6 +295,7 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
                 System.out.println("Requisição: " + listarRequisicoesArrayList.get(i).getId() + " " + listarRequisicoesArrayList.get(i).getPerfilId() + " " +
                         listarRequisicoesArrayList.get(i).getData_pedido() + " " + listarRequisicoesArrayList.get(i).getHora_pedido() + " " + listaDocs);
             }*/
+
             for (int i = 0; i < jsonArrayRequisicoes.length(); i++) {
                 for (int j = 0; j < jsonArrayPerfis.length(); j++) {
                     for (int k = 0; k < jsonArrayCursos.length(); k++) {
@@ -296,26 +304,43 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
                             if (listarPerfisArrayList.get(j).getCursoId().equals(listarCursosArrayList.get(k).getIdCurso())) {
                                 listaDocs = new ArrayList<>();
                                 listaStatus = new ArrayList();
+                                listaDetalhes = new ArrayList();
                                 for (int l = 0; l < jsonArraySolicitados.length(); l++) {
                                     for (int m = 0; m < jsonArrayDocumentos.length(); m++) {
                                         if (listarRequisicoesArrayList.get(i).getId().equals(listarSolicitadosArrayList.get(l).getRequisicaoId())) {
                                             if (listarSolicitadosArrayList.get(l).getDocumentoId().equals(listarDocumentosArrayList.get(m).getIdDocumento())) {
                                                 listaDocs.add(listarDocumentosArrayList.get(m).getDocumento());
                                                 listaStatus.add(listarSolicitadosArrayList.get(l).getStatus());
+                                                listaDetalhes.add(listarSolicitadosArrayList.get(l).getDetalhes());
                                             }
                                         }
                                     }
                                 }
-                                String convertDocs = listaDocs.toString().replace("[", "").replace("]", "").replace(",", "\n");
-                                String convertStatus = listaStatus.toString().replace("[", "").replace("]", "").replace(",", "\n");
+                                listaElementosDoc = new ArrayList<>();
+                                listaElementosStatus = new ArrayList<>();
+                                listaElementosDet = new ArrayList<>();
+                                for (int a=0;a<listaDocs.size(); a++){
+                                    String elementosDoc = (a+1) + ". " + listaDocs.get(a).toString();
+                                    String elementosStat = (a+1) + ". " + listaStatus.get(a).toString();
+                                    String elementosDet = (a+1) + ". " + listaDetalhes.get(a).toString();
+                                    listaElementosDoc.add(elementosDoc);
+                                    listaElementosStatus.add(elementosStat);
+                                    listaElementosDet.add(elementosDet);
+                                }
+                                System.out.println(listaElementosDoc);
+                                System.out.println(listaElementosStatus);
 
-                                System.out.println(listarRequisicoesArrayList.get(i).getId() + " " + listarCursosArrayList.get(k).getCurso() + " " +
+                                String convertDocs = listaElementosDoc.toString().replace("[", "").replace("]", "").replace(",", "\n");
+                                String convertStatus = listaElementosStatus.toString().replace("[", " ").replace("]", "").replace(",", "\n");
+                                String convertDetalhes = listaDetalhes.toString().replace("[", "").replace("]", "").replace(",", "\n");
+
+                              /*  System.out.println(listarRequisicoesArrayList.get(i).getId() + " " + listarCursosArrayList.get(k).getCurso() + " " +
                                         listarCursosArrayList.get(k).getAbreviatura() + " " + listarRequisicoesArrayList.get(i).getData_pedido() + " " +
-                                        listarRequisicoesArrayList.get(i).getHora_pedido() + " " + convertDocs + " " + convertStatus);
+                                        listarRequisicoesArrayList.get(i).getHora_pedido() + " " + listaDocs + " " + listaStatus);*/
 
                                 Solicitacoes solicitacoes = new Solicitacoes(listarRequisicoesArrayList.get(i).getId(), listarCursosArrayList.get(k).getCurso(),
                                         listarCursosArrayList.get(k).getAbreviatura(), listarRequisicoesArrayList.get(i).getData_pedido(),
-                                        listarRequisicoesArrayList.get(i).getHora_pedido(), convertDocs, convertStatus);
+                                        listarRequisicoesArrayList.get(i).getHora_pedido(), convertDocs, convertDetalhes, convertStatus, listaElementosDoc, listaElementosStatus, listaElementosDet);
                                 listaSolicitacoes.add(solicitacoes);
 
                             }
@@ -331,13 +356,13 @@ public class TelaListarDocumentosSolicitados extends AppCompatActivity {
 
     public void logoutApp() {
         sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(TelaListarDocumentosSolicitados.this, LoginActivity.class)
+        startActivity(new Intent(ListarDocumentosSolicitadosActivity.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
 
     public void irHome() {
-        startActivity(new Intent(TelaListarDocumentosSolicitados.this, TelaHomeAluno.class));
+        startActivity(new Intent(ListarDocumentosSolicitadosActivity.this, HomeAlunoActivity.class));
 
     }
 

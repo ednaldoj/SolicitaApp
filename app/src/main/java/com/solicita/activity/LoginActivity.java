@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), TelaCadastrarDiscente.class);
+                Intent intent = new Intent(getApplicationContext(), CadastrarDiscenteActivity.class);
                 startActivity(intent);
             }
         });
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if (sharedPrefManager.getSPStatusLogin()){
-            startActivity(new Intent(LoginActivity.this, TelaHomeAluno.class)
+            startActivity(new Intent(LoginActivity.this, HomeAlunoActivity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
         }
@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_TOKEN, "Bearer " +response.body().getToken());
                     System.out.println(response.body().getToken());
                     sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, true);
-                    startActivity(new Intent(context, TelaHomeAluno.class)
+                    startActivity(new Intent(context, HomeAlunoActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                     finish();
                 } else {
@@ -114,11 +114,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     public void abrirCadastro(View view){
-        Intent intent = new Intent(getApplicationContext(), TelaCadastrarDiscente.class);
+        Intent intent = new Intent(getApplicationContext(), CadastrarDiscenteActivity.class);
         startActivity(intent);
     }
     public void recuperarSenha(View view){
-        Intent intent = new Intent(getApplicationContext(), TelaRedefinirSenha.class);
+        Intent intent = new Intent(getApplicationContext(), RedefinirSenhaActivity.class);
         startActivity(intent);
     }
 

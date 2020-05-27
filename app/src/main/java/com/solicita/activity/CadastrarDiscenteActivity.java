@@ -1,6 +1,5 @@
 package com.solicita.activity;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,14 +14,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.safetynet.SafetyNet;
-import com.google.android.gms.safetynet.SafetyNetApi;
 import com.solicita.helper.MaskCustom;
 import com.solicita.helper.ValidacaoCPF;
 import com.solicita.R;
@@ -46,7 +42,7 @@ import java.util.ArrayList;
 
 import static android.R.layout.simple_spinner_item;
 
-public class TelaCadastrarDiscente extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks {
+public class CadastrarDiscenteActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks {
 
     TextInputEditText campoNome, campoCPF, campoEmail, campoSenha, campoConfirmarSenha;
     Spinner spinnerVinculo, spinnerUnidade, spinnerCurso;
@@ -69,7 +65,7 @@ public class TelaCadastrarDiscente extends AppCompatActivity implements GoogleAp
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_cadastrar_discente);
+        setContentView(R.layout.activity_cadastrar_discente);
 
         mContext=this;
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
@@ -77,7 +73,7 @@ public class TelaCadastrarDiscente extends AppCompatActivity implements GoogleAp
         inicializarComponentes();
         buscarJSON();
 
-        googleApiClient = new GoogleApiClient.Builder(this).addApi(SafetyNet.API).addConnectionCallbacks(TelaCadastrarDiscente.this).build();
+        googleApiClient = new GoogleApiClient.Builder(this).addApi(SafetyNet.API).addConnectionCallbacks(CadastrarDiscenteActivity.this).build();
         googleApiClient.connect();
 
         buttonCadastro.setOnClickListener(v -> cadastrar());
@@ -168,7 +164,7 @@ public class TelaCadastrarDiscente extends AppCompatActivity implements GoogleAp
           //      System.out.println("arr: "+ Arrays.toString(new ArrayList[]{cursos}));
             }
 
-            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(TelaCadastrarDiscente.this, simple_spinner_item, cursos);
+            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(CadastrarDiscenteActivity.this, simple_spinner_item, cursos);
             stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerCurso.setAdapter(stringArrayAdapter);
 
@@ -218,7 +214,7 @@ public class TelaCadastrarDiscente extends AppCompatActivity implements GoogleAp
                 //      System.out.println("arr: "+ Arrays.toString(new ArrayList[]{cursos}));
 
             }
-            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(TelaCadastrarDiscente.this, simple_spinner_item, unidade);
+            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(CadastrarDiscenteActivity.this, simple_spinner_item, unidade);
             stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerUnidade.setAdapter(stringArrayAdapter);
 
@@ -297,12 +293,12 @@ public class TelaCadastrarDiscente extends AppCompatActivity implements GoogleAp
                                                     @Override
                                                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                                                         if (response.isSuccessful()) {
-                                                            Toast.makeText(TelaCadastrarDiscente.this, "Cadastro realizado com sucesso! Verifique seu e-mail.", Toast.LENGTH_LONG).show();
-                                                            startActivity(new Intent(TelaCadastrarDiscente.this, LoginActivity.class));
+                                                            Toast.makeText(CadastrarDiscenteActivity.this, "Cadastro realizado com sucesso! Verifique seu e-mail.", Toast.LENGTH_LONG).show();
+                                                            startActivity(new Intent(CadastrarDiscenteActivity.this, LoginActivity.class));
                                                             finish();
                                                         } else {
 
-                                                            Toast.makeText(TelaCadastrarDiscente.this, "Erro ao realizar cadastro! Verifique os dados e tente novamente.", Toast.LENGTH_LONG).show();
+                                                            Toast.makeText(CadastrarDiscenteActivity.this, "Erro ao realizar cadastro! Verifique os dados e tente novamente.", Toast.LENGTH_LONG).show();
                                                         }
                                                     }
 
@@ -314,34 +310,34 @@ public class TelaCadastrarDiscente extends AppCompatActivity implements GoogleAp
 
 
                                             } else {
-                                                Toast.makeText(TelaCadastrarDiscente.this, "As senhas devem ser iguais", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(CadastrarDiscenteActivity.this, "As senhas devem ser iguais", Toast.LENGTH_SHORT).show();
                                             }
                                         } else {
-                                            Toast.makeText(TelaCadastrarDiscente.this, "Confirme a senha", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(CadastrarDiscenteActivity.this, "Confirme a senha", Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
-                                        Toast.makeText(TelaCadastrarDiscente.this, "Informe a senha", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(CadastrarDiscenteActivity.this, "Informe a senha", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    Toast.makeText(TelaCadastrarDiscente.this, "Preencha o campo e-mail", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CadastrarDiscenteActivity.this, "Preencha o campo e-mail", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                Toast.makeText(TelaCadastrarDiscente.this, "Selecione o cursos", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CadastrarDiscenteActivity.this, "Selecione o cursos", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(TelaCadastrarDiscente.this, "Selecione a unidade acadêmica", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CadastrarDiscenteActivity.this, "Selecione a unidade acadêmica", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(TelaCadastrarDiscente.this, "Selecione o tipo de vínculo", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CadastrarDiscenteActivity.this, "Selecione o tipo de vínculo", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(TelaCadastrarDiscente.this, "Preecha o campo CPF.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CadastrarDiscenteActivity.this, "Preecha o campo CPF.", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(TelaCadastrarDiscente.this, "O CPF informado é inválido", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CadastrarDiscenteActivity.this, "O CPF informado é inválido", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(TelaCadastrarDiscente.this, "Preencha o campo nome", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CadastrarDiscenteActivity.this, "Preencha o campo nome", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -452,12 +448,12 @@ public class TelaCadastrarDiscente extends AppCompatActivity implements GoogleAp
                                                     @Override
                                                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                                                         if (response.isSuccessful()) {
-                                                            Toast.makeText(TelaCadastrarDiscente.this, "Cadastro realizado com sucesso! Verifique seu e-mail.", Toast.LENGTH_LONG).show();
-                                                            startActivity(new Intent(TelaCadastrarDiscente.this, LoginActivity.class));
+                                                            Toast.makeText(CadastrarDiscenteActivity.this, "Cadastro realizado com sucesso! Verifique seu e-mail.", Toast.LENGTH_LONG).show();
+                                                            startActivity(new Intent(CadastrarDiscenteActivity.this, LoginActivity.class));
                                                             finish();
                                                         } else {
 
-                                                            Toast.makeText(TelaCadastrarDiscente.this, "Erro ao realizar cadastro! Verifique os dados e tente novamente.", Toast.LENGTH_LONG).show();
+                                                            Toast.makeText(CadastrarDiscenteActivity.this, "Erro ao realizar cadastro! Verifique os dados e tente novamente.", Toast.LENGTH_LONG).show();
                                                         }
                                                     }
 
@@ -469,34 +465,34 @@ public class TelaCadastrarDiscente extends AppCompatActivity implements GoogleAp
 
 
                                             } else {
-                                                Toast.makeText(TelaCadastrarDiscente.this, "As senhas devem ser iguais", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(CadastrarDiscenteActivity.this, "As senhas devem ser iguais", Toast.LENGTH_SHORT).show();
                                             }
                                         } else {
-                                            Toast.makeText(TelaCadastrarDiscente.this, "Confirme a senha", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(CadastrarDiscenteActivity.this, "Confirme a senha", Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
-                                        Toast.makeText(TelaCadastrarDiscente.this, "Informe a senha", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(CadastrarDiscenteActivity.this, "Informe a senha", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    Toast.makeText(TelaCadastrarDiscente.this, "Preencha o campo e-mail", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CadastrarDiscenteActivity.this, "Preencha o campo e-mail", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                Toast.makeText(TelaCadastrarDiscente.this, "Selecione o cursos", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CadastrarDiscenteActivity.this, "Selecione o cursos", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(TelaCadastrarDiscente.this, "Selecione a unidade acadêmica", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CadastrarDiscenteActivity.this, "Selecione a unidade acadêmica", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(TelaCadastrarDiscente.this, "Selecione o tipo de vínculo", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CadastrarDiscenteActivity.this, "Selecione o tipo de vínculo", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(TelaCadastrarDiscente.this, "Preecha o campo CPF.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CadastrarDiscenteActivity.this, "Preecha o campo CPF.", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(TelaCadastrarDiscente.this, "O CPF informado é inválido", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CadastrarDiscenteActivity.this, "O CPF informado é inválido", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(TelaCadastrarDiscente.this, "Preencha o campo nome", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CadastrarDiscenteActivity.this, "Preencha o campo nome", Toast.LENGTH_SHORT).show();
         }
     }*/
 

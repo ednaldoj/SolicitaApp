@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.solicita.R;
 import com.solicita.helper.SharedPrefManager;
 
-public class TelaHomeAluno extends AppCompatActivity {
+public class HomeAlunoActivity extends AppCompatActivity {
 
     SharedPrefManager sharedPrefManager;
     TextView textNomeUsuario;
@@ -20,7 +20,7 @@ public class TelaHomeAluno extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_home_aluno);
+        setContentView(R.layout.activity_home_aluno);
 
         sharedPrefManager = new SharedPrefManager(this);
         inicializarComponentes();
@@ -33,26 +33,26 @@ public class TelaHomeAluno extends AppCompatActivity {
     }
     public void logoutApp() {
         sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(TelaHomeAluno.this, LoginActivity.class)
+        startActivity(new Intent(HomeAlunoActivity.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
     public void irHome(){
-        startActivity(new Intent(TelaHomeAluno.this, TelaHomeAluno.class));
+        startActivity(new Intent(HomeAlunoActivity.this, HomeAlunoActivity.class));
 
     }
 
 
     public void irTelaInformacoesDiscente(View view){
-        Intent irTelaInformacoesDiscente = new Intent(getApplicationContext(), TelaInformacoesDiscente.class);
+        Intent irTelaInformacoesDiscente = new Intent(getApplicationContext(), InformacoesDiscenteActivity.class);
         startActivity(irTelaInformacoesDiscente);
     }
     public void irTelaListarDocumentosSolicitados(View view){
-        Intent irTelaListarDocumentosSolicitados = new Intent(getApplicationContext(), TelaListarDocumentosSolicitados.class);
+        Intent irTelaListarDocumentosSolicitados = new Intent(getApplicationContext(), ListarDocumentosSolicitadosActivity.class);
         startActivity(irTelaListarDocumentosSolicitados);
     }
     public void irTelaSolicitarDocumentos(View view){
-        Intent irTelaSolicitarDocumentos = new Intent(getApplicationContext(), TelaSolicitarDocumentos.class);
+        Intent irTelaSolicitarDocumentos = new Intent(getApplicationContext(), SolicitarDocumentosActivity.class);
         startActivity(irTelaSolicitarDocumentos);
     }
     public void inicializarComponentes(){

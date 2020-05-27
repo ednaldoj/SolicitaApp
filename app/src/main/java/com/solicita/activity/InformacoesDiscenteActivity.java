@@ -35,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TelaInformacoesDiscente extends AppCompatActivity {
+public class InformacoesDiscenteActivity extends AppCompatActivity {
 
     public TextView textInfoNome, textInfoCPF, textInfoVinculo, textInfoUnidadeAcademica, textInfoCurso, textInfoEmail, textNomeUsuario;
 
@@ -64,7 +64,7 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_informacoes_discente);
+        setContentView(R.layout.activity_informacoes_discente);
 
         sharedPrefManager = new SharedPrefManager(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
@@ -345,28 +345,28 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
 
     public void logoutApp() {
         sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(TelaInformacoesDiscente.this, LoginActivity.class)
+        startActivity(new Intent(InformacoesDiscenteActivity.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
 
     public void irHome(){
-        startActivity(new Intent(TelaInformacoesDiscente.this, TelaHomeAluno.class));
+        startActivity(new Intent(InformacoesDiscenteActivity.this, HomeAlunoActivity.class));
 
     }
 
     public void irTelaEditarPerfil(View view) {
-        Intent irTelaEditarPerfil = new Intent(getApplicationContext(), TelaEditarPerfil.class);
+        Intent irTelaEditarPerfil = new Intent(getApplicationContext(), EditarPerfilActivity.class);
         startActivity(irTelaEditarPerfil);
     }
 
     public void irTelaAlterarSenha(View view) {
-        Intent irTelaAlterarSenha = new Intent(getApplicationContext(), TelaAlterarSenha.class);
+        Intent irTelaAlterarSenha = new Intent(getApplicationContext(), AlterarSenhaActivity.class);
         startActivity(irTelaAlterarSenha);
     }
 
     public void irTelaAdicionarPerfil(View view) {
-        Intent irTelaAdicionarPerfil = new Intent(getApplicationContext(), TelaAdicionarPerfil.class);
+        Intent irTelaAdicionarPerfil = new Intent(getApplicationContext(), AdicionarPerfilActivity.class);
         startActivity(irTelaAdicionarPerfil);
     }
 
@@ -393,7 +393,7 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
 
                                 DefaultResponse dr = response.body();
                                 Toast.makeText(getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(TelaInformacoesDiscente.this, TelaInformacoesDiscente.class));
+                                startActivity(new Intent(InformacoesDiscenteActivity.this, InformacoesDiscenteActivity.class));
 
                             } else {
 
@@ -442,7 +442,7 @@ public class TelaInformacoesDiscente extends AppCompatActivity {
 
                                 DefaultResponse dr = response.body();
                                 Toast.makeText(getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(TelaInformacoesDiscente.this, TelaInformacoesDiscente.class));
+                                startActivity(new Intent(InformacoesDiscenteActivity.this, InformacoesDiscenteActivity.class));
 
                             } else {
 
