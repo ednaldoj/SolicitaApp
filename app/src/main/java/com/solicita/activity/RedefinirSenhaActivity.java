@@ -36,13 +36,7 @@ public class RedefinirSenhaActivity extends AppCompatActivity {
 
         sharedPrefManager = new SharedPrefManager(this);
 
-        textNomeUsuario.setText(sharedPrefManager.getSPNome());
-
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
-
-        buttonHome.setOnClickListener(v -> irHome());
-
-        buttonLogout.setOnClickListener(v -> logoutApp());
 
         buttonRedefinirSenha.setOnClickListener(v -> redefinirSenha());
 
@@ -78,7 +72,7 @@ public class RedefinirSenhaActivity extends AppCompatActivity {
 
     }
 
-    public void logoutApp() {
+/*    public void logoutApp() {
         sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
         startActivity(new Intent(RedefinirSenhaActivity.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -87,7 +81,7 @@ public class RedefinirSenhaActivity extends AppCompatActivity {
     public void irHome(){
         startActivity(new Intent(RedefinirSenhaActivity.this, HomeAlunoActivity.class));
 
-    }
+    }*/
 
     public void inicializarComponentes(){
 
