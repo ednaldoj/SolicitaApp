@@ -10,7 +10,9 @@ import android.widget.TextView;
 import com.solicita.R;
 import com.solicita.helper.SharedPrefManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ConfirmacaoRequisicaoActivity extends AppCompatActivity {
 
@@ -44,7 +46,12 @@ public class ConfirmacaoRequisicaoActivity extends AppCompatActivity {
         String curso = dados.getString("curso");
         String situacao = dados.getString("situacao");
 
+
         String data = dados.getString("data");
+        SimpleDateFormat conversaoData = new SimpleDateFormat("dd/MM/yyyy");
+        String novaData = (conversaoData.format(new Date()));
+        System.out.println("Nova data: " + novaData);
+
         String hora = dados.getString("hora");
         ArrayList solicitados = (ArrayList<String>) dados.getSerializable("solicitados");
 
@@ -56,11 +63,10 @@ public class ConfirmacaoRequisicaoActivity extends AppCompatActivity {
         //Configura valores recuperados
 
         textProtNome.setText(sharedPrefManager.getSPNome());
-        textProtData.setText(data + " " + hora);
+        textProtData.setText(novaData + " " + hora);
         textProtDocumentos.setText(convert);
         textProtCurso.setText(curso);
         textProtVinculo.setText(situacao);
-
     }
     public void inicializarComponentes(){
 
@@ -73,8 +79,6 @@ public class ConfirmacaoRequisicaoActivity extends AppCompatActivity {
         buttonHome = findViewById(R.id.buttonHome);
         buttonVoltar = findViewById(R.id.buttonVoltar);
         textNomeUsuario = findViewById(R.id.textNomeUsuario);
-
-
     }
     public void logoutApp() {
         sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);

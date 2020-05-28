@@ -53,6 +53,7 @@ public class AdapterDocumentos extends RecyclerView.Adapter<AdapterDocumentos.My
 
     }
 
+
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
@@ -72,7 +73,7 @@ public class AdapterDocumentos extends RecyclerView.Adapter<AdapterDocumentos.My
         holder.textStatusAdap.setText(solicitacoes.getStatus());
         holder.textSolicitadosAdap.setText(solicitacoes.getDocumentosSolicitados());
 
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+     /*   holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
              //   removerItem(position);
@@ -124,7 +125,7 @@ public class AdapterDocumentos extends RecyclerView.Adapter<AdapterDocumentos.My
                 dialogExluirRequisicao.show();
             }
 
-        });
+        });*/
     }
 
     @Override
@@ -145,7 +146,7 @@ public class AdapterDocumentos extends RecyclerView.Adapter<AdapterDocumentos.My
          //   textDataAdap =itemView.findViewById(R.id.textDataAdap);
             textStatusAdap=itemView.findViewById(R.id.textStatusAdap);
             textSolicitadosAdap=itemView.findViewById(R.id.textSolicitadosAdap);
-            deleteButton = itemView.findViewById(R.id.buttonDelete);
+           // deleteButton = itemView.findViewById(R.id.buttonDelete);
         }
     }
 }

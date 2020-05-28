@@ -3,8 +3,11 @@ package com.solicita.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,12 +29,15 @@ import com.solicita.helper.SharedPrefManager;
 import com.solicita.model.Solicitacoes;
 import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
+import com.solicita.network.response.DefaultResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -125,17 +131,113 @@ public class ListarDocumentosSolicitadosActivity extends AppCompatActivity {
                 Solicitacoes solicitacoes = listaSolicitacoes.get(position);
 
                 AlertDialog alertDialog = new AlertDialog.Builder(ListarDocumentosSolicitadosActivity.this).create();
-                alertDialog.setTitle("Informações da Requisição");
+
+                View mView = getLayoutInflater().inflate(R.layout.dialog_info, null);
+
+                TextView tvID =  mView.findViewById(R.id.tvID);
+                TextView tvCurso =  mView.findViewById(R.id.tvCurso);
+                TextView tvData =  mView.findViewById(R.id.tvData);
+                TextView tvDocumentos =  mView.findViewById(R.id.tvDocumentos);
+                TextView tvStatus =  mView.findViewById(R.id.tvStatus);
+                TextView tvDetalhes =  mView.findViewById(R.id.tvDetalhes);
+                TextView textViewDetalhes =  mView.findViewById(R.id.textViewDetalhes);
+
+                tvID.setText(solicitacoes.getId());
+                tvCurso.setText(solicitacoes.getCurso());
+                String data = solicitacoes.getData_pedido() + ", " + solicitacoes.getHora_pedido();
+                tvData.setText(data);
+                tvDocumentos.setText(solicitacoes.getArrayDocumentos().toString().replace("[", "").replace("]", ""));
+                tvStatus.setText(solicitacoes.getArrayStatus().toString().replace("[", "").replace("]", ""));
+                if (solicitacoes.getArrayDetalhes().size()==0){
+                    tvDetalhes.setVisibility(View.GONE);
+                    textViewDetalhes.setVisibility(View.GONE);
+                }else{
+                    tvDetalhes.setText(solicitacoes.getArrayDetalhes().toString().replace("[","").replace("]", ""));
+                }
+                alertDialog.setView(mView);
+
+
+      /*          alertDialog.setTitle("Informações da Requisição");
                 alertDialog.setMessage("ID: " + solicitacoes.getId() + "\n" +
-                        "Curso: " + solicitacoes.getCurso() + "\n" +
-                        "Data e Hora: " + solicitacoes.getData_pedido() + " "+ solicitacoes.getHora_pedido() +"\n" +
-                        "Documento(s): " + solicitacoes.getArrayDocumentos().toString().replace("[", "").replace("]", "")+ "\n" +
-                        "Status: " + solicitacoes.getArrayStatus().toString().replace("[", "").replace("]", "")+"\n" +
-                        "Detalhes: " + solicitacoes.getArrayDetalhes().toString().replace("[","").replace("]", ""));
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                        "Curso: " +"\n" + solicitacoes.getCurso() + "\n" +
+                        "Data e Hora: " +"\n"+ solicitacoes.getData_pedido() + ", "+ solicitacoes.getHora_pedido() +"\n" +
+                        "Documento(s): "+"\n" + solicitacoes.getArrayDocumentos().toString().replace("[", "").replace("]", "")+ "\n" +
+                        "Status: " +"\n"+ solicitacoes.getArrayStatus().toString().replace("[", "").replace("]", "")+"\n" +
+                        "Detalhes: " + solicitacoes.getArrayDetalhes().toString().replace("[","").replace("]", ""));*/
+
+
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Fechar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                    }
+                });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Excluir", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        AlertDialog dialogExluirPerfil = new AlertDialog.Builder(ListarDocumentosSolicitadosActivity.this).create();
+
+                        TextView titulo = new TextView(ListarDocumentosSolicitadosActivity.this);
+                        titulo.setText("Exclusão de Requisição");
+                        titulo.setBackgroundColor(Color.WHITE);
+                        titulo.setPadding(10,20,10,20);
+                        titulo.setGravity(Gravity.CENTER_HORIZONTAL);
+                        titulo.setTextColor(Color.BLACK);
+                        titulo.setTextSize(20);
+                        titulo.setTypeface(null, Typeface.BOLD);
+                        dialogExluirPerfil.setCustomTitle(titulo);
+
+                        //dialogExluirPerfil.setView(titulo);
+                        dialogExluirPerfil.setTitle("Exclusão de Requisição");
+                     //   TextView myMsg = new TextView(ListarDocumentosSolicitadosActivity.this);
+                       // myMsg.setText("Deseja realmente excluir a requisição selecionada?");
+                     //   myMsg.setGravity(Gravity.CENTER_HORIZONTAL);
+                     //   dialogExluirPerfil.setView(myMsg);
+
+                        dialogExluirPerfil.setMessage("Deseja realmente excluir a requisição selecionada?");
+
+                //        dialogExluirPerfil.setView(getLayoutInflater().inflate(R.layout));
+
+                        dialogExluirPerfil.setButton(AlertDialog.BUTTON_NEUTRAL, "Confirmar", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                String idRequisicao = solicitacoes.getId();
+                                System.out.println("Valor do ID: "+ idRequisicao);
+
+                                Call<DefaultResponse> defaultResponseCall = apiInterface.postExcluirRequisicao(idRequisicao, sharedPrefManager.getSPToken());
+                                defaultResponseCall.enqueue(new Callback<DefaultResponse>() {
+                                    @Override
+                                    public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                                        if (response.code()==200){
+                                            DefaultResponse dr = response.body();
+                                            Toast.makeText(context.getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
+                                            adapterDocumentos.removerItem(position);
+                                            //startActivity(new Intent(ListarDocumentosSolicitadosActivity.this, ListarDocumentosSolicitadosActivity.class));
+
+                                        }else{
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
+                                    }
+                                });
+
+                            }
+                        });
+                        dialogExluirPerfil.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        dialogExluirPerfil.show();
+
                     }
                 });
                 alertDialog.show();
@@ -152,7 +254,6 @@ public class ListarDocumentosSolicitadosActivity extends AppCompatActivity {
 
             }
         }));
-
     }
 
     private void buscarJSON() {
@@ -322,10 +423,14 @@ public class ListarDocumentosSolicitadosActivity extends AppCompatActivity {
                                 for (int a=0;a<listaDocs.size(); a++){
                                     String elementosDoc = (a+1) + ". " + listaDocs.get(a).toString();
                                     String elementosStat = (a+1) + ". " + listaStatus.get(a).toString();
-                                    String elementosDet = (a+1) + ". " + listaDetalhes.get(a).toString();
+                                    if (!listaDetalhes.get(a).equals("")){
+                                        String elementosDet = (a+1) + ". " + listaDetalhes.get(a).toString();
+                                        listaElementosDet.add(elementosDet);
+                                    }
                                     listaElementosDoc.add(elementosDoc);
                                     listaElementosStatus.add(elementosStat);
-                                    listaElementosDet.add(elementosDet);
+                                    System.out.println(listaElementosDet);
+
                                 }
                                 System.out.println(listaElementosDoc);
                                 System.out.println(listaElementosStatus);
@@ -338,9 +443,12 @@ public class ListarDocumentosSolicitadosActivity extends AppCompatActivity {
                                         listarCursosArrayList.get(k).getAbreviatura() + " " + listarRequisicoesArrayList.get(i).getData_pedido() + " " +
                                         listarRequisicoesArrayList.get(i).getHora_pedido() + " " + listaDocs + " " + listaStatus);*/
 
+                                SimpleDateFormat conversaoData = new SimpleDateFormat("dd/MM/yyyy");
+                                String novaData = (conversaoData.format(new Date()));
+
                                 Solicitacoes solicitacoes = new Solicitacoes(listarRequisicoesArrayList.get(i).getId(), listarCursosArrayList.get(k).getCurso(),
-                                        listarCursosArrayList.get(k).getAbreviatura(), listarRequisicoesArrayList.get(i).getData_pedido(),
-                                        listarRequisicoesArrayList.get(i).getHora_pedido(), convertDocs, convertDetalhes, convertStatus, listaElementosDoc, listaElementosStatus, listaElementosDet);
+                                        listarCursosArrayList.get(k).getAbreviatura(), novaData, listarRequisicoesArrayList.get(i).getHora_pedido(), convertDocs,
+                                        convertDetalhes, convertStatus, listaElementosDoc, listaElementosStatus, listaElementosDet);
                                 listaSolicitacoes.add(solicitacoes);
 
                             }
@@ -372,6 +480,7 @@ public class ListarDocumentosSolicitadosActivity extends AppCompatActivity {
         buttonHome = findViewById(R.id.buttonHome);
         textNomeUsuario = findViewById(R.id.textNomeUsuario);
         buttonVoltar = findViewById(R.id.buttonVoltar);
+
 
     }
 }
