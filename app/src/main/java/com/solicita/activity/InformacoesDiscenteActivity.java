@@ -372,15 +372,28 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Selecione um perfil.", Toast.LENGTH_LONG).show();
         } else {
 
-            AlertDialog.Builder dialogExluirPerfil = new AlertDialog.Builder(this);
+            AlertDialog dialogExluirPerfil = new AlertDialog.Builder(InformacoesDiscenteActivity.this).create();
+            View mView = getLayoutInflater().inflate(R.layout.dialog_confirmacao, null);
 
-            dialogExluirPerfil.setTitle("Exclusão de Perfil Acadêmico");
-            dialogExluirPerfil.setMessage("Deseja realmente excluir o perfil selecionado?");
+            TextView tvTitulo = mView.findViewById(R.id.tvTitulo);
+            TextView tvMensagem = mView.findViewById(R.id.tvMensagem);
+            Button buttonConfirmar = mView.findViewById(R.id.buttonConfirmar);
+            Button buttonCancelar = mView.findViewById(R.id.buttonCancelar);
 
-            dialogExluirPerfil.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            tvTitulo.setText("Exclusão de Perfil Acadêmico");
+            tvMensagem.setText("Deseja excluir o perfil selecionado?");
 
+            dialogExluirPerfil.setView(mView);
+
+            buttonCancelar.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(View v) {
+                    dialogExluirPerfil.dismiss();
+                }
+            });
+            buttonConfirmar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Call<DefaultResponse> callExcluir = apiInterface.postExcluirPerfil(idPerfil, sharedPrefManager.getSPToken());
                     callExcluir.enqueue(new Callback<DefaultResponse>() {
                         @Override
@@ -389,7 +402,6 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
                             if (response.isSuccessful()) {
                                 Toast.makeText(getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
                                 if (response.code() == 201) {
-                                    System.out.println("Mensagem: " + dr.getMessage());
                                     Toast.makeText(getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
                                     startActivity(new Intent(InformacoesDiscenteActivity.this, InformacoesDiscenteActivity.class));
                                 }else{
@@ -406,33 +418,41 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
                     });
                 }
             });
-            dialogExluirPerfil.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            dialogExluirPerfil.create();
             dialogExluirPerfil.show();
 
         }
     }
-
     public void alterarPerfilDefault() {
 
         if (idPerfilDefault.equals("")) {
             Toast.makeText(getApplicationContext(), "Selecione um perfil.", Toast.LENGTH_LONG).show();
         } else {
 
-            AlertDialog.Builder dialogAlterarPerfil = new AlertDialog.Builder(this);
+            AlertDialog dialogAlterarPerfil = new AlertDialog.Builder(InformacoesDiscenteActivity.this).create();
 
-            dialogAlterarPerfil.setTitle("Alteração de Perfil Acadêmico");
-            dialogAlterarPerfil.setMessage("Definir o perfil selecionado como padrão?");
+            View mView2 = getLayoutInflater().inflate(R.layout.dialog_confirmacao, null);
 
-            dialogAlterarPerfil.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            TextView tvTitulo = mView2.findViewById(R.id.tvTitulo);
+            TextView tvMensagem = mView2.findViewById(R.id.tvMensagem);
+            Button buttonConfirmar = mView2.findViewById(R.id.buttonConfirmar);
+            Button buttonCancelar = mView2.findViewById(R.id.buttonCancelar);
 
+            tvTitulo.setText("Alteração de Perfil Padrão");
+            tvMensagem.setText("Deseja alterar o perfil acadêmico padrão?");
+
+            dialogAlterarPerfil.setView(mView2);
+
+            buttonCancelar.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(View v) {
+                    dialogAlterarPerfil.dismiss();
+                }
+            });
+
+            buttonConfirmar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
                     Call<DefaultResponse> callAlterar = apiInterface.postAlterarPerfil(idPerfilDefault, sharedPrefManager.getSPToken());
                     callAlterar.enqueue(new Callback<DefaultResponse>() {
                         @Override
@@ -454,13 +474,6 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
                     });
                 }
             });
-            dialogAlterarPerfil.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            dialogAlterarPerfil.create();
             dialogAlterarPerfil.show();
         }
     }

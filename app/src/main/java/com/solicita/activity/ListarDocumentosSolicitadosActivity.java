@@ -132,7 +132,7 @@ public class ListarDocumentosSolicitadosActivity extends AppCompatActivity {
 
                 AlertDialog alertDialog = new AlertDialog.Builder(ListarDocumentosSolicitadosActivity.this).create();
 
-                View mView = getLayoutInflater().inflate(R.layout.dialog_info, null);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_info_solicitacoes, null);
 
                 TextView tvID =  mView.findViewById(R.id.tvID);
                 TextView tvCurso =  mView.findViewById(R.id.tvCurso);
@@ -141,6 +141,8 @@ public class ListarDocumentosSolicitadosActivity extends AppCompatActivity {
                 TextView tvStatus =  mView.findViewById(R.id.tvStatus);
                 TextView tvDetalhes =  mView.findViewById(R.id.tvDetalhes);
                 TextView textViewDetalhes =  mView.findViewById(R.id.textViewDetalhes);
+                Button buttonOk = mView.findViewById(R.id.buttonOk);
+                Button buttonExcluir = mView.findViewById(R.id.buttonExcluir);
 
                 tvID.setText(solicitacoes.getId());
                 tvCurso.setText(solicitacoes.getCurso());
@@ -154,56 +156,44 @@ public class ListarDocumentosSolicitadosActivity extends AppCompatActivity {
                 }else{
                     tvDetalhes.setText(solicitacoes.getArrayDetalhes().toString().replace("[","").replace("]", ""));
                 }
-                alertDialog.setView(mView);
 
-
-      /*          alertDialog.setTitle("Informações da Requisição");
-                alertDialog.setMessage("ID: " + solicitacoes.getId() + "\n" +
-                        "Curso: " +"\n" + solicitacoes.getCurso() + "\n" +
-                        "Data e Hora: " +"\n"+ solicitacoes.getData_pedido() + ", "+ solicitacoes.getHora_pedido() +"\n" +
-                        "Documento(s): "+"\n" + solicitacoes.getArrayDocumentos().toString().replace("[", "").replace("]", "")+ "\n" +
-                        "Status: " +"\n"+ solicitacoes.getArrayStatus().toString().replace("[", "").replace("]", "")+"\n" +
-                        "Detalhes: " + solicitacoes.getArrayDetalhes().toString().replace("[","").replace("]", ""));*/
-
-
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Fechar", new DialogInterface.OnClickListener() {
+                buttonOk.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+
+
                     }
                 });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Excluir", new DialogInterface.OnClickListener() {
+                buttonExcluir.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
 
                         AlertDialog dialogExluirPerfil = new AlertDialog.Builder(ListarDocumentosSolicitadosActivity.this).create();
 
-                        TextView titulo = new TextView(ListarDocumentosSolicitadosActivity.this);
-                        titulo.setText("Exclusão de Requisição");
-                        titulo.setBackgroundColor(Color.WHITE);
-                        titulo.setPadding(10,20,10,20);
-                        titulo.setGravity(Gravity.CENTER_HORIZONTAL);
-                        titulo.setTextColor(Color.BLACK);
-                        titulo.setTextSize(20);
-                        titulo.setTypeface(null, Typeface.BOLD);
-                        dialogExluirPerfil.setCustomTitle(titulo);
+                        View mView2 = getLayoutInflater().inflate(R.layout.dialog_confirmacao, null);
 
-                        //dialogExluirPerfil.setView(titulo);
-                        dialogExluirPerfil.setTitle("Exclusão de Requisição");
-                     //   TextView myMsg = new TextView(ListarDocumentosSolicitadosActivity.this);
-                       // myMsg.setText("Deseja realmente excluir a requisição selecionada?");
-                     //   myMsg.setGravity(Gravity.CENTER_HORIZONTAL);
-                     //   dialogExluirPerfil.setView(myMsg);
+                        TextView tvTitulo = mView2.findViewById(R.id.tvTitulo);
+                        TextView tvMensagem = mView2.findViewById(R.id.tvMensagem);
+                        Button buttonConfirmar = mView2.findViewById(R.id.buttonConfirmar);
+                        Button buttonCancelar = mView2.findViewById(R.id.buttonCancelar);
 
-                        dialogExluirPerfil.setMessage("Deseja realmente excluir a requisição selecionada?");
+                        tvTitulo.setText("Exclusão de Requisição");
+                        tvMensagem.setText("Deseja excluir a requisição selecionada?");
 
-                //        dialogExluirPerfil.setView(getLayoutInflater().inflate(R.layout));
+                        dialogExluirPerfil.setView(mView2);
 
-                        dialogExluirPerfil.setButton(AlertDialog.BUTTON_NEUTRAL, "Confirmar", new DialogInterface.OnClickListener() {
-
+                        buttonCancelar.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(View v) {
+                                alertDialog.dismiss();
+                                dialogExluirPerfil.dismiss();
+                            }
+                        });
 
+                        buttonConfirmar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
                                 String idRequisicao = solicitacoes.getId();
                                 System.out.println("Valor do ID: "+ idRequisicao);
 
@@ -214,10 +204,9 @@ public class ListarDocumentosSolicitadosActivity extends AppCompatActivity {
                                         if (response.code()==200){
                                             DefaultResponse dr = response.body();
                                             Toast.makeText(context.getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
+                                            alertDialog.dismiss();
+                                            dialogExluirPerfil.dismiss();
                                             adapterDocumentos.removerItem(position);
-                                            //startActivity(new Intent(ListarDocumentosSolicitadosActivity.this, ListarDocumentosSolicitadosActivity.class));
-
-                                        }else{
 
                                         }
                                     }
@@ -227,19 +216,13 @@ public class ListarDocumentosSolicitadosActivity extends AppCompatActivity {
 
                                     }
                                 });
-
-                            }
-                        });
-                        dialogExluirPerfil.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
                             }
                         });
                         dialogExluirPerfil.show();
-
                     }
                 });
+
+                alertDialog.setView(mView);
                 alertDialog.show();
             }
 
