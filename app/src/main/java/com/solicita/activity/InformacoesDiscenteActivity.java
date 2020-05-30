@@ -84,7 +84,7 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
 
         buttonExcluirPerfil.setOnClickListener(v -> excluirPerfil());
 
-        buttonAlterarPerfil.setOnClickListener(v -> alterarPerfilDefault());
+         buttonAlterarPerfil.setOnClickListener(v -> alterarPerfilDefault());
 
     }
 
@@ -114,7 +114,6 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
 
 
             for (int i = 0; i < perfil.size(); i++) {
-
                 RadioGroup.LayoutParams rl2;
                 //radioGroup.setId(i);
                 RadioButton radioButton = new RadioButton(this);
@@ -122,7 +121,6 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
 
                 rl2 = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT);
                 radioGroup.addView(radioButton, rl2);
-
             }
             linearLayout.addView(radioGroup);
 
@@ -131,11 +129,11 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     RadioButton radioButton = findViewById(checkedId);
                     Toast.makeText(getApplicationContext(), radioButton.getText(), Toast.LENGTH_LONG).show();
-                    System.out.println(radioGroup.getCheckedRadioButtonId());
+                   // System.out.println(radioGroup.getCheckedRadioButtonId());
 
                     for (int i = 0; i < perfilArrayList.size(); i++) {
                         if (radioButton.getText().equals(perfilArrayList.get(i).getCurso() + " - " + perfilArrayList.get(i).getSituacao())) {
-                            System.out.println("Valor do ID: " + perfilArrayList.get(i).getId());
+                            System.out.println("Valor do ID: " + perfilArrayList.get(i).getId() + " Índice: " + i);
                             idPerfil = perfilArrayList.get(i).getId();
                         }
                     }
@@ -145,10 +143,8 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
                                  idPerfilDefault=perfilArrayList.get(j).getId();
                         }
                     }
-
                 }
             });
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -350,7 +346,7 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
         finish();
     }
 
-    public void irHome(){
+    public void irHome() {
         startActivity(new Intent(InformacoesDiscenteActivity.this, HomeAlunoActivity.class));
 
     }
@@ -389,20 +385,23 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
                     callExcluir.enqueue(new Callback<DefaultResponse>() {
                         @Override
                         public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
-                            if (response.code() == 200) {
-
-                                DefaultResponse dr = response.body();
+                            DefaultResponse dr = response.body();
+                            if (response.isSuccessful()) {
                                 Toast.makeText(getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(InformacoesDiscenteActivity.this, InformacoesDiscenteActivity.class));
-
-                            } else {
-
+                                if (response.code() == 201) {
+                                    System.out.println("Mensagem: " + dr.getMessage());
+                                    Toast.makeText(getApplicationContext(), dr.getMessage(), Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(InformacoesDiscenteActivity.this, InformacoesDiscenteActivity.class));
+                                }else{
+                                    System.out.println("Else 201");
+                                }
+                            }else{
+                                System.out.println("Else isSucessful");
                             }
                         }
 
                         @Override
                         public void onFailure(Call<DefaultResponse> call, Throwable t) {
-
                         }
                     });
                 }
@@ -448,7 +447,6 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
 
                             }
                         }
-
                         @Override
                         public void onFailure(Call<DefaultResponse> call, Throwable t) {
 
@@ -464,7 +462,6 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
             });
             dialogAlterarPerfil.create();
             dialogAlterarPerfil.show();
-
         }
     }
 }
