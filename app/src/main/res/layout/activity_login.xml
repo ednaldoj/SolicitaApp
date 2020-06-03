@@ -30,7 +30,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:text="Entrar"
+        android:text="@string/titulo_entrar"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
             android:id="@+id/editLoginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="E-mail"
+            android:hint="@string/ti_e_mail"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,7 +74,7 @@
             android:id="@+id/editLoginSenha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Senha"
+            android:hint="@string/ti_senha"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,10 +89,11 @@
         android:layout_marginRight="32dp"
         android:clickable="true"
         android:onClick="recuperarSenha"
-        android:text="Esqueceu sua senha?"
+        android:text="@string/button_esqueceu_sua_senha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
+        android:focusable="true" />
 
     <Button
         android:id="@+id/buttonLogin"
@@ -102,7 +103,7 @@
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
         android:background="#1B2E4F"
-        android:text="Entrar"
+        android:text="@string/button_entrar"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -115,7 +116,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginBottom="32dp"
         android:onClick="abrirCadastro"
-        android:text="Cadastrar"
+        android:text="@string/button_cadastrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

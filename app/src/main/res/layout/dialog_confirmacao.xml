@@ -16,7 +16,7 @@
         android:paddingTop="20dp"
         android:paddingRight="10dp"
         android:paddingBottom="20dp"
-        android:text="Mensagem título"
+        android:text="@string/mensagem_t_tulo_alert_dialog"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Mensagem" />
+        android:text="@string/mensagem_alert_dialog" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,14 +38,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Confirmar" />
+            android:text="@string/button_confirmar_ad" />
 
         <Button
             android:id="@+id/buttonCancelar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Cancelar" />
+            android:text="@string/button_cancelar_ad" />
     </LinearLayout>
 
 </LinearLayout>

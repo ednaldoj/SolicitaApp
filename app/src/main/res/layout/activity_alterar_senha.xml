@@ -25,7 +25,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:text="Alterar Senha"
+        android:text="@string/titulo_alterar_senha"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
             android:id="@+id/editSenhaAtual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Senha Atual"
+            android:hint="@string/ti_senha_atual"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,7 +69,7 @@
             android:id="@+id/editNovaSenha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nova Senha"
+            android:hint="@string/ti_nova_senha"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,7 +81,7 @@
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
         android:background="#1B2E4F"
-        android:text="Atualizar"
+        android:text="@string/button_atualizar"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -94,7 +94,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginBottom="32dp"
         android:onClick="irTelaInformacoesDiscente"
-        android:text="Cancelar"
+        android:text="@string/button_cancelar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -114,7 +114,7 @@
             android:id="@+id/editConfNovaSenha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Confirmar Senha"
+            android:hint="@string/ti_confirmar_senha"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -148,7 +148,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
-        android:text="Usuário"
+        android:text="@string/tv_usu_rio"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"

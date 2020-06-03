@@ -26,7 +26,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
-        android:text="Adicionar Perfil"
+        android:text="@string/titulo_adicionar_perfil"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
-        android:text="Tipo de vínculo"
+        android:text="@string/tv_tipo_de_v_nculo"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -72,7 +72,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="16dp"
-        android:text="Unidade Acadêmica"
+        android:text="@string/tv_unidade_acad_mica"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerVinculo" />
@@ -101,7 +101,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="16dp"
-        android:text="Curso"
+        android:text="@string/tv_curso"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerUnidade" />
@@ -131,7 +131,7 @@
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
         android:background="#1B2E4F"
-        android:text="Adicionar"
+        android:text="@string/button_adicionar"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -146,7 +146,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
         android:onClick="abrirPerfilDiscente"
-        android:text="Voltar"
+        android:text="@string/button_voltar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout8" />
@@ -158,7 +158,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="16dp"
-        android:text="Definir como padrão"
+        android:text="@string/check_definir_como_padr_o"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerCurso" />
 
@@ -192,7 +192,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
-        android:text="Usuário"
+        android:text="@string/tv_usu_rio"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"

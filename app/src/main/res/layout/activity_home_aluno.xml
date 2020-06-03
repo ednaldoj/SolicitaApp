@@ -26,7 +26,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:onClick="irTelaSolicitarDocumentos"
-        android:text="Solicitar Documentos"
+        android:text="@string/button_solicitar_documentos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -41,7 +41,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:onClick="irTelaListarDocumentosSolicitados"
-        android:text="Listar Documentos Solicitados"
+        android:text="@string/button_listar_documentos_solicitados"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button9" />
@@ -56,7 +56,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:onClick="irTelaInformacoesDiscente"
-        android:text="Perfil"
+        android:text="@string/button_perfil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button10" />
@@ -91,7 +91,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
-        android:text="Usuário"
+        android:text="@string/tv_usu_rio"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"

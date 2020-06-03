@@ -16,4 +16,83 @@
 
     <string name="lista_curso_prompt">Selecione o tipo de vínculo</string>
 
+    <string name="titulo_adicionar_perfil">Adicionar Perfil</string>
+    <string name="titulo_alterar_senha">Alterar Senha</string>
+    <string name="titulo_cadastro_discente">Cadastro Discente</string>
+    <string name="titulo_confirma_o">Confirmação</string>
+    <string name="titulo_editar_perfil">Editar Perfil</string>
+    <string name="titulo_informa_es_do_aluno">Informações do Aluno</string>
+    <string name="titulo_documentos_solicitados">Documentos Solicitados</string>
+    <string name="titulo_entrar">Entrar</string>
+    <string name="titulo_redefinir_senha">Redefinir Senha</string>
+    <string name="titulo_solicitar_documentos">Solicitar Documentos</string>
+
+    <string name="mensagem_t_tulo_alert_dialog">Mensagem título</string>
+    <string name="mensagem_alert_dialog">Mensagem</string>
+
+    <string name="informa_es_da_requisi_o_alert_dialog">Informações da Requisição</string>
+
+    <string name="alert_dialog_id">ID:</string>
+    <string name="alert_dialog_curso">Curso:</string>
+    <string name="alert_dialog_data_e_hora">Data e Hora:</string>
+    <string name="alert_dialog_documento_s">Documento(s):</string>
+    <string name="alert_dialog_status">Status:</string>
+    <string name="alert_dialog_detalhes">Detalhes:</string>
+
+    <string name="button_ok">Ok</string>
+    <string name="button_excluir">Excluir</string>
+    <string name="button_confirmar_ad">Confirmar</string>
+    <string name="button_cancelar_ad">Cancelar</string>
+    <string name="button_adicionar">Adicionar</string>
+    <string name="button_voltar">Voltar</string>
+    <string name="button_atualizar">Atualizar</string>
+    <string name="button_cancelar">Cancelar</string>
+    <string name="button_cadastrar">Cadastrar</string>
+    <string name="button_solicitar_documentos">Solicitar Documentos</string>
+    <string name="button_listar_documentos_solicitados">Listar Documentos Solicitados</string>
+    <string name="button_perfil">Perfil</string>
+    <string name="button_adicionar_perfil">Adicionar perfil</string>
+    <string name="button_excluir_perfil">Excluir perfil</string>
+    <string name="button_editar_perfil">Editar perfil</string>
+    <string name="button_redefinir_senha">Redefinir Senha</string>
+    <string name="button_alterar_perfil_padr_o">Alterar perfil padrão</string>
+    <string name="button_voltar_para_o_in_cio">Voltar para o Início</string>
+    <string name="button_esqueceu_sua_senha">Esqueceu sua senha?</string>
+    <string name="button_entrar">Entrar</string>
+    <string name="button_enviar">Enviar</string>
+    <string name="button_finalizar">Finalizar</string>
+
+    <string name="tv_tipo_de_v_nculo">Tipo de vínculo</string>
+    <string name="tv_unidade_acad_mica">Unidade Acadêmica</string>
+    <string name="tv_curso">Curso</string>
+    <string name="tv_usu_rio">Usuário</string>
+    <string name="tv_institui_o_unidade_acad_mica">Instituição / Unidade Acadêmica</string>
+    <string name="tv_data_e_hor_rio_da_requisi_o">Data e Horário da Requisição</string>
+    <string name="tv_v_nculo">Vínculo</string>
+    <string name="tv_nome">Nome</string>
+    <string name="tv_message_docs">Confirmamos o recebimento de sua solicitação para o(s) documento(s) abaixo:</string>
+    <string name="tv_message_prazo">Prazo de Entrega do documento: Até 02(dois) dias úteis</string>
+    <string name="tv_aten_o">Atenção!</string>
+    <string name="tv_voltar_para_a_tela_inicial">Voltar para a tela inicial</string>
+    <string name="tv_documentos_solicitados">Documentos solicitados</string>
+    <string name="tv_cpf">CPF</string>
+    <string name="tv_e_mail">E-mail</string>
+    <string name="tv_perfis_do_aluno">Perfis do Aluno</string>
+    <string name="tv_documentos_list">Documentos</string>
+    <string name="tv_curso_list">Curso</string>
+    <string name="tv_status_list">Status</string>
+    <string name="tv_perfil">Perfil</string>
+    <string name="tv_documentos">Documentos</string>
+
+    <string name="check_definir_como_padr_o">Definir como padrão</string>
+    <string name="check_i_m_not_a_robot">I\'m not a robot</string>
+
+    <string name="ti_senha_atual">Senha Atual</string>
+    <string name="ti_nova_senha">Nova Senha</string>
+    <string name="ti_confirmar_senha">Confirmar Senha</string>
+    <string name="ti_nome_completo">Nome completo</string>
+    <string name="ti_cpf">CPF</string>
+    <string name="ti_e_mail">E-mail</string>
+    <string name="ti_senha">Senha</string>
+
 </resources>

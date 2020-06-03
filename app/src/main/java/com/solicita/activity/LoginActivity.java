@@ -16,6 +16,7 @@ import com.solicita.helper.SharedPrefManager;
 import com.solicita.model.User;
 import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
+import com.solicita.network.response.DefaultResponse;
 import com.solicita.network.response.UserResponse;
 
 import retrofit2.Call;
@@ -90,9 +91,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 progressDialog.dismiss();
+                User user = response.body().getUser();
 
                 if (response.code() == 200) {
-                    User user = response.body().getUser();
+
                     String primeiroNome = user.getName();
                     String[] s = primeiroNome.trim().split(" ");
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_NOME, s[0]);
@@ -103,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(new Intent(context, HomeAlunoActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                     finish();
-                } else {
+                } else if(response.code()==401){
                     Toast.makeText(context, "Email ou senha incorretos.", Toast.LENGTH_SHORT).show();
                 }
             }

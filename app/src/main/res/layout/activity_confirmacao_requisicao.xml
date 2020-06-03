@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
 
         android:background="#00F0EDED"
         tools:context=".activity.ConfirmacaoRequisicaoActivity">
@@ -38,7 +38,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:text="Data e Horário da Requisição"
+            android:text="@string/tv_data_e_hor_rio_da_requisi_o"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textProtDocumentos" />
@@ -66,7 +66,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:text="Vínculo"
+            android:text="@string/tv_v_nculo"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textProtCurso" />
@@ -94,7 +94,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:text="Curso"
+            android:text="@string/tv_curso"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textProtNome" />
@@ -118,7 +118,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
-            android:text="Protocolo"
+            android:text="@string/titulo_confirma_o"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -131,7 +131,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
-            android:text="Nome"
+            android:text="@string/tv_nome"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -162,7 +162,7 @@
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
             android:gravity="center_horizontal"
-            android:text="Confirmamos o recebimento de sua solicitação para o(s) documento(s) abaixo:"
+            android:text="@string/tv_message_docs"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textProtVinculo" />
@@ -176,7 +176,7 @@
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
             android:gravity="center_horizontal"
-            android:text="Prazo de Entrega do documento: Até 02(dois) dias úteis"
+            android:text="@string/tv_message_prazo"
             android:textColor="#F30606"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -192,7 +192,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
-            android:text="Atenção!"
+            android:text="@string/tv_aten_o"
             android:textColor="#F30606"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -211,7 +211,7 @@
             android:layout_marginRight="32dp"
             android:layout_marginBottom="32dp"
             android:background="#1B2E4F"
-            android:text=" Voltar para a tela inicial "
+            android:text="@string/tv_voltar_para_a_tela_inicial"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -248,7 +248,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="16dp"
-            android:text="Usuário"
+            android:text="@string/tv_usu_rio"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -265,7 +265,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
-            android:text="Documentos solicitados"
+            android:text="@string/tv_documentos_solicitados"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

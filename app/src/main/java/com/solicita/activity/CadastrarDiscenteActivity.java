@@ -1,5 +1,6 @@
 package com.solicita.activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.safetynet.SafetyNet;
@@ -42,7 +44,7 @@ import java.util.ArrayList;
 
 import static android.R.layout.simple_spinner_item;
 
-public class CadastrarDiscenteActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks {
+public class CadastrarDiscenteActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     TextInputEditText campoNome, campoCPF, campoEmail, campoSenha, campoConfirmarSenha;
     Spinner spinnerVinculo, spinnerUnidade, spinnerCurso;
@@ -62,6 +64,9 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
 
     String SiteKey="6LcgPvsUAAAAADb-PsgvX4Q7WJQQvtM1mLE6njKR";
 
+
+//    String SiteSecretKey="6LcgPvsUAAAAAIJAd2FTONqty2zvL7Jw4zTXhfjD";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +78,10 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
         inicializarComponentes();
         buscarJSON();
 
-        googleApiClient = new GoogleApiClient.Builder(this).addApi(SafetyNet.API).addConnectionCallbacks(CadastrarDiscenteActivity.this).build();
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(SafetyNet.API)
+                .addConnectionCallbacks(CadastrarDiscenteActivity.this)
+                .build();
         googleApiClient.connect();
 
         buttonCadastro.setOnClickListener(v -> cadastrar());
@@ -116,7 +124,7 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
             }
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                System.out.println("Erro");            }
+                System.out.println("Erroo");            }
         });
 
         callUnidade.enqueue(new Callback<String>() {
@@ -520,11 +528,20 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-
+        Toast.makeText(this, "onConnected()", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
+        Toast.makeText(this,
+                "onConnectionSuspended: " + i,
+                Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(this,
+                "onConnectionFailed():\n" + connectionResult.getErrorMessage(),
+                Toast.LENGTH_LONG).show();
     }
 }

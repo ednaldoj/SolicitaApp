@@ -36,7 +36,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:text="Documentos Solicitados"
+        android:text="@string/titulo_documentos_solicitados"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
         android:background="#1B2E4F"
-        android:text="  Voltar para o Início  "
+        android:text="@string/button_voltar_para_o_in_cio"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,7 +103,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
-        android:text="Usuário"
+        android:text="@string/tv_usu_rio"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -130,7 +130,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Curso"
+            android:text="@string/tv_curso_list"
             android:textColor="#FFFFFF" />
 
         <TextView
@@ -139,7 +139,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Documentos"
+            android:text="@string/tv_documentos_list"
             android:textColor="#FFFFFF" />
 
         <TextView
@@ -148,7 +148,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Status"
+            android:text="@string/tv_status_list"
             android:textColor="#FFFFFF" />
 
     </LinearLayout>

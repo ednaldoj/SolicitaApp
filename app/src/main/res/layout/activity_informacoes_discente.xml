@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".activity.InformacoesDiscenteActivity">
 
         <View
@@ -31,7 +31,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
-            android:text="Informações do Aluno"
+            android:text="@string/titulo_informa_es_do_aluno"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
-            android:text="Nome"
+            android:text="@string/tv_nome"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -72,7 +72,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:text="CPF"
+            android:text="@string/tv_cpf"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textProtNome" />
@@ -99,7 +99,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:text="Tipo de Vínculo"
+            android:text="@string/tv_tipo_de_v_nculo"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInfoCPF" />
@@ -126,7 +126,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:text="Unidade Acadêmica"
+            android:text="@string/tv_unidade_acad_mica"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textProtVinculo" />
@@ -138,7 +138,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="8dp"
-            android:text="Curso"
+            android:text="@string/tv_curso"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInfoUnidadeAcademica" />
@@ -196,7 +196,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:text="E-mail"
+            android:text="@string/tv_e_mail"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textCursoAdap" />
@@ -210,7 +210,7 @@
             android:layout_marginRight="32dp"
             android:background="#1B2E4F"
             android:onClick="irTelaAdicionarPerfil"
-            android:text="Adicionar perfil"
+            android:text="@string/button_adicionar_perfil"
             android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button12" />
@@ -225,7 +225,7 @@
             android:layout_marginBottom="32dp"
             android:background="#9E1717"
             android:onClick="excluirPerfil"
-            android:text="Excluir perfil"
+            android:text="@string/button_excluir_perfil"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -240,7 +240,7 @@
             android:layout_marginTop="16dp"
             android:background="#1B2E4F"
             android:onClick="irTelaEditarPerfil"
-            android:text="Editar perfil"
+            android:text="@string/button_editar_perfil"
             android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInfoEmail" />
@@ -253,7 +253,7 @@
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
             android:onClick="irTelaAlterarSenha"
-            android:text="Redefinir Senha"
+            android:text="@string/button_redefinir_senha"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInfoEmail" />
 
@@ -287,7 +287,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="16dp"
-            android:text="Usuário"
+            android:text="@string/tv_usu_rio"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -301,7 +301,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
-            android:text="Perfis do Aluno"
+            android:text="@string/tv_perfis_do_aluno"
             android:textSize="18sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/button6"
             app:layout_constraintStart_toStartOf="parent" />
@@ -328,7 +328,7 @@
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp"
-            android:text="Alterar perfil padrão"
+            android:text="@string/button_alterar_perfil_padr_o"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

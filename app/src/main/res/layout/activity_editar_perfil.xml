@@ -25,7 +25,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:text="Editar Perfil"
+        android:text="@string/titulo_editar_perfil"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
             android:id="@+id/editNomePerfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nome completo" />
+            android:hint="@string/ti_nome_completo" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -68,7 +68,7 @@
             android:id="@+id/editEmailPerfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="E-mail" />
+            android:hint="@string/ti_e_mail" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -79,7 +79,7 @@
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
         android:background="#1B2E4F"
-        android:text="Atualizar"
+        android:text="@string/button_atualizar"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -92,7 +92,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginBottom="32dp"
         android:onClick="irTelaInformacoesDiscente"
-        android:text="Voltar"
+        android:text="@string/button_voltar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -126,7 +126,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
-        android:text="Usuário"
+        android:text="@string/tv_usu_rio"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"

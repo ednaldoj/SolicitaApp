@@ -16,7 +16,7 @@
         android:paddingTop="20dp"
         android:paddingRight="10dp"
         android:paddingBottom="20dp"
-        android:text="Informações da Requisição"
+        android:text="@string/informa_es_da_requisi_o_alert_dialog"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -24,79 +24,85 @@
         android:id="@+id/textView44"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ID:"
+        android:text="@string/alert_dialog_id"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="7dp" />
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp" />
 
     <TextView
         android:id="@+id/textView46"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Curso: "
+        android:text="@string/alert_dialog_curso"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvCurso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="7dp" />
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp" />
 
     <TextView
         android:id="@+id/textView48"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Data e Hora: "
+        android:text="@string/alert_dialog_data_e_hora"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="7dp" />
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp" />
 
     <TextView
         android:id="@+id/textView50"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Documento(s):"
+        android:text="@string/alert_dialog_documento_s"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvDocumentos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="7dp" />
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp" />
 
     <TextView
         android:id="@+id/textView52"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Status:"
+        android:text="@string/alert_dialog_status"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="7dp" />
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp" />
 
     <TextView
         android:id="@+id/textViewDetalhes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Detalhes:"
+        android:text="@string/alert_dialog_detalhes"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvDetalhes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="7dp" />
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -109,14 +115,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Ok" />
+            android:text="@string/button_ok" />
 
         <Button
             android:id="@+id/buttonExcluir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Excluir" />
+            android:text="@string/button_excluir" />
     </LinearLayout>
 
 </LinearLayout>

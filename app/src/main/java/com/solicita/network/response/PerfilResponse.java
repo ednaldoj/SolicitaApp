@@ -4,7 +4,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.solicita.model.Aluno;
 import com.solicita.model.Perfil;
-import com.solicita.model.Unidade;
 import com.solicita.model.User;
 
 public class PerfilResponse extends BaseResponse{
