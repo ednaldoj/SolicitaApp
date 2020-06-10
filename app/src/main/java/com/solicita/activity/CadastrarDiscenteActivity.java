@@ -29,6 +29,7 @@ import com.solicita.model.Curso;
 import com.solicita.model.Unidade;
 import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
+import com.solicita.network.response.DefaultResponse;
 import com.solicita.network.response.UserResponse;
 
 import retrofit2.Call;
@@ -62,17 +63,14 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
     String idCurso;
     GoogleApiClient googleApiClient;
 
-    String SiteKey="6LcgPvsUAAAAADb-PsgvX4Q7WJQQvtM1mLE6njKR";
-
-
-//    String SiteSecretKey="6LcgPvsUAAAAAIJAd2FTONqty2zvL7Jw4zTXhfjD";
+    String SiteKey = "6LcgPvsUAAAAADb-PsgvX4Q7WJQQvtM1mLE6njKR";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar_discente);
 
-        mContext=this;
+        mContext = this;
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
         inicializarComponentes();
@@ -87,23 +85,29 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
         buttonCadastro.setOnClickListener(v -> cadastrar());
 
         checkBox.setOnClickListener(v -> {
-            if (checkBox.isChecked()){
+            if (checkBox.isChecked()) {
                 SafetyNet.SafetyNetApi.verifyWithRecaptcha(googleApiClient, SiteKey).setResultCallback(recaptchaTokenResult -> {
                     Status status = recaptchaTokenResult.getStatus();
-                    if ((status!=null) && status.isSuccess()){
-                        Toast.makeText(getApplicationContext(), "Sucessfully Varified...", Toast.LENGTH_LONG).show();
-                        checkBox.setTextColor(Color.GREEN);
-                        System.out.println("Sucessoooo");
+                    if ((status != null) && status.isSuccess()) {
+                        Toast.makeText(getApplicationContext(), "Verificado com sucesso!", Toast.LENGTH_LONG).show();
+                        int textoCheck = 0xFF0B7D2D;
+                        checkBox.setTextColor(textoCheck);
+                        buttonCadastro.setEnabled(true);
+                        int azulBotao = 0xFF1B2E4F;
+                        buttonCadastro.setBackgroundColor(azulBotao);
                     }
                 });
-            }else{
-                System.out.println("Falhou");
+            } else {
                 checkBox.setTextColor(Color.BLACK);
+                buttonCadastro.setEnabled(false);
+                int azulBotaoDesativado = 0x9F1B2E4F;
+                buttonCadastro.setBackgroundColor(azulBotaoDesativado);
             }
 
         });
     }
-    private void buscarJSON(){
+
+    private void buscarJSON() {
 
         Call<String> callCurso = apiInterface.getCursoJSONString();
         Call<String> callUnidade = apiInterface.getUnidadeJSONString();
@@ -111,36 +115,39 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
         callCurso.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if(response.isSuccessful()){
-                    if(response.body()!=null){
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
                         String jsonResponse = response.body();
                         spinnerCursoJSON(jsonResponse);
                         spinnerUnidadeJSON(jsonResponse);
 
-                    }else{
+                    } else {
                         Log.i("onEmptyResponse", "Empty");
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                System.out.println("Erroo");            }
+                System.out.println("Erroo");
+            }
         });
 
         callUnidade.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if(response.isSuccessful()){
-                    if(response.body()!=null){
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
                         String jsonResponse = response.body();
                         //  spinnerCursoJSON(jsonResponse);
                         spinnerUnidadeJSON(jsonResponse);
 
-                    }else{
+                    } else {
                         Log.i("onEmptyResponse", "Empty");
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 System.out.println("Erro");
@@ -148,13 +155,14 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
         });
 
     }
-    public void spinnerCursoJSON(String response){
+
+    public void spinnerCursoJSON(String response) {
         try {
             JSONObject object = new JSONObject(response);
             cursoArrayList = new ArrayList<>();
             JSONArray jsonArray = object.getJSONArray("cursos");
 
-            for(int i=0; i<jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
 
                 Curso curso = new Curso();
 
@@ -164,12 +172,12 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
 
                 cursoArrayList.add(curso);
 
-          }
-            for(int i=0; i<cursoArrayList.size(); i++){
+            }
+            for (int i = 0; i < cursoArrayList.size(); i++) {
                 cursos.add(cursoArrayList.get(i).getNome());
 
-          //      Log.d("this is my array", "arr: " + Arrays.toString(new ArrayList[]{cursos}));
-          //      System.out.println("arr: "+ Arrays.toString(new ArrayList[]{cursos}));
+                //      Log.d("this is my array", "arr: " + Arrays.toString(new ArrayList[]{cursos}));
+                //      System.out.println("arr: "+ Arrays.toString(new ArrayList[]{cursos}));
             }
 
             ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(CadastrarDiscenteActivity.this, simple_spinner_item, cursos);
@@ -191,18 +199,18 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
                 }
             });
 
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public void spinnerUnidadeJSON(String response){
+    public void spinnerUnidadeJSON(String response) {
         try {
             JSONObject object = new JSONObject(response);
             unidadeArrayList = new ArrayList<>();
             JSONArray jsonArray = object.getJSONArray("unidade");
 
-            for(int i=0; i<jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
 
                 Unidade unidade = new Unidade();
 
@@ -215,10 +223,10 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
                 //           Log.d("this is my array", "arr: " + Arrays.toString(new ArrayList[]{cursoArrayList}));
                 //         System.out.println("arr: "+ Arrays.toString(new ArrayList[]{cursoArrayList}));
             }
-            for(int i=0; i<unidadeArrayList.size(); i++){
+            for (int i = 0; i < unidadeArrayList.size(); i++) {
                 unidade.add(unidadeArrayList.get(i).getNome());
 
-  //              Log.d("this is my array", "arr: " + Arrays.toString(new ArrayList[]{unidade}));
+                //              Log.d("this is my array", "arr: " + Arrays.toString(new ArrayList[]{unidade}));
                 //      System.out.println("arr: "+ Arrays.toString(new ArrayList[]{cursos}));
 
             }
@@ -240,7 +248,7 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
                 }
             });
 
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -248,22 +256,22 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
     public void cadastrar() {
 
         String name = campoNome.getText().toString();
-        String cpf  = campoCPF.getText().toString();
-        String vinculo  = spinnerVinculo.getSelectedItem().toString();
+        String cpf = campoCPF.getText().toString();
+        String vinculo = spinnerVinculo.getSelectedItem().toString();
 
-        if(vinculo.equals("Matriculado")){
+        if (vinculo.equals("Matriculado")) {
             vinculo = "1";
-        }else if (vinculo.equals("Egresso")){
+        } else if (vinculo.equals("Egresso")) {
             vinculo = "2";
-        }else if (vinculo.equals("Especial")){
+        } else if (vinculo.equals("Especial")) {
             vinculo = "3";
-        }else if (vinculo.equals("REMT - Regime Especial de Movimentação Temporária")){
+        } else if (vinculo.equals("REMT - Regime Especial de Movimentação Temporária")) {
             vinculo = "4";
-        }else if (vinculo.equals("Desistente")){
+        } else if (vinculo.equals("Desistente")) {
             vinculo = "5";
-        }else if (vinculo.equals("Matrícula Trancada")){
+        } else if (vinculo.equals("Matrícula Trancada")) {
             vinculo = "6";
-        }else{
+        } else {
             vinculo = "7";
         }
 
@@ -301,17 +309,26 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
                                                     @Override
                                                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                                                         if (response.isSuccessful()) {
-                                                            Toast.makeText(CadastrarDiscenteActivity.this, "Cadastro realizado com sucesso! Verifique seu e-mail.", Toast.LENGTH_LONG).show();
-                                                            startActivity(new Intent(CadastrarDiscenteActivity.this, LoginActivity.class));
-                                                            finish();
-                                                        } else {
-
+                                                            if (response.code() == 201) {
+                                                                DefaultResponse dr = response.body();
+                                                                Toast.makeText(CadastrarDiscenteActivity.this, dr.getMessage(), Toast.LENGTH_LONG).show();
+                                                                System.out.println(dr.getMessage());
+                                                                startActivity(new Intent(CadastrarDiscenteActivity.this, LoginActivity.class));
+                                                                finish();
+                                                            }else if (response.code()==500){
+                                                                Toast.makeText(CadastrarDiscenteActivity.this, "Erro ao realizar cadastro! Verifique os dados e tente novamente.", Toast.LENGTH_LONG).show();
+                                                            }
+                                                        }else{
                                                             Toast.makeText(CadastrarDiscenteActivity.this, "Erro ao realizar cadastro! Verifique os dados e tente novamente.", Toast.LENGTH_LONG).show();
+
                                                         }
                                                     }
 
                                                     @Override
                                                     public void onFailure(Call<UserResponse> call, Throwable t) {
+                                                        System.out.println("onFailure");
+                                                        Toast.makeText(CadastrarDiscenteActivity.this, "Erro ao realizar cadastro! Verifique os dados e tente novamente.", Toast.LENGTH_LONG).show();
+                                                        startActivity(new Intent(CadastrarDiscenteActivity.this, CadastrarDiscenteActivity.class));
 
                                                     }
                                                 });
@@ -349,199 +366,38 @@ public class CadastrarDiscenteActivity extends AppCompatActivity implements Goog
         }
     }
 
-
-/*
-    public void preencherSpinner(){
-        String url = "http://192.168.0.104/SolicitaWeb/public/api/cursos/";
-        asyncHttpClient.post(url, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                if (statusCode ==200){
-                    carregarSpinner(new String(responseBody));
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
-    }
-    public void carregarSpinner(String response){
-        ArrayList<Curso> lista = new ArrayList<Curso>();
-        try {
-
-            JSONArray jsonArray = new JSONArray(response);
-            for(int i=0; i<jsonArray.length(); i++){
-                Curso curso = new Curso();
-                curso.setNome(jsonArray.getJSONObject(i).getString("nome"));
-                lista.add(curso);
-            }
-            ArrayAdapter<Curso> arrayAdapter = new ArrayAdapter<Curso>(this, android.R.layout.simple_dropdown_item_1line, lista);
-            spinnerVinculo.setAdapter(arrayAdapter);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
-*/
-
-
-   /* public void cadastrar() {
-
-        String nome = campoNome.getText().toString();
-        String cpf  = campoCPF.getText().toString();
-        String vinculo  = spinnerVinculo.getSelectedItem().toString();
-
-            if(vinculo.equals("Matriculado")){
-                vinculo = "1";
-            }else if (vinculo.equals("Egresso")){
-                vinculo = "2";
-            }else if (vinculo.equals("Especial")){
-                vinculo = "3";
-            }else if (vinculo.equals("REMT - Regime Especial de Movimentação Temporária")){
-                vinculo = "4";
-            }else if (vinculo.equals("Desistente")){
-                vinculo = "5";
-            }else if (vinculo.equals("Matrícula Trancada")){
-                vinculo = "6";
-            }else{
-                vinculo = "7";
-            }
-
-        String unidade  = spinnerUnidade.getSelectedItem().toString();
-            if (unidade.equals("UAG - Unidade Acadêmica de Garanhuns")){
-                unidade = "1";
-            }else{
-                unidade = "1";
-            }
-        String cursos  = spinnerCurso.getSelectedItem().toString();
-        if(cursos.equals("Agronomia")){
-            cursos = "1";
-        }else if (cursos.equals("Ciência da Computação")){
-            cursos = "2";
-        }else if (cursos.equals("Engenharia de Alimentos")){
-            cursos = "3";
-        }else if (cursos.equals("Letras")){
-            cursos = "4";
-        }else if (cursos.equals("Medicina Veterinária")){
-            cursos = "5";
-        }else if (cursos.equals("Pedagogia")){
-            cursos = "6";
-        }else{
-            cursos = "7";
-        }
-
-        String email = campoEmail.getText().toString();
-        String password = campoSenha.getText().toString();
-        String confirm_password = campoConfirmarSenha.getText().toString();
-
-        ValidacaoCPF validacaoCPF = new ValidacaoCPF();
-
-        if (!nome.isEmpty()) {//verifica nome
-            if (validacaoCPF.isCPF(cpf)) {//verifica cpf valido
-                if (!cpf.isEmpty()) {//verifica campo cpf
-                    if (!vinculo.isEmpty()) {//verifica vinculo
-                        if (!unidade.isEmpty()) {//verifica unidade academica
-                            if (!cursos.isEmpty()) {//verifica cursos
-                                if (!email.isEmpty()) {//verifica e-mail
-                                    if (!password.isEmpty()) {//verifica senha
-                                        if (!confirm_password.isEmpty()) {//verifica confirmacao de senha
-                                            if (password.equals(confirm_password)) {
-
-                                                call = apiInterface.postCadastro(nome, cpf, vinculo, unidade, cursos, email, password);
-                                                call.enqueue(new Callback<UserResponse>() {
-                                                    @Override
-                                                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                                                        if (response.isSuccessful()) {
-                                                            Toast.makeText(CadastrarDiscenteActivity.this, "Cadastro realizado com sucesso! Verifique seu e-mail.", Toast.LENGTH_LONG).show();
-                                                            startActivity(new Intent(CadastrarDiscenteActivity.this, LoginActivity.class));
-                                                            finish();
-                                                        } else {
-
-                                                            Toast.makeText(CadastrarDiscenteActivity.this, "Erro ao realizar cadastro! Verifique os dados e tente novamente.", Toast.LENGTH_LONG).show();
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onFailure(Call<UserResponse> call, Throwable t) {
-
-                                                    }
-                                                });
-
-
-                                            } else {
-                                                Toast.makeText(CadastrarDiscenteActivity.this, "As senhas devem ser iguais", Toast.LENGTH_SHORT).show();
-                                            }
-                                        } else {
-                                            Toast.makeText(CadastrarDiscenteActivity.this, "Confirme a senha", Toast.LENGTH_SHORT).show();
-                                        }
-                                    } else {
-                                        Toast.makeText(CadastrarDiscenteActivity.this, "Informe a senha", Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
-                                    Toast.makeText(CadastrarDiscenteActivity.this, "Preencha o campo e-mail", Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                Toast.makeText(CadastrarDiscenteActivity.this, "Selecione o cursos", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Toast.makeText(CadastrarDiscenteActivity.this, "Selecione a unidade acadêmica", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(CadastrarDiscenteActivity.this, "Selecione o tipo de vínculo", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(CadastrarDiscenteActivity.this, "Preecha o campo CPF.", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(CadastrarDiscenteActivity.this, "O CPF informado é inválido", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(CadastrarDiscenteActivity.this, "Preencha o campo nome", Toast.LENGTH_SHORT).show();
-        }
-    }*/
-
-    public void abrirTelaLogin(View view){
+    public void abrirTelaLogin(View view) {
         Intent abrirTelaLogin = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(abrirTelaLogin);
     }
 
-    public void inicializarComponentes(){
-
-    //    apiInterface = ApiClient.getClient().create(ApiInterface.class);
+    public void inicializarComponentes() {
 
         campoNome = findViewById(R.id.textProtNome);
         campoCPF = findViewById(R.id.textInfoCPF);
         campoCPF.addTextChangedListener(MaskCustom.insert(MaskCustom.CPF_MASK, campoCPF));
-        spinnerVinculo =(findViewById(R.id.spinner));
+        spinnerVinculo = (findViewById(R.id.spinner));
         spinnerUnidade = findViewById(R.id.spinnerUnidade);
         spinnerCurso = findViewById(R.id.spinnerCurso);
         campoEmail = findViewById(R.id.editEmail);
         campoSenha = findViewById(R.id.editSenha);
         campoConfirmarSenha = findViewById(R.id.editConfirmarSenha);
-        buttonCadastro = findViewById(R.id.buttonAdicionarPerfil);
+        buttonCadastro = findViewById(R.id.buttonCadastrar);
         checkBox = findViewById(R.id.checkBox);
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Toast.makeText(this, "onConnected()", Toast.LENGTH_LONG).show();
+        //  Toast.makeText(this, "onConnected()", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Toast.makeText(this,
-                "onConnectionSuspended: " + i,
-                Toast.LENGTH_LONG).show();
+        // Toast.makeText(this,"onConnectionSuspended: " + i, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this,
-                "onConnectionFailed():\n" + connectionResult.getErrorMessage(),
-                Toast.LENGTH_LONG).show();
+        //    Toast.makeText(this, "onConnectionFailed():\n" + connectionResult.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 }

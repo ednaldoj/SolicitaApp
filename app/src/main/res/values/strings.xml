@@ -94,5 +94,9 @@
     <string name="ti_cpf">CPF</string>
     <string name="ti_e_mail">E-mail</string>
     <string name="ti_senha">Senha</string>
+    <string name="titulo_alteracao_perfil">Alteração de Perfil Padrão</string>
+    <string name="mensagem_alteracao_perfil">Deseja alterar o perfil acadêmico padrão?</string>
+    <string name="titulo_exclusao_perfil">Exclusão de Perfil Acadêmico</string>
+    <string name="mensagem_exclusao_perfil">Deseja excluir o perfil selecionado?</string>
 
 </resources>

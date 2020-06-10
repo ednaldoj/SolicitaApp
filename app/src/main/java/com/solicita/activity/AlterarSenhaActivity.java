@@ -67,8 +67,11 @@ public class AlterarSenhaActivity extends AppCompatActivity {
                         startActivity(new Intent(AlterarSenhaActivity.this, InformacoesDiscenteActivity.class));
 
                     }
-                }else{
-                    Toast.makeText(AlterarSenhaActivity.this, "Falha ao atualizar senha!", Toast.LENGTH_SHORT).show();
+                }else {
+
+                    Toast.makeText(getApplicationContext(), "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(AlterarSenhaActivity.this, LoginActivity.class));
+
                 }
             }
             @Override

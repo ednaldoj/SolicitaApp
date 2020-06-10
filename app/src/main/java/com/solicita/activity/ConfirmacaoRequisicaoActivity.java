@@ -6,13 +6,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.solicita.R;
 import com.solicita.helper.SharedPrefManager;
+import com.solicita.network.ApiClient;
+import com.solicita.network.ApiInterface;
+import com.solicita.network.response.DefaultResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConfirmacaoRequisicaoActivity extends AppCompatActivity {
 
@@ -23,12 +31,16 @@ public class ConfirmacaoRequisicaoActivity extends AppCompatActivity {
 
     Button buttonLogout, buttonHome, buttonVoltar;
 
+    ApiInterface apiInterface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmacao_requisicao);
 
         sharedPrefManager = new SharedPrefManager(this);
+
+        apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
         inicializarComponentes();
 
@@ -81,10 +93,26 @@ public class ConfirmacaoRequisicaoActivity extends AppCompatActivity {
         textNomeUsuario = findViewById(R.id.textNomeUsuario);
     }
     public void logoutApp() {
-        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(ConfirmacaoRequisicaoActivity.this, LoginActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-        finish();
+
+        Call<DefaultResponse> responseCall = apiInterface.postLogout(sharedPrefManager.getSPToken());
+
+        responseCall.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                DefaultResponse dr = response.body();
+                Toast.makeText(ConfirmacaoRequisicaoActivity.this, dr.getMessage(), Toast.LENGTH_SHORT).show();
+                sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+                startActivity(new Intent(ConfirmacaoRequisicaoActivity.this, LoginActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
+            }
+        });
+
     }
     public void irHome(){
         startActivity(new Intent(ConfirmacaoRequisicaoActivity.this, HomeAlunoActivity.class));

@@ -1,7 +1,6 @@
 package com.solicita.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -162,6 +161,9 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
 
                 } else {
 
+                    Toast.makeText(getApplicationContext(), "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(InformacoesDiscenteActivity.this, LoginActivity.class));
+
                 }
             }
 
@@ -203,6 +205,9 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
 
 
                 } else {
+
+                    Toast.makeText(getApplicationContext(), "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(InformacoesDiscenteActivity.this, LoginActivity.class));
 
                 }
             }
@@ -340,10 +345,26 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
     }
 
     public void logoutApp() {
-        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(InformacoesDiscenteActivity.this, LoginActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-        finish();
+
+        Call<DefaultResponse> responseCall = apiInterface.postLogout(sharedPrefManager.getSPToken());
+
+        responseCall.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                DefaultResponse dr = response.body();
+                Toast.makeText(InformacoesDiscenteActivity.this, dr.getMessage(), Toast.LENGTH_SHORT).show();
+                sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+                startActivity(new Intent(InformacoesDiscenteActivity.this, LoginActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
+            }
+        });
+
     }
 
     public void irHome() {
@@ -380,8 +401,8 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
             Button buttonConfirmar = mView.findViewById(R.id.buttonConfirmar);
             Button buttonCancelar = mView.findViewById(R.id.buttonCancelar);
 
-            tvTitulo.setText("Exclusão de Perfil Acadêmico");
-            tvMensagem.setText("Deseja excluir o perfil selecionado?");
+            tvTitulo.setText(R.string.titulo_exclusao_perfil);
+            tvMensagem.setText(R.string.mensagem_exclusao_perfil);
 
             dialogExluirPerfil.setView(mView);
 
@@ -407,8 +428,11 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
                                 }else{
                                     System.out.println("Else 201");
                                 }
-                            }else{
-                                System.out.println("Else isSucessful");
+                            }else {
+
+                                Toast.makeText(getApplicationContext(), "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(InformacoesDiscenteActivity.this, LoginActivity.class));
+
                             }
                         }
 
@@ -437,8 +461,8 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
             Button buttonConfirmar = mView2.findViewById(R.id.buttonConfirmar);
             Button buttonCancelar = mView2.findViewById(R.id.buttonCancelar);
 
-            tvTitulo.setText("Alteração de Perfil Padrão");
-            tvMensagem.setText("Deseja alterar o perfil acadêmico padrão?");
+            tvTitulo.setText(R.string.titulo_alteracao_perfil);
+            tvMensagem.setText(R.string.mensagem_alteracao_perfil);
 
             dialogAlterarPerfil.setView(mView2);
 
@@ -464,6 +488,9 @@ public class InformacoesDiscenteActivity extends AppCompatActivity {
                                 startActivity(new Intent(InformacoesDiscenteActivity.this, InformacoesDiscenteActivity.class));
 
                             } else {
+
+                                Toast.makeText(getApplicationContext(), "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(InformacoesDiscenteActivity.this, LoginActivity.class));
 
                             }
                         }

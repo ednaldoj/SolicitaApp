@@ -446,10 +446,26 @@ public class ListarDocumentosSolicitadosActivity extends AppCompatActivity {
     }
 
     public void logoutApp() {
-        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(ListarDocumentosSolicitadosActivity.this, LoginActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-        finish();
+
+        Call<DefaultResponse> responseCall = apiInterface.postLogout(sharedPrefManager.getSPToken());
+
+        responseCall.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                DefaultResponse dr = response.body();
+                Toast.makeText(ListarDocumentosSolicitadosActivity.this, dr.getMessage(), Toast.LENGTH_SHORT).show();
+                sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+                startActivity(new Intent(ListarDocumentosSolicitadosActivity.this, LoginActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
+            }
+        });
+
     }
 
     public void irHome() {

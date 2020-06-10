@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.solicita.model.User;
 
-public class UserResponse extends BaseResponse {
+public class UserResponse extends DefaultResponse {
 
     @Expose
     @SerializedName("status")
@@ -18,6 +18,9 @@ public class UserResponse extends BaseResponse {
     @SerializedName("user")
     User user;
 
+    public UserResponse(String error, String message) {
+        super(error, message);
+    }
 
     public String getStatus() {
         return status;

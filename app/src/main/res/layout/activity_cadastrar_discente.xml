@@ -215,16 +215,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/buttonAdicionarPerfil"
+            android:id="@+id/buttonCadastrar"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginBottom="32dp"
-            android:background="#1B2E4F"
+
+            android:background="#9F1B2E4F"
+            android:enabled="false"
             android:text="@string/button_cadastrar"
-            android:textColor="#FFFFFF"
+            android:textColor="#FFFFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view3" />
@@ -235,7 +237,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
             android:onClick="abrirTelaLogin"
             android:text="@string/button_voltar"
@@ -264,11 +266,12 @@
             android:id="@+id/view3"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginStart="64dp"
-            android:layout_marginLeft="64dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="64dp"
-            android:layout_marginRight="64dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            android:background="@drawable/circulo_drawable"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout8" />
@@ -277,6 +280,8 @@
             android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:text="@string/check_i_m_not_a_robot"
             app:layout_constraintBottom_toBottomOf="@+id/view3"
             app:layout_constraintStart_toStartOf="@+id/view3"
@@ -286,11 +291,13 @@
             android:id="@+id/imageView"
             android:layout_width="40dp"
             android:layout_height="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:contentDescription="TODO"
             app:layout_constraintBottom_toBottomOf="@+id/view3"
             app:layout_constraintEnd_toEndOf="@+id/view3"
             app:layout_constraintTop_toTopOf="@+id/view3"
-            app:srcCompat="@drawable/recaptcha"
-            android:contentDescription="TODO" />
+            app:srcCompat="@drawable/recaptcha" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

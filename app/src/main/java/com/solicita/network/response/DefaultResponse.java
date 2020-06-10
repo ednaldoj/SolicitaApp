@@ -5,21 +5,21 @@ import com.google.gson.annotations.SerializedName;
 public class DefaultResponse {
 
     @SerializedName("error")
-    private boolean error;
+    public String error;
 
     @SerializedName("message")
-    private String message;
+    public String message;
 
-    public DefaultResponse(boolean error, String message) {
+    public DefaultResponse(String error, String message) {
         this.error = error;
         this.message = message;
     }
 
-    public boolean isError() {
+    public String getError() {
         return error;
     }
 
-    public void setError(boolean error) {
+    public void setError(String error) {
         this.error = error;
     }
 

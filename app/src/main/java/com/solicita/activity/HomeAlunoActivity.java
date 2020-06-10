@@ -5,17 +5,26 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.solicita.R;
 import com.solicita.helper.SharedPrefManager;
+import com.solicita.network.ApiClient;
+import com.solicita.network.ApiInterface;
+import com.solicita.network.response.DefaultResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeAlunoActivity extends AppCompatActivity {
 
     SharedPrefManager sharedPrefManager;
     TextView textNomeUsuario;
     Button buttonLogout, buttonHome;
+    ApiInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +32,35 @@ public class HomeAlunoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_aluno);
 
         sharedPrefManager = new SharedPrefManager(this);
+        apiInterface = ApiClient.getClient().create(ApiInterface.class);
+
         inicializarComponentes();
 
         textNomeUsuario.setText(sharedPrefManager.getSPNome());
 
-        buttonHome.setOnClickListener(v -> irHome());
-
         buttonLogout.setOnClickListener(v -> logoutApp());
     }
     public void logoutApp() {
-        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(HomeAlunoActivity.this, LoginActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-        finish();
+
+        Call<DefaultResponse> responseCall = apiInterface.postLogout(sharedPrefManager.getSPToken());
+
+        responseCall.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                DefaultResponse dr = response.body();
+                Toast.makeText(HomeAlunoActivity.this, dr.getMessage(), Toast.LENGTH_SHORT).show();
+                sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+                startActivity(new Intent(HomeAlunoActivity.this, LoginActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
+            }
+        });
+
     }
     public void irHome(){
         startActivity(new Intent(HomeAlunoActivity.this, HomeAlunoActivity.class));

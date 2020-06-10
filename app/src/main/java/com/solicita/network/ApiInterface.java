@@ -18,10 +18,10 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/login")
-    Call<UserResponse> postLogin(@Field("email") String email,
-                                 @Field("password") String password);
+    Call<UserResponse> postLogin(@Field("email") String email, @Field("password") String password);
+
     @FormUrlEncoded
-    @POST("api/cadastrar")
+    @POST("api/register")
     Call<UserResponse> postCadastro(@Field("name") String name, @Field("cpf") String cpf, @Field("vinculo") String vinculo, @Field("unidade") String unidade, @Field("cursos") String cursos, @Field("email") String email, @Field("password") String password);
 
     @GET("api/auth/me")
@@ -29,6 +29,9 @@ public interface ApiInterface {
 
     @POST("api/auth/refresh")
     Call<UserResponse> refreshToken(@Header("Authorization") String token);
+
+    @POST("api/logout")
+    Call<DefaultResponse> postLogout(@Header("Authorization") String token);
 
     @GET("api/cursos")
     Call<String> getCursoJSONString();
@@ -65,7 +68,6 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/perfils/storeAlterarSenha")
-    //Call<UserResponse> postEditSenha(@Field("atual") String atual, @Field("password") String password, @Field("password_confirmation") String password_confirmation, @Header("Authorization") String token);
     Call<DefaultResponse> postEditSenha(@Field("atual") String atual, @Field("password") String password, @Field("password_confirmation") String password_confirmation, @Header("Authorization") String token);
 
     @FormUrlEncoded
