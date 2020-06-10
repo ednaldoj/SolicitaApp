@@ -21,11 +21,9 @@ public class User {
     @SerializedName("cursos") String cursos;
     @Expose
     @SerializedName("token") String token;
-    @Expose
-    @SerializedName("atual") String atual;
 
     //private String login, token, CPF, tipoVinculo, unidadeAcademica, tipoCurso, senha, confirmarSenha;
-    private String password, confirm_password, login;
+    private String atual, password, confirm_password, login;
 
     public User() {
     }

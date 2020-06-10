@@ -86,8 +86,11 @@ public class EditarPerfilActivity extends AppCompatActivity {
                     startActivity(new Intent(EditarPerfilActivity.this, InformacoesDiscenteActivity.class));
                     finish();
 
-                }else{
-                    Toast.makeText(EditarPerfilActivity.this, "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                }else {
+
+                    Toast.makeText(getApplicationContext(), "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(EditarPerfilActivity.this, LoginActivity.class));
+
                 }
             }
 
@@ -110,10 +113,26 @@ public class EditarPerfilActivity extends AppCompatActivity {
         // editEmailPerfil.setFocusable(false);
     }
     public void logoutApp() {
-        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(EditarPerfilActivity.this, LoginActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-        finish();
+
+        Call<DefaultResponse> responseCall = apiInterface.postLogout(sharedPrefManager.getSPToken());
+
+        responseCall.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                DefaultResponse dr = response.body();
+                Toast.makeText(EditarPerfilActivity.this, dr.getMessage(), Toast.LENGTH_SHORT).show();
+                sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+                startActivity(new Intent(EditarPerfilActivity.this, LoginActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
+            }
+        });
+
     }
     public void irHome(){
         startActivity(new Intent(EditarPerfilActivity.this, HomeAlunoActivity.class));

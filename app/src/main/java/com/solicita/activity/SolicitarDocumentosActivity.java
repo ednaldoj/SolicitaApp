@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +26,7 @@ import com.solicita.model.Perfil;
 import com.solicita.model.Requisicao;
 import com.solicita.network.ApiClient;
 import com.solicita.network.ApiInterface;
+import com.solicita.network.response.DefaultResponse;
 import com.solicita.network.response.SolicitacaoResponse;
 
 import org.json.JSONArray;
@@ -133,9 +134,10 @@ public class SolicitarDocumentosActivity extends AppCompatActivity {
 
                     startActivity(abrirProtocolo);
 
-                }else{
+                }else {
 
-                    System.out.println("Falha");
+                    Toast.makeText(getApplicationContext(), "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(SolicitarDocumentosActivity.this, LoginActivity.class));
 
                 }
             }
@@ -165,7 +167,10 @@ public class SolicitarDocumentosActivity extends AppCompatActivity {
                                 String jsonResponse = response.body();
                                 checkboxDocumentos(jsonResponse);
                             } else {
-                                Log.i("onEmptyResponse", "Empty");
+
+                                Toast.makeText(getApplicationContext(), "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(SolicitarDocumentosActivity.this, LoginActivity.class));
+
                             }
                         }
                         @Override
@@ -175,7 +180,10 @@ public class SolicitarDocumentosActivity extends AppCompatActivity {
                     });
 
                 } else {
-                    System.out.println("Falha 200");
+
+                    Toast.makeText(getApplicationContext(), "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(SolicitarDocumentosActivity.this, LoginActivity.class));
+
                 }
             }
             @Override
@@ -385,10 +393,26 @@ public class SolicitarDocumentosActivity extends AppCompatActivity {
         }
     }
     public void logoutApp() {
-        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(SolicitarDocumentosActivity.this, LoginActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-        finish();
+
+        Call<DefaultResponse> responseCall = apiInterface.postLogout(sharedPrefManager.getSPToken());
+
+        responseCall.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                DefaultResponse dr = response.body();
+                Toast.makeText(SolicitarDocumentosActivity.this, dr.getMessage(), Toast.LENGTH_SHORT).show();
+                sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
+                startActivity(new Intent(SolicitarDocumentosActivity.this, LoginActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
+            }
+        });
+
     }
     public void irHome(){
         startActivity(new Intent(SolicitarDocumentosActivity.this, HomeAlunoActivity.class));

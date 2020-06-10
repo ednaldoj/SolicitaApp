@@ -23,7 +23,7 @@ public class RedefinirSenhaActivity extends AppCompatActivity {
 
     private TextInputEditText textEsqueciSenha;
     ApiInterface apiInterface;
-    Button buttonRedefinirSenha, buttonLogout, buttonHome;
+    Button buttonRedefinirSenha, buttonVoltar, buttonLogout, buttonHome;
     SharedPrefManager sharedPrefManager;
     TextView textNomeUsuario;
 
@@ -40,53 +40,55 @@ public class RedefinirSenhaActivity extends AppCompatActivity {
 
         buttonRedefinirSenha.setOnClickListener(v -> redefinirSenha());
 
+        buttonVoltar.setOnClickListener(v -> voltarLogin());
+
     }
 
     public void redefinirSenha(){
 
-        Call<DefaultResponse> responseCall = apiInterface.postEsqueciSenha(textEsqueciSenha.getText().toString());
-        responseCall.enqueue(new Callback<DefaultResponse>() {
-            @Override
-            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
-                DefaultResponse dr = response.body();
-                if (response.isSuccessful()){
+        String email = textEsqueciSenha.getText().toString();
 
-                    if (response.code()==201){
-                        Toast.makeText(RedefinirSenhaActivity.this, dr.getMessage(), Toast.LENGTH_LONG).show();
-                          startActivity(new Intent(RedefinirSenhaActivity.this, LoginActivity.class));
-                        finish();
+        if (email.isEmpty()){
+            Toast.makeText(RedefinirSenhaActivity.this, "Preencha o campo e-mail.", Toast.LENGTH_SHORT).show();
+        }else {
 
-                    }else{
-                        Toast.makeText(RedefinirSenhaActivity.this, dr.getMessage(), Toast.LENGTH_LONG).show();
+            Call<DefaultResponse> responseCall = apiInterface.postEsqueciSenha(textEsqueciSenha.getText().toString());
+            responseCall.enqueue(new Callback<DefaultResponse>() {
+                @Override
+                public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                    DefaultResponse dr = response.body();
+                    if (response.isSuccessful()) {
+
+                        if (response.code() == 201) {
+                            Toast.makeText(RedefinirSenhaActivity.this, dr.getMessage(), Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(RedefinirSenhaActivity.this, LoginActivity.class));
+                            finish();
+
+                        } else {
+                            Toast.makeText(RedefinirSenhaActivity.this, dr.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(RedefinirSenhaActivity.this, "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+
                     }
-                }else {
-                    Toast.makeText(RedefinirSenhaActivity.this, "Falha na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onFailure(Call<DefaultResponse> call, Throwable t) {
 
                 }
-            }
-            @Override
-            public void onFailure(Call<DefaultResponse> call, Throwable t) {
-
-            }
-        });
-
+            });
+        }
     }
-
-/*    public void logoutApp() {
-        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_STATUS_LOGIN, false);
-        startActivity(new Intent(RedefinirSenhaActivity.this, LoginActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-        finish();
+    public void voltarLogin(){
+        startActivity(new Intent(RedefinirSenhaActivity.this, LoginActivity.class));
     }
-    public void irHome(){
-        startActivity(new Intent(RedefinirSenhaActivity.this, HomeAlunoActivity.class));
-
-    }*/
 
     public void inicializarComponentes(){
 
         textEsqueciSenha=findViewById(R.id.textEsqueciSenha);
         buttonRedefinirSenha=findViewById(R.id.buttonRedefinirSenha);
+        buttonVoltar = findViewById(R.id.buttonVoltar);
         buttonLogout = findViewById(R.id.buttonLogout);
         buttonHome = findViewById(R.id.buttonHome);
         textNomeUsuario = findViewById(R.id.textNomeUsuario);

@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingBottom="20dp"
     tools:context=".activity.RedefinirSenhaActivity">
 
     <ImageView
@@ -41,9 +38,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout3"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7">
@@ -51,7 +52,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textEsqueciSenha"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="@string/ti_e_mail" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -68,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonVoltar"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
